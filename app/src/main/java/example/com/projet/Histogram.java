@@ -1,6 +1,8 @@
 package example.com.projet;
 
 
+import android.graphics.Color;
+
 public class Histogram {
 
     private enum ColorType{
@@ -46,21 +48,21 @@ public class Histogram {
 
 
     public int[] getGS(){
-        if(this.GS == null) this.GS = createHistogram(GREY);
+        if(this.GS == null) this.GS = createHistogram(ColorType.GREY);
         return this.GS;
     }
 
     public int[] getRed (){
-        if(this.R == null) this.R = createHistogram(RED);
+        if(this.R == null) this.R = createHistogram(ColorType.RED);
         return this.R;
     }
     public int[] getBlue (){
-        if(this.B == null) this.B = createHistogram(BLUE);
+        if(this.B == null) this.B = createHistogram(ColorType.BLUE);
         return this.B;
     }
 
     public int[] getGreen (){
-        if(this.G == null) this.G = createHistogram(GREEN);
+        if(this.G == null) this.G = createHistogram(ColorType.GREEN);
         return this.G;
     }
 
