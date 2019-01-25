@@ -3,14 +3,12 @@ package example.com.projet;
 
 import android.graphics.Color;
 
+import example.com.projet.utils.*;
+
+
 public class Histogram {
 
-    private enum ColorType{
-        GREY,
-        RED,
-        BLUE,
-        GREEN;
-    }
+
     private Image image;
     private int[] GS;
     private int[] R;
@@ -46,12 +44,10 @@ public class Histogram {
         return histogram;
     }
 
-
     public int[] getGS(){
         if(this.GS == null) this.GS = createHistogram(ColorType.GREY);
         return this.GS;
     }
-
     public int[] getRed (){
         if(this.R == null) this.R = createHistogram(ColorType.RED);
         return this.R;
@@ -60,7 +56,6 @@ public class Histogram {
         if(this.B == null) this.B = createHistogram(ColorType.BLUE);
         return this.B;
     }
-
     public int[] getGreen (){
         if(this.G == null) this.G = createHistogram(ColorType.GREEN);
         return this.G;
