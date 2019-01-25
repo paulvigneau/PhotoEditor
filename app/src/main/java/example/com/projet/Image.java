@@ -1,6 +1,5 @@
 package example.com.projet;
 
-
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 
@@ -31,7 +30,23 @@ public class Image {
         return this.width;
     }
 
-    public void setHeight(int height){
+    public Config getConfigBitmap() {
+        return this.configBitmap;
+    }
 
+    public void setPixels(int[] pixels){
+        this.pixels = pixels;
+    }
+
+    public void setHeight(int height){
+        this.height = height;
+    }
+
+    public void setWidth(int width){
+        this.width = width;
+    }
+
+    public Bitmap getBitmap(){
+        return Bitmap.createBitmap(this.pixels, this.width, this.height, this.configBitmap);
     }
 }
