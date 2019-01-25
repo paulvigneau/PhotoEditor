@@ -30,4 +30,8 @@ public class Image {
     public int getWidth(){
         return this.width;
     }
+
+    public void setHeight(int height){
+
+    }
 }
