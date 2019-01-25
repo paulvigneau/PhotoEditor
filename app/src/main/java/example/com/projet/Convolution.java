@@ -12,4 +12,12 @@ public class Convolution extends Filter {
     public void apply() {
 
     }
+
+    public Matrix getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(Matrix matrix) {
+        this.matrix = matrix;
+    }
 }

@@ -13,4 +13,12 @@ public class Brightness extends Filter {
     public void apply() {
 
     }
+
+    public int getIntensity() {
+        return intensity;
+    }
+
+    public void setIntensity(int intensity) {
+        this.intensity = intensity;
+    }
 }

@@ -15,4 +15,20 @@ public class Colorize extends Filter {
     public void apply() {
 
     }
+
+    public void setHue(int hue){
+        this.hue = hue;
+    }
+
+    public void setRandom(boolean isRandom){
+        this.isRandom = isRandom;
+    }
+
+    public int getHue(){
+        return this.hue;
+    }
+
+    public boolean isRandom(){
+        return this.isRandom;
+    }
 }
