@@ -30,6 +30,7 @@ public class Colorize extends Filter {
             newPixels[index] = ColorTools.HSVToRGB(hsv);
         }
         super.imageOut.setPixels(newPixels);
+
     }
 
     public void setHue(int hue){
