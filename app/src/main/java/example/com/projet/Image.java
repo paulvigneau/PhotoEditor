@@ -18,6 +18,13 @@ public class Image {
         map.getPixels(this.pixels, 0, this.width, 0, 0, this.width, this.height);
     }
 
+    public Image(Image image){
+        this.height = image.getHeight();
+        this.width = image.getWidth();
+        this.configBitmap = image.getConfigBitmap();
+        this.pixels = image.getPixels().clone();
+    }
+
     public int[] getPixels(){
         return this.pixels;
     }

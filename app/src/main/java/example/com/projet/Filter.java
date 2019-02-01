@@ -7,6 +7,7 @@ public abstract class Filter {
 
     public Filter(Image image) {
         this.imageSrc = image;
+        this.imageOut = new Image(image);
     }
 
     public abstract void apply();
