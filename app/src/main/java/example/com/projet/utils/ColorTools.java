@@ -8,26 +8,28 @@ public class ColorTools {
     }
 
     public static void RGBToHSV(int color, float[] hsvOutput){
-        int r = Color.red(color);
-        int g = Color.green(color);
-        int b = Color.blue(color);
+        float r = Color.red(color) / 255.0f;
+        float g = Color.green(color) / 255.0f;
+        float b = Color.blue(color) / 255.0f;
 
-        int Cmax = Math.max(r, Math.max(g, b));
-        int Cmin = Math.min(r, Math.min(g, b));
+        float Cmax = Math.max(r, Math.max(g, b));
+        float Cmin = Math.min(r, Math.min(g, b));
 
         // Define H
+        if(Cmax == Cmin)
+            hsvOutput[0] = 0;
         if(Cmax == r)
-            hsvOutput[0] = (60*(g-b)/(float)(Cmax - Cmin) + 360) %360;
-        if(Cmax == r)
-            hsvOutput[0] = 60*(b-r)/(float)(Cmax - Cmin) + 120;
-        if(Cmax == r)
-            hsvOutput[0] = 60*(r-g)/(float)(Cmax - Cmin) + 240;
+            hsvOutput[0] = (60*(g-b)/(Cmax - Cmin) + 360) %360;
+        if(Cmax == g)
+            hsvOutput[0] = 60*(b-r)/(Cmax - Cmin) + 120;
+        if(Cmax == b)
+            hsvOutput[0] = 60*(r-g)/(Cmax - Cmin) + 240;
 
         //Define S
         if(Cmax == 0)
             hsvOutput[1] = 0;
         else
-            hsvOutput[1] = 1 - (float)(Cmin/Cmax);
+            hsvOutput[1] = 1 - (Cmin/Cmax);
 
         //Define V
         hsvOutput[2] = Cmax;
@@ -42,17 +44,17 @@ public class ColorTools {
 
         switch (t){
             case 0:
-                return Color.argb(255, (int)hsv[2] * 255, (int)(n*255), (int)(l * 255));
+                return Color.argb(255, (int)(hsv[2] * 255), (int)(n*255), (int)(l * 255));
             case 1:
-                return Color.argb(255, (int)(m*255), (int)hsv[2]*255, (int)(l*255));
+                return Color.argb(255, (int)(m*255), (int)(hsv[2]*255), (int)(l*255));
             case 2:
-                return Color.argb(255, (int)(l*255), (int)hsv[2]*255, (int)(n*255));
+                return Color.argb(255, (int)(l*255), (int)(hsv[2]*255), (int)(n*255));
             case 3:
-                return Color.argb(255, (int)(l*255), (int)(m*255), (int)hsv[2]*255);
+                return Color.argb(255, (int)(l*255), (int)(m*255), (int)(hsv[2]*255));
             case 4:
-                return Color.argb(255, (int)(n*255), (int)(l*255), (int)hsv[2]*255);
+                return Color.argb(255, (int)(n*255), (int)(l*255), (int)(hsv[2]*255));
             case 5:
-                return Color.argb(255, (int)hsv[2]*255, (int)(l*255), (int)(m*255));
+                return Color.argb(255, (int)(hsv[2]*255), (int)(l*255), (int)(m*255));
         }
 
         return 0;

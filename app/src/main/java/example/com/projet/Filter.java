@@ -1,11 +1,13 @@
 package example.com.projet;
 
 public abstract class Filter {
-
+    protected MainActivity main;
     protected Image imageSrc;
     protected Image imageOut;
 
-    public Filter(Image image) {
+    public Filter(MainActivity main, Image image) {
+        this.main = main;
+
         this.imageSrc = image;
         this.imageOut = new Image(image);
     }

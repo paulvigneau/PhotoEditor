@@ -56,4 +56,13 @@ public class Image {
     public Bitmap getBitmap(){
         return Bitmap.createBitmap(this.pixels, this.width, this.height, this.configBitmap);
     }
+
+    public void setBitmap(Bitmap map){
+        this.height = map.getHeight();
+        this.width = map.getWidth();
+        this.configBitmap = map.getConfig();
+        this.pixels = new int[this.width * this.height];
+
+        map.getPixels(this.pixels, 0, this.width, 0, 0, this.width, this.height);
+    }
 }

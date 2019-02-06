@@ -4,8 +4,8 @@ public class Convolution extends Filter {
 
     private Matrix matrix;
 
-    public Convolution(Image image) {
-        super(image);
+    public Convolution(MainActivity main, Image image) {
+        super(main, image);
     }
 
     @Override

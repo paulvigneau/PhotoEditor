@@ -4,8 +4,8 @@ public class Brightness extends Filter {
 
     private int intensity;
 
-    public Brightness(Image image, int intensity) {
-        super(image);
+    public Brightness(MainActivity main, Image image, int intensity) {
+        super(main, image);
         this.intensity = intensity;
     }
 

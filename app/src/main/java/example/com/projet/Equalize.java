@@ -4,8 +4,8 @@ public class Equalize extends Filter {
 
     private Histogram histogramSrc;
 
-    public Equalize(Image image) {
-        super(image);
+    public Equalize(MainActivity main, Image image) {
+        super(main, image);
     }
 
     @Override

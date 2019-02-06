@@ -7,8 +7,8 @@ public class OneColor extends Filter {
     private Color color;
     private int threshold;
 
-    public OneColor(Image image, Color color, int threshold) {
-        super(image);
+    public OneColor(MainActivity main, Image image, Color color, int threshold) {
+        super(main, image);
         this.color = color;
         this.threshold = threshold;
     }

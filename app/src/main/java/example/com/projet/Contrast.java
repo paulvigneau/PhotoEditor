@@ -5,8 +5,8 @@ public class Contrast extends Filter {
     private Histogram histogramSrc;
 
 
-    public Contrast(Image image, int interval) {
-        super(image);
+    public Contrast(MainActivity main, Image image, int interval) {
+        super(main, image);
         this.interval = interval;
     }
 
