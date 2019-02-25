@@ -19,17 +19,24 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/takePictureButton"
+            android:id="@+id/cameraPictureButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Button" />
+            android:layout_alignParentStart="true"
+            android:text="Camera" />
+
+        <Button
+            android:id="@+id/galleryPictureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Gallery" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/takePictureButton"
+            android:layout_below="@id/cameraPictureButton"
             android:layout_centerHorizontal="true"
             tools:srcCompat="@tools:sample/avatars" />
     </RelativeLayout>
