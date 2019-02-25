@@ -15,21 +15,23 @@ static float3 RGBToHSV(float4 color){
     float Cmax = fmax(r, fmax(g, b));
     float Cmin = fmin(r, fmin(g, b));
 
+    float delta = Cmax - Cmin;
+
     //Define H
-    if(Cmax == Cmin)
+    if(delta == 0)
         hsv.x = 0;
-    if(Cmax == r)
-        hsv.x = fmod(60*(g-b)/(Cmax - Cmin) + 360, 360);
-    if(Cmax == g)
-        hsv.x = 60*(b-r)/(Cmax - Cmin) + 120;
-    if(Cmax == b)
-        hsv.x = 60*(r-g)/(Cmax - Cmin) + 240;
+    else if(Cmax == r)
+        hsv.x = 60 * fmod((g-b)/delta, 6);
+    else if(Cmax == g)
+        hsv.x = 60 * ((b-r)/delta + 2);
+    else if(Cmax == b)
+        hsv.x = 60 * ((r-g)/delta + 4);
 
     //Define S
     if(Cmax == 0)
         hsv.y = 0;
     else
-        hsv.y = 1 - (Cmin - Cmax);
+        hsv.y = delta / Cmax;
 
     //Define V
     hsv.z = Cmax;
@@ -40,43 +42,47 @@ static float3 RGBToHSV(float4 color){
 static float4 HSVToRGB(float3 hsv){
     float4 color;
 
+    float c = hsv.z * hsv.y;
+    float x = c * (1 - fabs(fmod(hsv.x / 60.0f, 2) - 1));
+    float m = hsv.z - c;
+
     int t = fmod((hsv.x / 60), 60);
 
-    float f = (hsv.x / 60.0f) - t;
+    /* float f = (hsv.x / 60.0f) - t;
     float l = hsv.z * (1 - hsv.y);
     float m = hsv.z * (1 - f * hsv.y);
-    float n = hsv.z * (1 - (1 - f) * hsv.y);
+    float n = hsv.z * (1 - (1 - f) * hsv.y);*/
 
     switch(t){
         case 0:
-            color.r = hsv.z;
-            color.g = n;
-            color.b = l;
+            color.r = c + m;
+            color.g = x + m;
+            color.b = m;
             break;
         case 1:
-            color.r = m;
-            color.g = hsv.z;
-            color.b = l;
+            color.r = x + m;
+            color.g = c + m;
+            color.b = m;
             break;
         case 2:
-            color.r = l;
-            color.g = hsv.z;
-            color.b = n;
+            color.r = m;
+            color.g = c + m;
+            color.b = x + m;
             break;
         case 3:
-            color.r = l;
-            color.g = m;
-            color.b = hsv.z;
+            color.r = m;
+            color.g = x + m;
+            color.b = c + m;
             break;
         case 4:
-            color.r = n;
-            color.g = l;
-            color.b = hsv.z;
+            color.r = x + m;
+            color.g = m;
+            color.b = c + m;
             break;
         case 5:
-            color.r = hsv.z;
-            color.g = l;
-            color.b = m;
+            color.r = c + m;
+            color.g = m;
+            color.b = x + m;
             break;
         default:
             break;
