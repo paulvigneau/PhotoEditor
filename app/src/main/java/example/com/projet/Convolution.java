@@ -1,6 +1,7 @@
 package example.com.projet;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 
@@ -27,23 +28,17 @@ public class Convolution extends Filter {
         blurScript.set_height(super.getImageSrc().getHeight());
         blurScript.set_width(super.getImageSrc().getWidth());
         blurScript.set_matrix(new int[]{
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1,
         });
-        blurScript.set_matrixSizeX(9);
-        blurScript.set_matrixSizeY(9);
-        //blurScript.invoke_setSize();
-
-        //blurScript.set_size(81);
-        //System.out.println("SIJDBVISDJBVIJBDVIBVIJBSIVBISDBVIBSDVIBSSDIVBSIDDBVISBVISBDVIBSDDIVVBISDBVISBDVIB");
-        //System.out.println("Size : " + blurScript.get_size());
+        blurScript.set_matrixSizeX(8);
+        blurScript.set_matrixSizeY(8);
 
         int[] matrix = blurScript.get_matrix();
         for(int index = 0; index < matrix.length; index++){
@@ -51,9 +46,6 @@ public class Convolution extends Filter {
         }
 
         blurScript.forEach_Blur(output);
-
-        //System.out.println("SIJDBVISDJBVIJBDVIBVIJBSIVBISDBVIBSDVIBSSDIVBSIDDBVISBVISBDVIBSDDIVVBISDBVISBDVIB");
-        //System.out.println("Size : " + blurScript.get_size());
 
         Bitmap out = super.imageOut.getBitmap();
         output.copyTo(out);

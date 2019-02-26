@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -13,10 +14,21 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,31 +47,93 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView;
 
-    private Button cameraPictureButton;
-    private Button galleryPictureButton;
+    public LayerType layerType;
+    public Filter layerFilter;
+    public View layerView;
+
+    public Image image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = findViewById(R.id.imageView);
+        this.image = getImage(R.drawable.black_white);
 
-        cameraPictureButton = findViewById(R.id.cameraPictureButton);
-        cameraPictureButton.setOnClickListener(new View.OnClickListener() {
+        imageView = findViewById(R.id.imageID);
+        imageView.setImageBitmap(this.image.getBitmap());
+
+        Button applyButton = (Button) findViewById(R.id.applyID);
+        applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                takePictureFromCamera();
+            public void onClick(View view) {
+
+                layerType.getType().applyLayer(MainActivity.this);
+
+                imageView.setImageBitmap(layerFilter.imageOut.getBitmap());
             }
         });
 
-        galleryPictureButton = findViewById(R.id.galleryPictureButton);
-        galleryPictureButton.setOnClickListener(new View.OnClickListener() {
+        Button resetButton = (Button) findViewById(R.id.applyID);
+        resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+
+            }
+        });
+
+        Spinner layersSpinner = (Spinner) findViewById(R.id.layersID);
+        layersSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                layerType = LayerType.values()[i];
+                layerType.getType().setInflacter(MainActivity.this);
+                layerType.getType().generateLayer(MainActivity.this);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
+
+    }
+
+    private Image getImage(int id){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inMutable = true;
+        Bitmap map = BitmapFactory.decodeResource(getResources(), id, options);
+
+        return new Image(map);
+    }
+
+    public void InflateLayer(int id, int parent){
+        if(this.layerView != null && this.layerView.getParent() != null){
+            ((ViewGroup)this.layerView).removeAllViews();
+        }
+
+        LayoutInflater inflater = getLayoutInflater();
+        this.layerView = inflater.inflate(id, (ViewGroup)findViewById(parent));
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu_layout, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.load_galery:
                 takePictureFromGallery();
-            }
-        });
+                return true;
+            case R.id.load_camera:
+                takePictureFromCamera();
+                return true;
+            case R.id.save_image:
+                return true;
+        }
+        return false;
     }
 
     private void takePictureFromCamera() {
