@@ -53,7 +53,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Contrast(main, main.image, 5);
+            main.layerFilter = new Contrast(main, main.image, new int[]{0,0});
         }
 
         @Override
@@ -113,7 +113,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new OneColor(main, main.image);
+            main.layerFilter = new OneColor(main, main.image,0,0);
         }
 
         @Override
