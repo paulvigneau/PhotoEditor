@@ -9,20 +9,16 @@ import example.com.projet.utils.*;
 public class Histogram {
 
 
-    private Image image;
-    private int[] GS;
-    private int[] R;
-    private int[] G;
-    private int[] B;
+    private int[] values;
 
-    public Histogram(Image image){
-        this.image = image;
+    public Histogram(Image image, ColorType color){
+        values = createHistogram(image ,color);
     }
 
-    public int[] createHistogram(ColorType color){
+    public int[] createHistogram(Image image, ColorType color){
         int[] histogram = new int[256];
-        int[] pixels = this.image.getPixels();
-        int size = this.image.getHeight() * this.image.getWidth();
+        int[] pixels = image.getPixels();
+        int size = image.getHeight() * image.getWidth();
         for(int i=0; i<size; i++){
             switch(color){
                 case RED:
@@ -44,7 +40,11 @@ public class Histogram {
         return histogram;
     }
 
-    public int[] getGS(){
+    public int[] getHistogram(){
+        return values;
+    }
+
+  /*  public int[] getGS(){
         if(this.GS == null) this.GS = createHistogram(ColorType.GREY);
         return this.GS;
     }
@@ -59,7 +59,7 @@ public class Histogram {
     public int[] getGreen (){
         if(this.G == null) this.G = createHistogram(ColorType.GREEN);
         return this.G;
-    }
+    }*/
 
 
 }

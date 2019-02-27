@@ -4,13 +4,13 @@ import android.graphics.Color;
 
 public class OneColor extends Filter {
 
-    private int color;
+    private Color color;
     private int threshold;
 
-    public OneColor(MainActivity main, Image image) {
+    public OneColor(MainActivity main, Image image, Color color, int threshold) {
         super(main, image);
-        this.color = 0;
-        this.threshold = 0;
+        this.color = color;
+        this.threshold = threshold;
     }
 
     @Override
@@ -18,11 +18,11 @@ public class OneColor extends Filter {
 
     }
 
-    public int getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
