@@ -26,7 +26,7 @@ static float4 getValue(int indexX, int indexY){
             int finalY = abs((int)(localY - (int)(localY/(height-1)) * (fmod((float)localY, (float)(height-1))) * 2));
 
             float4 color = rsUnpackColor8888(rsGetElementAt_uchar4(in, finalX, finalY));
-            int mult = matrix[x + y * matrixSizeX];
+            int mult = matrix[size];
             value.r += (float)(color.r * mult);
             value.g += (float)(color.g * mult);
             value.b += (float)(color.b * mult);

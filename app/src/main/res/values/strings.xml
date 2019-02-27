@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Projet</string>
+    <string-array name="layers">
+        <item>Brightness</item>
+        <item>Contrast</item>
+        <item>Equalize</item>
+        <item>Colorise</item>
+        <item>One Color</item>
+        <item>Blurring</item>
+        <item>Contour</item>
+    </string-array>
 </resources>
