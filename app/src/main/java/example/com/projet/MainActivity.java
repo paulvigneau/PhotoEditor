@@ -23,15 +23,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -42,10 +42,11 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST     = 2;
 
     private static final int CAMERA_PERMISSION_CODE = 1000;
+    private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 1001;
 
     private String currentPhotoPath;
 
-    private ImageView imageView;
+    private PhotoView photoView;
 
     public LayerType layerType;
     public Filter layerFilter;
@@ -58,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        photoView = findViewById(R.id.imageID);
         this.image = getImage(R.drawable.black_white);
 
-        imageView = findViewById(R.id.imageID);
-        imageView.setImageBitmap(this.image.getBitmap());
+        photoView.setImageBitmap(this.image.getBitmap());
 
         Button applyButton = (Button) findViewById(R.id.applyID);
         applyButton.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                 layerType.getType().applyLayer(MainActivity.this);
 
-                imageView.setImageBitmap(layerFilter.imageOut.getBitmap());
+                photoView.setImageBitmap(layerFilter.imageOut.getBitmap());
             }
         });
 
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 takePictureFromCamera();
                 return true;
             case R.id.save_image:
+                savePictureToGallery();
                 return true;
         }
         return false;
@@ -139,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
     private void takePictureFromCamera() {
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE); // REQUEST CAMERA PERMISSION
+        }
+        else if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_CODE);// REQUEST WRITE STORAGE PERMISSION
         }
         else {
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -170,6 +175,42 @@ public class MainActivity extends AppCompatActivity {
         galleryIntent.setType("image/*");
         startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), GALLERY_REQUEST);
     }
+
+    private void savePictureToGallery() {
+        if (photoView.getDrawable() != null) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_CODE);
+            }
+            else {
+                // Get the Bitmap from the PhotoView
+                photoView.buildDrawingCache();
+                Bitmap bitmap = photoView.getDrawingCache();
+
+                OutputStream fOut = null;
+                Uri outputFileUri;
+                try {
+                    File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + "MySuperApp" + File.separator);
+                    root.mkdirs();
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRANCE).format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
+                    File sdImageMainDirectory = new File(root, imageFileName);
+                    outputFileUri = Uri.fromFile(sdImageMainDirectory);
+                    System.out.println(outputFileUri);
+                    fOut = new FileOutputStream(sdImageMainDirectory);
+
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                    fOut.flush();
+                    fOut.close();
+
+                    Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(this, "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else
+            Toast.makeText(this, "Load an image before saving it.", Toast.LENGTH_SHORT).show();
+    }
+
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -211,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == CAMERA_REQUEST) {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(currentPhotoPath));
-                    imageView.setImageBitmap(bitmap);
+                    photoView.setImageBitmap(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -227,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Set the image in ImageView
-                imageView.setImageURI(selectedImageUri);
+                photoView.setImageURI(selectedImageUri);
             }
         }
     }
@@ -235,14 +276,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Camera permission granted", Toast.LENGTH_LONG).show();
-                takePictureFromCamera();
-            }
-            else {
-                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG).show();
-            }
+
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Camera permission granted", Toast.LENGTH_LONG).show();
+            takePictureFromCamera();
+        }
+        else {
+            Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG).show();
         }
     }
 }
