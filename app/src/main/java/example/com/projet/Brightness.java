@@ -24,11 +24,39 @@ public class Brightness extends Filter {
 
         int[] newPixels = new int[width * height];
 
-        applyRenderScript(newPixels);
+        applyJava(newPixels);
 
     }
 
     private void applyJava(int[] newPixels){
+        int[] oldPixels = super.imageSrc.getPixels();
+        float hsv[] = new float[3];
+        for(int index = 0; index < oldPixels.length; index++){
+            //Color.colorToHSV(oldPixels[index], hsv);      Pour test performance
+            ColorTools.RGBToHSV(oldPixels[index], hsv);
+            hsv[2] = modifiedHSV(hsv[2]);
+            newPixels[index] = ColorTools.HSVToRGB(hsv);
+            //newPixels[index] = Color.HSVToColor(hsv);     Pour test performance
+        }
+        super.imageOut.setPixels(newPixels);
+    }
+
+    private float modifiedHSV(float hsv){
+       /* int bar_value = ...;
+        hsv -= (50 - bar_value)/100;
+        if(hsv < 0)
+            hsv = 0;
+        if(hsv > 1)
+            hsv = 1;*/
+
+        hsv += 0.1;
+        if(hsv > 1)
+            hsv = 1;
+
+        return hsv;
+    }
+
+    /*private void applyJava(int[] newPixels){
         int[] oldPixels = super.imageSrc.getPixels();
         float hsv[] = new float[3];
         for(int index = 0; index < oldPixels.length; index++){
@@ -39,7 +67,7 @@ public class Brightness extends Filter {
             //newPixels[index] = Color.HSVToColor(hsv);     Pour test performance
         }
         super.imageOut.setPixels(newPixels);
-    }
+    }*/
 
     private void applyRenderScript(int[] newPixels){
         RenderScript rs = RenderScript.create(super.main);
