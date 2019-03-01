@@ -30,27 +30,21 @@ public class Contrast extends Filter {
         int[] oldPixels = super.imageSrc.getPixels();
         float hsv[] = new float[3];
         for(int index = 0; index < oldPixels.length; index++){
-            //Color.colorToHSV(oldPixels[index], hsv);      Pour test performance
-            ColorTools.RGBToHSV(oldPixels[index], hsv);
-            //hsv[2] = modifiedHSV(hsv[2]);;
-            newPixels[index] = ColorTools.HSVToRGB(hsv);
-            //newPixels[index] = Color.HSVToColor(hsv);     Pour test performance
+            Color.colorToHSV(oldPixels[index], hsv);      //Pour test performance
+            //ColorTools.RGBToHSV(oldPixels[index], hsv); // #Ne fonctionne pas pour hsv[2], revoir le calcul.
+            hsv[2] = modifiedHSV(hsv[2]);
+            //newPixels[index] = ColorTools.HSVToRGB(hsv);// #Ne fonctionne pas pour hsv[2], revoir le calcul.
+            newPixels[index] = Color.HSVToColor(hsv);     //Pour test performance
         }
         super.imageOut.setPixels(newPixels);
     }
 
     private float modifiedHSV(float hsv){
-
-       /* int bar_value = ...;
-        hsv -= (50-nb)/100;
-        if(hsv < 0)
-            hsv = 0;
-        if(hsv > 1)
-            hsv = 1;*/
-
-       hsv += 0.1;
-       if(hsv > 1)
-           hsv = 1;
+        hsv -= -(this.intensity/100 - 0.5);
+        if(hsv < 0.01f)
+            hsv = 0.01f;
+        if(hsv > 0.99f)
+            hsv = 0.99f;
 
         return hsv;
     }
