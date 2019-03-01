@@ -15,7 +15,7 @@ public class Brightness extends Filter {
 
     public Brightness(MainActivity main, Image image) {
         super(main, image);
-        this.intensity = 10; // /!\ Commencer a la moyenne HSV[2] de l'image /!\
+        this.intensity = 50; // /!\ Commencer curseur à la moyenne HSV[2] de l'image /!\
     }
 
     @Override
@@ -43,7 +43,9 @@ public class Brightness extends Filter {
     }
 
     private float modifiedHSV(float hsv){
-        hsv -= -(this.intensity/100 - 0.5);
+        //System.out.println("OLD hsv " + hsv);
+        //System.out.println("NEW hsv " + hsv);
+        hsv -= -(this.intensity/100f - 0.5);
         if(hsv < 0.01f)
             hsv = 0.01f;
         if(hsv > 0.99f)
