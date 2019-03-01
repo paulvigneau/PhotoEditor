@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                photoView.setImageBitmap(image.getBitmap());
             }
         });
 
