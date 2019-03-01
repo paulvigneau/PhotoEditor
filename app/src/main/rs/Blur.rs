@@ -5,20 +5,19 @@ rs_allocation in;
 int width;
 int height;
 
-int matrix[];
-int matrixSizeX;
-int matrixSizeY;
+float matrix[];
+int matrixSize;
 
 static float4 getValue(int indexX, int indexY){
     float4 value;
     value.a = rsUnpackColor8888(rsGetElementAt_uchar4(in, indexX, indexY)).a;
 
-    indexX -= (int)(matrixSizeX / 2);
-    indexY -= (int)(matrixSizeY / 2);
+    indexX -= (int)(matrixSize / 2);
+    indexY -= (int)(matrixSize / 2);
 
     int size = 0;
-    for(int y = 0; y < matrixSizeY; y++){
-        for(int x = 0; x < matrixSizeX; x++){
+    for(int y = 0; y < matrixSize; y++){
+        for(int x = 0; x < matrixSize; x++){
             int localX = indexX + x;
             int localY = indexY + y;
 
@@ -26,20 +25,20 @@ static float4 getValue(int indexX, int indexY){
             int finalY = abs((int)(localY - (int)(localY/(height-1)) * (fmod((float)localY, (float)(height-1))) * 2));
 
             float4 color = rsUnpackColor8888(rsGetElementAt_uchar4(in, finalX, finalY));
-            int mult = matrix[size];
-            value.r += (float)(color.r * mult);
-            value.g += (float)(color.g * mult);
-            value.b += (float)(color.b * mult);
+            float mult = matrix[size];
+            value.r += color.r * mult;
+            value.g += color.g * mult;
+            value.b += color.b * mult;
 
             size += 1;
         }
     }
 
-    if(size != 0){
+    /*if(size != 0){
         value.r = (float)(value.r / size);
         value.g = (float)(value.g / size);
         value.b = (float)(value.b / size);
-    }
+    }*/
     return value;
 }
 

@@ -66,9 +66,13 @@ public enum Matrix {
         }
         return matrix;
     }
-    public IMatrix type;
+    private IMatrix type;
 
     Matrix(IMatrix type){
         this.type = type;
+    }
+
+    public IMatrix getType(){
+        return this.type;
     }
 }

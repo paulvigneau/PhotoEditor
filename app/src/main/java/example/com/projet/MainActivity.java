@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button resetButton = (Button) findViewById(R.id.applyID);
+        Button resetButton = (Button) findViewById(R.id.resetID);
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +107,15 @@ public class MainActivity extends AppCompatActivity {
         Bitmap map = BitmapFactory.decodeResource(getResources(), id, options);
 
         return new Image(map);
+    }
+
+    public void setImage(int id, int imageView){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inMutable = true;
+        Bitmap map = BitmapFactory.decodeResource(getResources(), id, options);
+
+        ImageView image = (ImageView)findViewById(imageView);
+        image.setImageBitmap(map);
     }
 
     public void InflateLayer(int id, int parent){
@@ -252,7 +262,8 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == CAMERA_REQUEST) {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(currentPhotoPath));
-                    photoView.setImageBitmap(bitmap);
+                    this.photoView.setImageBitmap(bitmap);
+                    this.image = new Image(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -268,8 +279,10 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Set the image in ImageView
-                photoView.setImageURI(selectedImageUri);
+                this.photoView.setImageURI(selectedImageUri);
+                this.image = new Image(((BitmapDrawable)this.photoView.getDrawable()).getBitmap());
             }
+            this.layerType.getType().generateLayer(this);
         }
     }
 

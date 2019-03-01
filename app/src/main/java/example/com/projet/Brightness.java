@@ -10,11 +10,11 @@ import example.com.projet.utils.ColorTools;
 
 public class Brightness extends Filter {
 
-    private float intensity;
+    private int intensity;      //Valeur comprise entre 0 et 255
 
     public Brightness(MainActivity main, Image image) {
         super(main, image);
-        this.intensity = 0.5f;
+        this.intensity = 10;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class Brightness extends Filter {
         return intensity;
     }
 
-    public void setIntensity(float intensity) {
+    public void setIntensity(int intensity) {
         this.intensity = intensity;
     }
 }

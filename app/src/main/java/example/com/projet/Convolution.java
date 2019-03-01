@@ -10,9 +10,12 @@ import com.android.rssample.ScriptC_Blur;
 public class Convolution extends Filter {
 
     private Matrix matrix;
+    private int lenght;
 
     public Convolution(MainActivity main, Image image) {
         super(main, image);
+        this.matrix = Matrix.AVERAGING;
+        this.lenght = 8;
     }
 
     @Override
@@ -27,20 +30,10 @@ public class Convolution extends Filter {
         blurScript.set_in(input);
         blurScript.set_height(super.getImageSrc().getHeight());
         blurScript.set_width(super.getImageSrc().getWidth());
-        blurScript.set_matrix(new int[]{
-                1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1,
-        });
-        blurScript.set_matrixSizeX(8);
-        blurScript.set_matrixSizeY(8);
+        blurScript.set_matrix(this.matrix.getType().generate(this.lenght));
+        blurScript.set_matrixSize(this.lenght);
 
-        int[] matrix = blurScript.get_matrix();
+        float[] matrix = blurScript.get_matrix();
         for(int index = 0; index < matrix.length; index++){
             System.out.println(matrix[index]);
         }
@@ -64,5 +57,13 @@ public class Convolution extends Filter {
 
     public void setMatrix(Matrix matrix) {
         this.matrix = matrix;
+    }
+
+    public int getLenght(){
+        return this.lenght;
+    }
+
+    public void setLenght(int lenght){
+        this.lenght = lenght;
     }
 }

@@ -41,12 +41,13 @@
         tools:srcCompat="@drawable/hue" />
 
     <SeekBar
-        android:id="@+id/seekBar4"
+        android:id="@+id/hue_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:max="360"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />

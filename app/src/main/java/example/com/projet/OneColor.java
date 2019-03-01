@@ -9,31 +9,38 @@ public class OneColor extends Filter {
     private int color;
     private int threshold;
 
-    public OneColor(MainActivity main, Image image, int color, int threshold) {
+    public OneColor(MainActivity main, Image image) {
         super(main, image);
-        this.color = color;
-        this.threshold = threshold;
+        this.color = 0;
+        this.threshold = 50;
     }
 
     @Override
     public void apply() {
-        int[] pixels = imageSrc.getPixels();
-        int[] pixels2 = imageOut.getPixels();
+        int[] oldpixels = imageSrc.getPixels();
+        int[] pixels = imageOut.getPixels();
 
-        for(int ind =0; ind <imageSrc.getWidth() * imageSrc.getHeight();ind++) {
+        int col, red, green, blue;
+        double distance;
 
-            int red = Color.red(pixels[ind]) - Color.red(color);
-            int green = Color.green(pixels[ind]) -Color.green(color);
-            int blue = Color.blue(pixels[ind])- Color.blue(color);
+        for(int index =0; index <imageSrc.getWidth() * imageSrc.getHeight(); index++) {
+            col = oldpixels[index];
 
-            double distance = Math.sqrt(red*red + green* green+ blue*blue);
+            red = Color.red(col) - Color.red(this.color);
+            green = Color.green(col) - Color.green(this.color);
+            blue = Color.blue(col) - Color.blue(this.color);
 
-            if(distance <= threshold) pixels2[ind] = pixels[ind];
-            else pixels2[ind] = ColorTools.getGreyColor(pixels[ind]);
+            distance = Math.sqrt(red*red + green* green+ blue*blue);
+
+            if(distance <= threshold){
+                pixels[index] = col;
+            }else{
+                int grey = ColorTools.getGreyColor(col);
+                pixels[index] = Color.argb(255, grey, grey, grey);
+            }
         }
-        imageOut.setPixels(pixels2);
 
-
+        imageOut.setPixels(pixels);
     }
 
     public int getColor() {

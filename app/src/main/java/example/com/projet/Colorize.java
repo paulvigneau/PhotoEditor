@@ -24,7 +24,7 @@ public class Colorize extends Filter {
         int width = super.imageSrc.getWidth();
         int height = super.imageSrc.getHeight();
 
-        int[] newPixels = new int[width * height];
+        int[] newPixels = super.imageOut.getPixels();
 
         applyRenderScript(newPixels);
 
