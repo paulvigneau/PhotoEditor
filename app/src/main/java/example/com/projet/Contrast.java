@@ -6,16 +6,16 @@ import example.com.projet.utils.ColorTools;
 import example.com.projet.utils.ColorType;
 
 public class Contrast extends Filter {
-    //private int[] interval;
+    private int[] interval;
     private int intensity;      //Valeur comprise entre 0 et 255
 
     public Contrast(MainActivity main, Image image) {
         super(main, image);
-        //this.interval = new int[]{0, 255};
+        this.interval = new int[]{0, 255};
         this.intensity = 10;
     }
 
-    @Override
+    /*@Override
     public void apply() {
         int width = super.imageSrc.getWidth();
         int height = super.imageSrc.getHeight();
@@ -47,9 +47,9 @@ public class Contrast extends Filter {
             hsv = 0.99f;
 
         return hsv;
-    }
+    }*/
 
-    /*@Override
+    @Override
     public void apply() {
         int[] pixels = imageSrc.getPixels();
         int[] pixels2 = imageOut.getPixels();
@@ -78,11 +78,11 @@ public class Contrast extends Filter {
 
         imageOut.setPixels(pixels2);
     }
-*/
-   /* public void setInterval(int min, int max){
+
+   public void setInterval(int min, int max){
         this.interval[0]=min;
         this.interval[1]=max;
-    }*/
+    }
 
 
    public void setIntensity(int intensity){

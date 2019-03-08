@@ -25,7 +25,7 @@ public class Brightness extends Filter {
 
         int[] newPixels = new int[width * height];
 
-        applyJava(newPixels);
+        applyRenderScript(newPixels);
 
     }
 

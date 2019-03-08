@@ -96,7 +96,7 @@ static float4 HSLToRGB(float3 hsl){
 uchar4  RS_KERNEL  Brightness(uchar4 in, uint32_t x, uint32_t y) {
     float4  pixelf = rsUnpackColor8888(in);
     float3 hsl = RGBToHSL(pixelf);
-    //hsl.z += brightness;
+    hsl.z += brightness;
 
     pixelf = HSLToRGB(hsl);
     return  rsPackColorTo8888(pixelf.r, pixelf.g, pixelf.b, pixelf.a);

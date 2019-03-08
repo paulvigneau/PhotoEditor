@@ -30,7 +30,7 @@ public class Colorize extends Filter {
 
     }
 
-    private void applyJava(int[] newPixels){
+    private void applyJava(int[] newPixels){        //Marche pas avec 360, a viré
         int[] oldPixels = super.imageSrc.getPixels();
         float hsv[] = new float[3];
         for(int index = 0; index < oldPixels.length; index++){

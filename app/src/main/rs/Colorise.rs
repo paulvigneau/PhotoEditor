@@ -85,6 +85,9 @@ static float4 HSVToRGB(float3 hsv){
             color.b = x + m;
             break;
         default:
+            color.r = c + m;
+            color.g = x + m;
+            color.b = m;
             break;
     }
 

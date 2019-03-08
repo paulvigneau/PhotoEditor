@@ -58,7 +58,7 @@ public enum LayerType {
     EQUALIZE(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            //main.InflateLayer(R.layout.contrast_layout, R.id.optionID);
+            main.InflateLayer(R.layout.equalize_layout, R.id.optionID);
         }
 
         @Override
@@ -145,8 +145,8 @@ public enum LayerType {
             Convolution convolution = (Convolution)main.layerFilter;
 
             //option
-            convolution.setMatrix(Matrix.AVERAGING);
-            convolution.setLenght(8);
+            convolution.setMatrix(Matrix.PREWITT);
+            convolution.setLength(3);
 
             convolution.apply();
         }
