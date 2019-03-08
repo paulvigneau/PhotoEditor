@@ -26,32 +26,34 @@ public class Brightness extends Filter {
         int[] newPixels = new int[width * height];
 
         applyRenderScript(newPixels);
+        //applyJava(newPixels);
 
     }
 
     private void applyJava(int[] newPixels){
         int[] oldPixels = super.imageSrc.getPixels();
         float hsv[] = new float[3];
-        for(int index = 0; index < oldPixels.length; index++){
-            Color.colorToHSV(oldPixels[index], hsv);      //Pour test performance
-            //ColorTools.RGBToHSV(oldPixels[index], hsv); // #Ne fonctionne pas pour hsv[2], revoir le calcul.
-            hsv[2] = modifiedHSV(hsv[2]);
-            //newPixels[index] = ColorTools.HSVToRGB(hsv);// #Ne fonctionne pas pour hsv[2], revoir le calcul.
-            newPixels[index] = Color.HSVToColor(hsv);     //Pour test performance
+
+        for (int i = 0; i < oldPixels.length; i++){
+            Color.colorToHSV(oldPixels[i], hsv);      //Pour test performance
+            //ColorTools.RGBToHSV(oldPixels[i], hsv); // #Ne fonctionne pas pour hsv[2], revoir le calcul.
+            hsv[2] = modifyHSV(hsv[2]);
+            //newPixels[i] = ColorTools.HSVToRGB(hsv);// #Ne fonctionne pas pour hsv[2], revoir le calcul.
+            newPixels[i] = Color.HSVToColor(hsv);     //Pour test performance
         }
         super.imageOut.setPixels(newPixels);
     }
 
-    private float modifiedHSV(float hsv){
-        //System.out.println("OLD hsv " + hsv);
-        //System.out.println("NEW hsv " + hsv);
-        hsv -= -(this.intensity/100f - 0.5);
-        if(hsv < 0.01f)
-            hsv = 0.01f;
-        if(hsv > 0.99f)
-            hsv = 0.99f;
+    private float modifyHSV(float value){
+        //System.out.println("OLD value : " + value);
+        //System.out.println("NEW value : " + value);
+        value += (this.intensity / 100f - 0.5);
+        if(value < 0.01f)
+            value = 0.01f;
+        if(value > 0.99f)
+            value = 0.99f;
 
-        return hsv;
+        return value;
     }
 
     /*private void applyJava(int[] newPixels){
@@ -73,19 +75,11 @@ public class Brightness extends Filter {
         Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());
         Allocation output = Allocation.createTyped(rs, input.getType());
 
-        ScriptC_Brightness coloriseScript = new ScriptC_Brightness(rs);
+        ScriptC_Brightness brightnessScript = new ScriptC_Brightness(rs);
 
-        coloriseScript.set_brightness(this.intensity);
+        brightnessScript.set_brightness(this.intensity);
 
-        coloriseScript.forEach_Brightness(input, output);
-
-       /*System.out.println("X : " + coloriseScript.get_h());
-        System.out.println("Y : " + coloriseScript.get_s());
-        System.out.println("Z : " + coloriseScript.get_l());*/
-
-        System.out.println("C : " + coloriseScript.get_c());
-        System.out.println("X : " + coloriseScript.get_x());
-        System.out.println("M : " + coloriseScript.get_m());
+        brightnessScript.forEach_Brightness(input, output);
 
         Bitmap out = super.imageOut.getBitmap();
         output.copyTo(out);
@@ -94,7 +88,7 @@ public class Brightness extends Filter {
         input.destroy();
         output.destroy();
 
-        coloriseScript.destroy();
+        brightnessScript.destroy();
         rs.destroy();
     }
 

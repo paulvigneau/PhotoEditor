@@ -5,12 +5,8 @@
 
 float brightness;
 
-float c;
-float x;
-float m;
-
-static float3 RGBToHSL(float4 color){
-    float3 hsl;
+static float3 RGBToHSV(float4 color) {
+    float3 hsv;
 
     float r = color.r;
     float g = color.g;
@@ -23,35 +19,39 @@ static float3 RGBToHSL(float4 color){
 
     //Define H
     if(delta == 0)
-        hsl.x = 0;
+        hsv.x = 0;
     else if(Cmax == r)
-        hsl.x = 60 * fmod((g-b)/delta, 6);
+        hsv.x = 60 * fmod((g-b)/delta, 6);
     else if(Cmax == g)
-        hsl.x = 60 * ((b-r)/delta + 2);
+        hsv.x = 60 * ((b-r)/delta + 2);
     else if(Cmax == b)
-        hsl.x = 60 * ((r-g)/delta + 4);
-
-    //Define L
-    hsl.z = (Cmax + Cmin)/2;
+        hsv.x = 60 * ((r-g)/delta + 4);
 
     //Define S
     if(Cmax == 0)
-        hsl.y = 0;
+        hsv.y = 0;
     else
-        hsl.y = delta / (1 - fabs(2 * hsl.z - 1));
+        hsv.y = delta / Cmax;
 
-    return hsl;
+    //Define V
+    hsv.z = Cmax;
+
+    return hsv;
 }
 
-static float4 HSLToRGB(float3 hsl){
+static float4 HSVToRGB(float3 hsv) {
     float4 color;
 
+    float c = hsv.z * hsv.y;
+    float x = c * (1 - fabs(fmod(hsv.x / 60.0f, 2) - 1));
+    float m = hsv.z - c;
 
-    c = (1 - fabs(2 * hsl.z - 1)) * hsl.y;
-    x = c * (1 - fabs(fmod(hsl.x / 60.0f, 2) - 1));
-    m = hsl.z - c/2;
+    int t = fmod((hsv.x / 60), 60);
 
-    int t = fmod((hsl.x / 60), 60);
+    /* float f = (hsv.x / 60.0f) - t;
+    float l = hsv.z * (1 - hsv.y);
+    float m = hsv.z * (1 - f * hsv.y);
+    float n = hsv.z * (1 - (1 - f) * hsv.y);*/
 
     switch(t){
         case 0:
@@ -85,6 +85,9 @@ static float4 HSLToRGB(float3 hsl){
             color.b = x + m;
             break;
         default:
+            color.r = c + m;
+            color.g = x + m;
+            color.b = m;
             break;
     }
 
@@ -92,12 +95,25 @@ static float4 HSLToRGB(float3 hsl){
     return color;
 }
 
+static float modifyValue(float value) {
+    value += (brightness / 100 - 0.5);
+    if (value < 0.01f)
+        value = 0.01f;
+    if (value > 0.99f)
+        value = 0.99f;
 
-uchar4  RS_KERNEL  Brightness(uchar4 in, uint32_t x, uint32_t y) {
+    return value;
+}
+
+
+uchar4  RS_KERNEL Brightness(uchar4 in, uint32_t x, uint32_t y) {
     float4  pixelf = rsUnpackColor8888(in);
-    float3 hsl = RGBToHSL(pixelf);
-    hsl.z += brightness;
 
-    pixelf = HSLToRGB(hsl);
+    float3 hsv = RGBToHSV(pixelf);
+
+    hsv.z = modifyValue(hsv.z);
+
+    pixelf = HSVToRGB(hsv);
+
     return  rsPackColorTo8888(pixelf.r, pixelf.g, pixelf.b, pixelf.a);
 }
