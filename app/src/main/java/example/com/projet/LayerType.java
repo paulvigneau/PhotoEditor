@@ -3,8 +3,10 @@ package example.com.projet;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public enum LayerType {
@@ -92,7 +94,11 @@ public enum LayerType {
             Colorize colorize = (Colorize)main.layerFilter;
 
             //option
-            colorize.setHue(getSeekBarProgress(main, R.id.hue_value));
+            if(getCheckBoxSelect(main, R.id.colorise_random)){
+                colorize.setHue((int)(Math.random() * 255));
+            }else{
+                colorize.setHue(getSeekBarProgress(main, R.id.hue_value));
+            }
 
             colorize.apply();
         }
@@ -120,10 +126,18 @@ public enum LayerType {
         public void applyLayer(MainActivity main) {
             OneColor oneColor = (OneColor) main.layerFilter;
 
-            int red = getSeekBarProgress(main, R.id.contrast_value);
-            int green = getSeekBarProgress(main, R.id.green_value);
-            int blue = getSeekBarProgress(main, R.id.blue_value);
-            oneColor.setColor(Color.argb(255, red, green, blue));
+            if(getCheckBoxSelect(main, R.id.one_color_random)){
+                int red = (int)(Math.random() * 255);
+                int green = (int)(Math.random() * 255);
+                int blue = (int)(Math.random() * 255);
+                oneColor.setColor(Color.argb(255, red, green, blue));
+            }else{
+                int red = getSeekBarProgress(main, R.id.contrast_value);
+                int green = getSeekBarProgress(main, R.id.green_value);
+                int blue = getSeekBarProgress(main, R.id.blue_value);
+                oneColor.setColor(Color.argb(255, red, green, blue));
+            }
+
             oneColor.setThreshold(getSeekBarProgress(main, R.id.max_distance_value));
 
             oneColor.apply();
@@ -138,6 +152,8 @@ public enum LayerType {
         @Override
         public void generateLayer(MainActivity main) {
             main.layerFilter = new Convolution(main, main.image);
+
+            updateText(main, R.id.blurring_size, R.id.blurring_text);
         }
 
         @Override
@@ -145,8 +161,18 @@ public enum LayerType {
             Convolution convolution = (Convolution)main.layerFilter;
 
             //option
-            convolution.setMatrix(Matrix.PREWITT);
-            convolution.setLength(3);
+            switch (getSpinnerIndex(main, R.id.blurring_menu)){
+                case 0:
+                    convolution.setMatrix(Matrix.AVERAGING);
+                    break;
+                case 1:
+                    convolution.setMatrix(Matrix.GAUSSIAN);
+                    break;
+                default:
+                    break;
+            }
+            convolution.setLength(getSeekBarProgress(main, R.id.blurring_size));
+
 
             convolution.apply();
         }
@@ -154,12 +180,14 @@ public enum LayerType {
     CONTOUR(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.blurring_layout, R.id.optionID);
+            main.InflateLayer(R.layout.contour_layout, R.id.optionID);
         }
 
         @Override
         public void generateLayer(MainActivity main) {
             main.layerFilter = new Convolution(main, main.image);
+
+            updateText(main, R.id.contour_size, R.id.contour_text);
         }
 
         @Override
@@ -167,7 +195,20 @@ public enum LayerType {
             Convolution convolution = (Convolution)main.layerFilter;
 
             //option
-            convolution.setMatrix(Matrix.LAPLACIAN);
+            switch (getSpinnerIndex(main, R.id.contour_menu)){
+                case 0:
+                    convolution.setMatrix(Matrix.SOBEL);
+                    break;
+                case 1:
+                    convolution.setMatrix(Matrix.PREWITT);
+                    break;
+                case 2:
+                    convolution.setMatrix(Matrix.LAPLACIAN);
+                    break;
+                default:
+                    break;
+            }
+            convolution.setLength(3);
 
             convolution.apply();
         }
@@ -183,6 +224,15 @@ public enum LayerType {
         return this.type;
     }
 
+    private static int getSpinnerIndex(MainActivity main, int id){
+        Spinner menu = (Spinner)main.findViewById(id);
+        return menu.getSelectedItemPosition();
+    }
+
+    private static boolean getCheckBoxSelect(MainActivity main, int id){
+        CheckBox button = (CheckBox)main.findViewById(id);
+        return button.isChecked();
+    }
 
     private static int getSeekBarProgress(MainActivity main, int id){
         SeekBar bar = (SeekBar)main.findViewById(id);

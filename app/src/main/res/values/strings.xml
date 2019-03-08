@@ -9,4 +9,13 @@
         <item>Blurring</item>
         <item>Contour</item>
     </string-array>
+    <string-array name="blurring">
+        <item>Averaging</item>
+        <item>Gaussien</item>
+    </string-array>
+    <string-array name="contour">
+        <item>Sobel</item>
+        <item>Prewitt</item>
+        <item>Laplacien</item>
+    </string-array>
 </resources>
