@@ -25,7 +25,7 @@ public enum LayerType {
 
         @Override
         public void applyLayer(MainActivity main) {
-            Brightness brightness = (Brightness)main.layerFilter;
+            Brightness brightness = (Brightness) main.layerFilter;
 
             //option
             brightness.setIntensity(getSeekBarProgress(main, R.id.brightness_value));
@@ -48,7 +48,7 @@ public enum LayerType {
 
         @Override
         public void applyLayer(MainActivity main) {
-            Contrast contrast = (Contrast)main.layerFilter;
+            Contrast contrast = (Contrast) main.layerFilter;
 
             //option
             int level = getSeekBarProgress(main, R.id.contrast_value);
@@ -70,7 +70,7 @@ public enum LayerType {
 
         @Override
         public void applyLayer(MainActivity main) {
-            Equalize equalize = (Equalize)main.layerFilter;
+            Equalize equalize = (Equalize) main.layerFilter;
 
 
             equalize.apply();
@@ -91,12 +91,12 @@ public enum LayerType {
 
         @Override
         public void applyLayer(MainActivity main) {
-            Colorize colorize = (Colorize)main.layerFilter;
+            Colorize colorize = (Colorize) main.layerFilter;
 
             //option
-            if(getCheckBoxSelect(main, R.id.colorise_random)){
-                colorize.setHue((int)(Math.random() * 255));
-            }else{
+            if (getCheckBoxSelect(main, R.id.colorise_random)) {
+                colorize.setHue((int) (Math.random() * 255));
+            } else {
                 colorize.setHue(getSeekBarProgress(main, R.id.hue_value));
             }
 
@@ -126,12 +126,12 @@ public enum LayerType {
         public void applyLayer(MainActivity main) {
             OneColor oneColor = (OneColor) main.layerFilter;
 
-            if(getCheckBoxSelect(main, R.id.one_color_random)){
-                int red = (int)(Math.random() * 255);
-                int green = (int)(Math.random() * 255);
-                int blue = (int)(Math.random() * 255);
+            if (getCheckBoxSelect(main, R.id.one_color_random)) {
+                int red = (int) (Math.random() * 255);
+                int green = (int) (Math.random() * 255);
+                int blue = (int) (Math.random() * 255);
                 oneColor.setColor(Color.argb(255, red, green, blue));
-            }else{
+            } else {
                 int red = getSeekBarProgress(main, R.id.contrast_value);
                 int green = getSeekBarProgress(main, R.id.green_value);
                 int blue = getSeekBarProgress(main, R.id.blue_value);
@@ -158,10 +158,10 @@ public enum LayerType {
 
         @Override
         public void applyLayer(MainActivity main) {
-            Convolution convolution = (Convolution)main.layerFilter;
+            Convolution convolution = (Convolution) main.layerFilter;
 
             //option
-            switch (getSpinnerIndex(main, R.id.blurring_menu)){
+            switch (getSpinnerIndex(main, R.id.blurring_menu)) {
                 case 0:
                     convolution.setMatrix(Matrix.AVERAGING);
                     break;
@@ -192,10 +192,10 @@ public enum LayerType {
 
         @Override
         public void applyLayer(MainActivity main) {
-            Convolution convolution = (Convolution)main.layerFilter;
+            Convolution convolution = (Convolution) main.layerFilter;
 
             //option
-            switch (getSpinnerIndex(main, R.id.contour_menu)){
+            switch (getSpinnerIndex(main, R.id.contour_menu)) {
                 case 0:
                     convolution.setMatrix(Matrix.SOBEL);
                     break;
@@ -216,35 +216,35 @@ public enum LayerType {
 
     private ILayerType type;
 
-    LayerType(ILayerType type){
+    LayerType(ILayerType type) {
         this.type = type;
     }
 
-    public ILayerType getType(){
+    public ILayerType getType() {
         return this.type;
     }
 
-    private static int getSpinnerIndex(MainActivity main, int id){
-        Spinner menu = (Spinner)main.findViewById(id);
+    private static int getSpinnerIndex(MainActivity main, int id) {
+        Spinner menu = (Spinner) main.findViewById(id);
         return menu.getSelectedItemPosition();
     }
 
-    private static boolean getCheckBoxSelect(MainActivity main, int id){
-        CheckBox button = (CheckBox)main.findViewById(id);
+    private static boolean getCheckBoxSelect(MainActivity main, int id) {
+        CheckBox button = (CheckBox) main.findViewById(id);
         return button.isChecked();
     }
 
-    private static int getSeekBarProgress(MainActivity main, int id){
-        SeekBar bar = (SeekBar)main.findViewById(id);
+    private static int getSeekBarProgress(MainActivity main, int id) {
+        SeekBar bar = (SeekBar) main.findViewById(id);
         return bar.getProgress();
     }
 
-    private static void updateText(final MainActivity main, int seekBarID, final int textViewID){
-        SeekBar bar = (SeekBar)main.findViewById(seekBarID);
+    private static void updateText(final MainActivity main, int seekBarID, final int textViewID) {
+        SeekBar bar = (SeekBar) main.findViewById(seekBarID);
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                TextView text = (TextView)main.findViewById(textViewID);
+                TextView text = (TextView) main.findViewById(textViewID);
 
                 text.setText("" + i);
             }
@@ -261,15 +261,15 @@ public enum LayerType {
         });
     }
 
-    private static void updateColorView(final MainActivity main,final int img, int red, int green, int blue){
-        final SeekBar redBar = (SeekBar)main.findViewById(red);
-        final SeekBar blueBar = (SeekBar)main.findViewById(blue);
-        final SeekBar greenBar = (SeekBar)main.findViewById(green);
+    private static void updateColorView(final MainActivity main, final int img, int red, int green, int blue) {
+        final SeekBar redBar = (SeekBar) main.findViewById(red);
+        final SeekBar blueBar = (SeekBar) main.findViewById(blue);
+        final SeekBar greenBar = (SeekBar) main.findViewById(green);
 
         SeekBar.OnSeekBarChangeListener event = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                ImageView imgView = (ImageView)main.findViewById(img);
+                ImageView imgView = (ImageView) main.findViewById(img);
 
                 Bitmap map = ((BitmapDrawable) imgView.getDrawable()).getBitmap();
                 int R = redBar.getProgress();
@@ -278,7 +278,7 @@ public enum LayerType {
 
                 int[] pixels = new int[map.getHeight() * map.getWidth()];
 
-                for(int index = 0; index < pixels.length; index++){
+                for (int index = 0; index < pixels.length; index++) {
                     pixels[index] = Color.argb(255, R, G, B);
                 }
                 map.setPixels(pixels, 0, map.getWidth(), 0, 0, map.getWidth(), map.getHeight());

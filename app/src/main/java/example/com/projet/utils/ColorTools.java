@@ -35,6 +35,7 @@ public class ColorTools {
 
         //Define V
         hsvOutput[2] = Cmax;
+
     }
 
     public static int HSVToRGB(float[] hsv){

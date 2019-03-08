@@ -23,18 +23,18 @@ public class OneColor extends Filter {
         int col, red, green, blue;
         double distance;
 
-        for(int index =0; index <imageSrc.getWidth() * imageSrc.getHeight(); index++) {
+        for (int index = 0; index < imageSrc.getWidth() * imageSrc.getHeight(); index++) {
             col = oldpixels[index];
 
             red = Color.red(col) - Color.red(this.color);
             green = Color.green(col) - Color.green(this.color);
             blue = Color.blue(col) - Color.blue(this.color);
 
-            distance = Math.sqrt(red*red + green* green+ blue*blue);
+            distance = Math.sqrt(red * red + green * green + blue * blue);
 
-            if(distance <= threshold){
+            if (distance <= threshold) {
                 pixels[index] = col;
-            }else{
+            } else {
                 int grey = ColorTools.getGreyColor(col);
                 pixels[index] = Color.argb(255, grey, grey, grey);
             }
@@ -49,10 +49,6 @@ public class OneColor extends Filter {
 
     public void setColor(int color) {
         this.color = color;
-    }
-
-    public int getThreshold() {
-        return threshold;
     }
 
     public void setThreshold(int threshold) {

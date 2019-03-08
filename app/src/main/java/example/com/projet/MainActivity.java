@@ -39,8 +39,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int GALLERY_REQUEST    = 1;
-    private static final int CAMERA_REQUEST     = 2;
+    private static final int GALLERY_REQUEST = 1;
+    private static final int CAMERA_REQUEST = 2;
 
     private static final int CAMERA_PERMISSION_CODE = 1000;
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 1001;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         photoView = findViewById(R.id.imageID);
-        this.image = getImage(R.drawable.black_white);
+        this.image = getImage(R.drawable.sun);
 
         photoView.setImageBitmap(this.image.getBitmap());
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
                 layerType.getType().applyLayer(MainActivity.this);
 
-                photoView.setImageBitmap(layerFilter.imageOut.getBitmap());
+                photoView.setImageBitmap(layerFilter.getImageOut().getBitmap());
             }
         });
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private Image getImage(int id){
+    private Image getImage(int id) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;
         Bitmap map = BitmapFactory.decodeResource(getResources(), id, options);
@@ -109,22 +109,22 @@ public class MainActivity extends AppCompatActivity {
         return new Image(map);
     }
 
-    public void setImage(int id, int imageView){
+    public void setImage(int id, int imageView) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;
         Bitmap map = BitmapFactory.decodeResource(getResources(), id, options);
 
-        ImageView image = (ImageView)findViewById(imageView);
+        ImageView image = (ImageView) findViewById(imageView);
         image.setImageBitmap(map);
     }
 
-    public void InflateLayer(int id, int parent){
-        if(this.layerView != null && this.layerView.getParent() != null){
-            ((ViewGroup)this.layerView).removeAllViews();
+    public void InflateLayer(int id, int parent) {
+        if (this.layerView != null && this.layerView.getParent() != null) {
+            ((ViewGroup) this.layerView).removeAllViews();
         }
 
         LayoutInflater inflater = getLayoutInflater();
-        this.layerView = inflater.inflate(id, (ViewGroup)findViewById(parent));
+        this.layerView = inflater.inflate(id, (ViewGroup) findViewById(parent));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,11 +151,9 @@ public class MainActivity extends AppCompatActivity {
     private void takePictureFromCamera() {
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE); // REQUEST CAMERA PERMISSION
-        }
-        else if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        } else if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_CODE);// REQUEST WRITE STORAGE PERMISSION
-        }
-        else {
+        } else {
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (cameraIntent.resolveActivity(getPackageManager()) != null) {
                 // Create the File where the photo should go
@@ -190,8 +188,7 @@ public class MainActivity extends AppCompatActivity {
         if (photoView.getDrawable() != null) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_CODE);
-            }
-            else {
+            } else {
                 // Get the Bitmap from the PhotoView
                 photoView.buildDrawingCache();
                 Bitmap bitmap = photoView.getDrawingCache();
@@ -267,9 +264,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-
-            else if (requestCode == GALLERY_REQUEST) {
+            } else if (requestCode == GALLERY_REQUEST) {
                 Uri selectedImageUri = data.getData();
                 // Get the path from the Uri
                 final String path = getPathFromURI(selectedImageUri);
@@ -280,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Set the image in ImageView
                 this.photoView.setImageURI(selectedImageUri);
-                this.image = new Image(((BitmapDrawable)this.photoView.getDrawable()).getBitmap());
+                this.image = new Image(((BitmapDrawable) this.photoView.getDrawable()).getBitmap());
             }
             this.layerType.getType().generateLayer(this);
         }
@@ -293,8 +288,7 @@ public class MainActivity extends AppCompatActivity {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Camera permission granted", Toast.LENGTH_LONG).show();
             takePictureFromCamera();
-        }
-        else {
+        } else {
             Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG).show();
         }
     }
