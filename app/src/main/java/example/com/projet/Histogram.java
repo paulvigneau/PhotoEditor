@@ -31,7 +31,7 @@ public class Histogram {
                     histogram[Color.blue(pixels[i])]++;
                     break;
                 case GREY :
-                    histogram[ColorTools.getGreyColor(i)]++;
+                    histogram[ColorTools.getGreyColor(pixels[i])]++;
                     break;
                 default :
                     break;

@@ -19,7 +19,7 @@ public class Equalize extends Filter {
 
         int[] CumuledHistogram = new int[256];
         for(int ind =0; ind< 256; ind++){
-            for (int ind2 =0; ind2<ind; ind2++){
+            for (int ind2 =0; ind2<=ind; ind2++){
                 CumuledHistogram[ind]+=histogramSRC.getHistogram()[ind2];
             }
         }
