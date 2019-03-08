@@ -5,13 +5,16 @@ public enum Matrix {
     GAUSSIAN(new IMatrix() {
         @Override
         public float[] generate(int length) {
-            int n = (length - 1) / 2;
+            int n = length / 2;
+
             float[] matrix = new float[length * length];
+
             double sigma = length / 2.35;
             float sum = 0;
+
             for (int y = 0; y < length; y++) {
                 for (int x = 0; x < length; x++) {
-                    matrix[x + y * length] = (float) (Math.exp(-((x - n) * (x - n) + (y - n) * (y - n) / (2 * sigma * sigma))) / (sigma * Math.sqrt(2 * Math.PI)));
+                    matrix[x + y * length] = (float) (Math.exp(-(((x - n) * (x - n) + (y - n) * (y - n)) / (2 * sigma * sigma))) / (Math.sqrt(2 * Math.PI * sigma * sigma)));
                     sum += matrix[x + y * length];
                 }
             }
@@ -27,9 +30,11 @@ public enum Matrix {
         public float[] generate(int length) {
             int size = length * length;
             float[] matrix = new float[size];
+
             for (int i = 0; i < size; i++) {
                 matrix[i] = 1.0f / size;
             }
+
             return matrix;
         }
     }),
@@ -37,7 +42,7 @@ public enum Matrix {
     LAPLACIAN(new IMatrix() {
         @Override
         public float[] generate(int length) {
-            return new float[]{0.f, 1.f, 0.f, 1.f, -4.f, 1.f, 0.f, 1.f, 0.f};
+            return new float[] {0.f, 1.f, 0.f, 1.f, -4.f, 1.f, 0.f, 1.f, 0.f};
         }
     }),
 
