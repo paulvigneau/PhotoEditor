@@ -1,6 +1,11 @@
 package example.com.projet;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+
+import com.android.rssample.ScriptC_OneColor;
 
 import example.com.projet.utils.ColorTools;
 
@@ -17,6 +22,9 @@ public class OneColor extends Filter {
 
     @Override
     public void apply() {
+        applyRS();
+    }
+    public void applyJava(){
         int[] oldpixels = imageSrc.getPixels();
         int[] pixels = imageOut.getPixels();
 
@@ -41,6 +49,32 @@ public class OneColor extends Filter {
         }
 
         imageOut.setPixels(pixels);
+    }
+
+    public void applyRS(){
+        RenderScript rs = RenderScript.create(super.main);
+
+        Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());
+        Allocation output = Allocation.createTyped(rs, input.getType());
+
+        ScriptC_OneColor oneColorScript = new ScriptC_OneColor(rs);
+
+        oneColorScript.set_red(Color.red(this.color)/255.0f);
+        oneColorScript.set_green(Color.green(this.color)/255.0f);
+        oneColorScript.set_blue(Color.blue(this.color)/255.0f);
+        oneColorScript.set_dist(this.threshold/255.0f);
+
+        oneColorScript.forEach_OneColor(input, output);
+
+        Bitmap out = super.imageOut.getBitmap();
+        output.copyTo(out);
+        super.imageOut.setBitmap(out);
+
+        input.destroy();
+        output.destroy();
+
+        oneColorScript.destroy();
+        rs.destroy();
     }
 
     public int getColor() {
