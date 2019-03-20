@@ -3,6 +3,7 @@ package example.com.projet;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.renderscript.Allocation;
+import android.renderscript.Element;
 import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_Blur;
@@ -25,7 +26,7 @@ public class Convolution extends Filter {
 
     @Override
     public void apply() {
-        JavaApply();
+        RenderScriptApply();
     }
 
     private void JavaApply() {
@@ -100,23 +101,33 @@ public class Convolution extends Filter {
 
         ScriptC_Blur blurScript = new ScriptC_Blur(rs);
 
+        System.out.println("color : " + super.imageSrc.getPixels()[0]);
+
         blurScript.set_in(input);
         blurScript.set_height(super.getImageSrc().getHeight());
         blurScript.set_width(super.getImageSrc().getWidth());
-        blurScript.set_matrix(this.matrix.getType().generate(this.length));
+        Allocation matrixAlloc = Allocation.createSized(rs, Element.F32(rs), this.length * this.length);
+        matrixAlloc.copyFrom(this.matrix.getType().generate(this.length));
+        blurScript.bind_matrix(matrixAlloc);
         blurScript.set_matrixSize(this.length);
 
-        float[] matrix = blurScript.get_matrix();
-        for (int index = 0; index < matrix.length; index++) {
-            System.out.println(matrix[index]);
-        }
         System.out.println("size :" + blurScript.get_matrixSize());
 
         blurScript.forEach_Blur(output);
 
+        System.out.println("size :" + blurScript.get_matrixSize());
+
+        float[] C = new float[this.length * this.length];
+        blurScript.get_matrix().copyTo(C);
+        for (int i = 0; i < C.length; i++) {
+            System.out.println("value " + i+": " + C[i]);
+        }
+
         Bitmap out = super.imageOut.getBitmap();
         output.copyTo(out);
         super.imageOut.setBitmap(out);
+
+        System.out.println("color : " + super.imageOut.getPixels()[0]);
 
         input.destroy();
         output.destroy();

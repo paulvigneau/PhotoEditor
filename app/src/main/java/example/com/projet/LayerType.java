@@ -15,7 +15,7 @@ public enum LayerType {
         public void setInflacter(final MainActivity main) {
             main.InflateLayer(R.layout.brightness_layout, R.id.optionID);
 
-            updateText(main, R.id.brightness_value, R.id.brightness_value_text);
+            updateText(main, R.id.brightness_value, R.id.brightness_value_text, false);
         }
 
         @Override
@@ -28,7 +28,7 @@ public enum LayerType {
             Brightness brightness = (Brightness) main.layerFilter;
 
             //option
-            brightness.setIntensity(getSeekBarProgress(main, R.id.brightness_value));
+            brightness.setIntensity(getSeekBarProgress(main, R.id.brightness_value, false));
 
             brightness.apply();
         }
@@ -38,7 +38,7 @@ public enum LayerType {
         public void setInflacter(MainActivity main) {
             main.InflateLayer(R.layout.contrast_layout, R.id.optionID);
 
-            updateText(main, R.id.contrast_value, R.id.contrast_text);
+            updateText(main, R.id.contrast_value, R.id.contrast_text, false);
         }
 
         @Override
@@ -51,7 +51,7 @@ public enum LayerType {
             Contrast contrast = (Contrast) main.layerFilter;
 
             //option
-            int level = getSeekBarProgress(main, R.id.contrast_value);
+            int level = getSeekBarProgress(main, R.id.contrast_value, false);
             contrast.setIntensity(level);
 
             contrast.apply();
@@ -97,7 +97,7 @@ public enum LayerType {
             if (getCheckBoxSelect(main, R.id.colorise_random)) {
                 colorize.setHue((int) (Math.random() * 255));
             } else {
-                colorize.setHue(getSeekBarProgress(main, R.id.hue_value));
+                colorize.setHue(getSeekBarProgress(main, R.id.hue_value, false));
             }
 
             colorize.apply();
@@ -115,7 +115,7 @@ public enum LayerType {
         public void generateLayer(MainActivity main) {
             main.layerFilter = new OneColor(main, main.image);
 
-            updateText(main, R.id.max_distance_value, R.id.distance_text);
+            updateText(main, R.id.max_distance_value, R.id.distance_text, false);
 
             updateColorView(main, R.id.color_view, R.id.contrast_value, R.id.green_value, R.id.blue_value);
 
@@ -132,13 +132,13 @@ public enum LayerType {
                 int blue = (int) (Math.random() * 255);
                 oneColor.setColor(Color.argb(255, red, green, blue));
             } else {
-                int red = getSeekBarProgress(main, R.id.contrast_value);
-                int green = getSeekBarProgress(main, R.id.green_value);
-                int blue = getSeekBarProgress(main, R.id.blue_value);
+                int red = getSeekBarProgress(main, R.id.contrast_value, false);
+                int green = getSeekBarProgress(main, R.id.green_value, false);
+                int blue = getSeekBarProgress(main, R.id.blue_value, false);
                 oneColor.setColor(Color.argb(255, red, green, blue));
             }
 
-            oneColor.setThreshold(getSeekBarProgress(main, R.id.max_distance_value));
+            oneColor.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
 
             oneColor.apply();
         }
@@ -153,7 +153,7 @@ public enum LayerType {
         public void generateLayer(MainActivity main) {
             main.layerFilter = new Convolution(main, main.image);
 
-            updateText(main, R.id.blurring_size, R.id.blurring_text);
+            updateText(main, R.id.blurring_size, R.id.blurring_text, true);
         }
 
         @Override
@@ -171,7 +171,7 @@ public enum LayerType {
                 default:
                     break;
             }
-            convolution.setLength(getSeekBarProgress(main, R.id.blurring_size));
+            convolution.setLength(getSeekBarProgress(main, R.id.blurring_size, true));
 
 
             convolution.apply();
@@ -187,7 +187,7 @@ public enum LayerType {
         public void generateLayer(MainActivity main) {
             main.layerFilter = new Convolution(main, main.image);
 
-            updateText(main, R.id.contour_size, R.id.contour_text);
+            updateText(main, R.id.contour_size, R.id.contour_text, true);
         }
 
         @Override
@@ -234,19 +234,27 @@ public enum LayerType {
         return button.isChecked();
     }
 
-    private static int getSeekBarProgress(MainActivity main, int id) {
+    private static int getSeekBarProgress(MainActivity main, int id, boolean onlyImpair) {
         SeekBar bar = (SeekBar) main.findViewById(id);
-        return bar.getProgress();
+        if(onlyImpair){
+            return bar.getProgress() * 2 + 1;
+        }else{
+            return bar.getProgress();
+        }
     }
 
-    private static void updateText(final MainActivity main, int seekBarID, final int textViewID) {
+    private static void updateText(final MainActivity main, int seekBarID, final int textViewID, final boolean onlyImpair) {
         SeekBar bar = (SeekBar) main.findViewById(seekBarID);
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 TextView text = (TextView) main.findViewById(textViewID);
 
-                text.setText("" + i);
+                if(onlyImpair)
+                    text.setText("" + (i * 2 + 1));
+                else
+                    text.setText("" + i);
+
             }
 
             @Override
