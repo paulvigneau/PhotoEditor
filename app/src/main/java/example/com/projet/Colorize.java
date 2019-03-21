@@ -1,11 +1,9 @@
 package example.com.projet;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 
-import example.com.projet.utils.ColorTools;
 import com.android.rssample.*;
 
 public class Colorize extends Filter {
@@ -24,11 +22,11 @@ public class Colorize extends Filter {
         Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());
         Allocation output = Allocation.createTyped(rs, input.getType());
 
-        ScriptC_Colorise coloriseScript = new ScriptC_Colorise(rs);
+        ScriptC_Colorize colorizeScript = new ScriptC_Colorize(rs);
 
-        coloriseScript.set_hue(this.hue);
+        colorizeScript.set_hue(this.hue);
 
-        coloriseScript.forEach_Colorise(input, output);
+        colorizeScript.forEach_Colorize(input, output);
 
         Bitmap out = super.imageOut.getBitmap();
         output.copyTo(out);
@@ -37,15 +35,15 @@ public class Colorize extends Filter {
         input.destroy();
         output.destroy();
 
-        coloriseScript.destroy();
+        colorizeScript.destroy();
         rs.destroy();
     }
 
-    public void setHue(int hue){
+    public void setHue(int hue) {
         this.hue = hue;
     }
 
-    public int getHue(){
+    public int getHue() {
         return this.hue;
     }
 

@@ -109,7 +109,13 @@ public class ColorTools {
             if(minMax[1]<colorPixel) minMax[1] = colorPixel;
         }
         return minMax;
+    }
 
 
+    public static int invert(int color){
+        int red = 255 - Color.red(color);
+        int green = 255 - Color.green(color);
+        int blue = 255 - Color.blue(color);
+        return Color.argb(Color.alpha(color), red, green, blue);
     }
 }

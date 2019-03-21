@@ -76,7 +76,8 @@ public enum LayerType {
             equalize.apply();
         }
     }),
-    COLORISE(new ILayerType() {
+
+    COLORIZE(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(R.layout.colorise_layout, R.id.optionID);
@@ -212,6 +213,58 @@ public enum LayerType {
 
             convolution.apply();
         }
+    }),
+
+    SKETCH(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(R.layout.sketch_layout, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Sketch(main, main.image);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Sketch sketch = (Sketch) main.layerFilter;
+            sketch.apply();
+        }
+    }),
+    GREY(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(R.layout.grey_layout, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Grey(main, main.image);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Grey grey = (Grey) main.layerFilter;
+            grey.apply();
+        }
+    }),
+    INVERT(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(R.layout.grey_layout, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Invert(main, main.image);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Invert invert = (Invert) main.layerFilter;
+            invert.apply();
+        }
     });
 
     private ILayerType type;
@@ -236,9 +289,9 @@ public enum LayerType {
 
     private static int getSeekBarProgress(MainActivity main, int id, boolean onlyImpair) {
         SeekBar bar = (SeekBar) main.findViewById(id);
-        if(onlyImpair){
+        if (onlyImpair) {
             return bar.getProgress() * 2 + 1;
-        }else{
+        } else {
             return bar.getProgress();
         }
     }
@@ -250,7 +303,7 @@ public enum LayerType {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 TextView text = (TextView) main.findViewById(textViewID);
 
-                if(onlyImpair)
+                if (onlyImpair)
                     text.setText("" + (i * 2 + 1));
                 else
                     text.setText("" + i);
@@ -295,12 +348,10 @@ public enum LayerType {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                return;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                return;
             }
         };
 

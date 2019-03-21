@@ -96,7 +96,7 @@ static float4 HSVToRGB(float3 hsv){
 }
 
 
-uchar4  RS_KERNEL  Colorise(uchar4 in, uint32_t x, uint32_t y) {
+uchar4  RS_KERNEL  Colorize(uchar4 in, uint32_t x, uint32_t y) {
     float4  pixelf = rsUnpackColor8888(in);
     float3 hsv = RGBToHSV(pixelf);
     hsv.x = hue;

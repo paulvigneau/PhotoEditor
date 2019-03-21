@@ -26,7 +26,7 @@ public class Convolution extends Filter {
 
     @Override
     public void apply() {
-        RenderScriptApply();
+        JavaApply();
     }
 
     private void JavaApply() {

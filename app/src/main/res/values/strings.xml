@@ -4,10 +4,13 @@
         <item>Brightness</item>
         <item>Contrast</item>
         <item>Equalize</item>
-        <item>Colorise</item>
+        <item>Colorize</item>
         <item>One Color</item>
         <item>Blurring</item>
         <item>Contour</item>
+        <item>Sketch</item>
+        <item>Grey</item>
+        <item>Invert</item>
     </string-array>
     <string-array name="blurring">
         <item>Averaging</item>

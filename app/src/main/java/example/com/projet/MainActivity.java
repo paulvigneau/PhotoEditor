@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         photoView = findViewById(R.id.imageID);
-        this.image = getImage(R.drawable.sun);
+        this.image = getImage(R.drawable.image);
 
         photoView.setImageBitmap(this.image.getBitmap());
 
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println(outputFileUri);
                     fOut = new FileOutputStream(sdImageMainDirectory);
 
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
                     fOut.flush();
                     fOut.close();
 
