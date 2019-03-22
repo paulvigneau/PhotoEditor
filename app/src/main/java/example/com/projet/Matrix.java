@@ -9,7 +9,7 @@ public enum Matrix {
 
             float[] matrix = new float[length * length];
 
-            double sigma = length / 2.35;
+            double sigma = length/2.35;
             float sum = 0;
 
             for (int y = 0; y < length; y++) {
