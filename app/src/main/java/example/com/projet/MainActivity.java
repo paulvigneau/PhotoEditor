@@ -191,9 +191,8 @@ public class MainActivity extends AppCompatActivity {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_CODE);
             } else {
-                // Get the Bitmap from the PhotoView
-                photoView.buildDrawingCache();
-                Bitmap bitmap = photoView.getDrawingCache();
+                // Get the Bitmap from the Image
+                Bitmap bitmap = this.layerFilter.getImageOut().getBitmap();
 
                 OutputStream fOut = null;
                 Uri outputFileUri;
@@ -201,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                     File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + "MySuperApp" + File.separator);
                     root.mkdirs();
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.FRANCE).format(new Date());
-                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
+                    String imageFileName = "PNG_" + timeStamp + ".png";
                     File sdImageMainDirectory = new File(root, imageFileName);
                     outputFileUri = Uri.fromFile(sdImageMainDirectory);
                     System.out.println(outputFileUri);
