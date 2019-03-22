@@ -265,6 +265,23 @@ public enum LayerType {
             Invert invert = (Invert) main.layerFilter;
             invert.apply();
         }
+    }),
+    SEPIA(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(-1, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Sepia(main, main.image);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Sepia sepia = (Sepia) main.layerFilter;
+            sepia.apply();
+        }
     });
 
     private ILayerType type;

@@ -118,4 +118,16 @@ public class ColorTools {
         int blue = 255 - Color.blue(color);
         return Color.argb(Color.alpha(color), red, green, blue);
     }
+
+    public static int sepia(int color){
+        double newRed = 0.393*Color.red(color) + 0.769*Color.green(color) + 0.189*Color.blue(color);
+        double newGreen = 0.349*Color.red(color) + 0.686*Color.green(color) + 0.168*Color.blue(color);
+        double newBlue = 0.272*Color.red(color) + 0.534*Color.green(color) + 0.131*Color.blue(color);
+        if(newRed>255) newRed=255;
+        if(newGreen>255) newGreen=255;
+        if(newBlue>255) newBlue=255;
+
+        return Color.argb(Color.alpha(color), (int) newRed, (int)newGreen,(int)newBlue);
+
+    }
 }

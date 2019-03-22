@@ -11,6 +11,7 @@
         <item>Sketch</item>
         <item>Grey</item>
         <item>Invert</item>
+        <item>Sepia</item>
     </string-array>
     <string-array name="blurring">
         <item>Averaging</item>
