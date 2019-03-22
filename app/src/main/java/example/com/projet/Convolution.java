@@ -7,6 +7,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_Blur;
+import com.android.rssample.ScriptC_Contour;
 
 public class Convolution extends Filter {
 
@@ -26,7 +27,7 @@ public class Convolution extends Filter {
 
     @Override
     public void apply() {
-        JavaApply();
+        RenderScriptApply();
     }
 
     private void JavaApply() {
@@ -99,41 +100,51 @@ public class Convolution extends Filter {
         Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());
         Allocation output = Allocation.createTyped(rs, input.getType());
 
-        ScriptC_Blur blurScript = new ScriptC_Blur(rs);
+        if (matrix == Matrix.PREWITT || matrix == Matrix.SOBEL) {
+            ScriptC_Contour contourScript = new ScriptC_Contour(rs);
 
-        System.out.println("color : " + super.imageSrc.getPixels()[0]);
+            contourScript.set_in(input);
+            contourScript.set_height(super.getImageSrc().getHeight());
+            contourScript.set_width(super.getImageSrc().getWidth());
+            Allocation matrixAlloc = Allocation.createSized(rs, Element.F32(rs), this.length * this.length);
+            matrixAlloc.copyFrom(this.matrix.getType().generate(this.length));
+            contourScript.bind_matrix(matrixAlloc);
+            contourScript.set_matrixSize(this.length);
 
-        blurScript.set_in(input);
-        blurScript.set_height(super.getImageSrc().getHeight());
-        blurScript.set_width(super.getImageSrc().getWidth());
-        Allocation matrixAlloc = Allocation.createSized(rs, Element.F32(rs), this.length * this.length);
-        matrixAlloc.copyFrom(this.matrix.getType().generate(this.length));
-        blurScript.bind_matrix(matrixAlloc);
-        blurScript.set_matrixSize(this.length);
+            contourScript.forEach_Blur(output);
 
-        System.out.println("size :" + blurScript.get_matrixSize());
+            Bitmap out = super.imageOut.getBitmap();
+            output.copyTo(out);
+            super.imageOut.setBitmap(out);
 
-        blurScript.forEach_Blur(output);
+            input.destroy();
+            output.destroy();
 
-        System.out.println("size :" + blurScript.get_matrixSize());
+            contourScript.destroy();
+            rs.destroy();
+        }else{
+            ScriptC_Blur blurScript = new ScriptC_Blur(rs);
 
-        float[] C = new float[this.length * this.length];
-        blurScript.get_matrix().copyTo(C);
-        for (int i = 0; i < C.length; i++) {
-            System.out.println("value " + i+": " + C[i]);
+            blurScript.set_in(input);
+            blurScript.set_height(super.getImageSrc().getHeight());
+            blurScript.set_width(super.getImageSrc().getWidth());
+            Allocation matrixAlloc = Allocation.createSized(rs, Element.F32(rs), this.length * this.length);
+            matrixAlloc.copyFrom(this.matrix.getType().generate(this.length));
+            blurScript.bind_matrix(matrixAlloc);
+            blurScript.set_matrixSize(this.length);
+
+            blurScript.forEach_Blur(output);
+
+            Bitmap out = super.imageOut.getBitmap();
+            output.copyTo(out);
+            super.imageOut.setBitmap(out);
+
+            input.destroy();
+            output.destroy();
+
+            blurScript.destroy();
+            rs.destroy();
         }
-
-        Bitmap out = super.imageOut.getBitmap();
-        output.copyTo(out);
-        super.imageOut.setBitmap(out);
-
-        System.out.println("color : " + super.imageOut.getPixels()[0]);
-
-        input.destroy();
-        output.destroy();
-
-        blurScript.destroy();
-        rs.destroy();
     }
 
     public Matrix getMatrix() {

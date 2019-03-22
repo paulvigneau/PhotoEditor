@@ -33,13 +33,6 @@ static float4 getValue(int indexX, int indexY){
             size += 1;
         }
     }
-/*
-    if(size != 0){
-        value.r = (float)(value.r / size);
-        value.g = (float)(value.g / size);
-        value.b = (float)(value.b / size);
-    }*/
-
     value.a = 255;
     return value;
 }

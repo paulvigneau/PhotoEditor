@@ -124,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         LayoutInflater inflater = getLayoutInflater();
+        if(id == -1)
+            return;
         this.layerView = inflater.inflate(id, (ViewGroup) findViewById(parent));
     }
 
