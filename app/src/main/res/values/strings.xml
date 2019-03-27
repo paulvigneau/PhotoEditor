@@ -12,6 +12,7 @@
         <item>Grey</item>
         <item>Invert</item>
         <item>Sepia</item>
+        <item>Pixelated</item>
     </string-array>
     <string-array name="blurring">
         <item>Averaging</item>
@@ -21,5 +22,7 @@
         <item>Sobel</item>
         <item>Prewitt</item>
         <item>Laplacien</item>
+        <item>Sharpen</item>
+        <item>Emboss</item>
     </string-array>
 </resources>

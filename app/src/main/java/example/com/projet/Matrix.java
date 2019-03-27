@@ -9,7 +9,7 @@ public enum Matrix {
 
             float[] matrix = new float[length * length];
 
-            double sigma = length/2.35;
+            double sigma = length / 2.35;
             float sum = 0;
 
             for (int y = 0; y < length; y++) {
@@ -42,7 +42,7 @@ public enum Matrix {
     LAPLACIAN(new IMatrix() {
         @Override
         public float[] generate(int length) {
-            return new float[] {0.f, 1.f, 0.f, 1.f, -4.f, 1.f, 0.f, 1.f, 0.f};
+            return new float[]{0.f, 1.f, 0.f, 1.f, -4.f, 1.f, 0.f, 1.f, 0.f};
         }
     }),
 
@@ -57,6 +57,20 @@ public enum Matrix {
         @Override
         public float[] generate(int length) {
             return create(1, length);
+        }
+    }),
+    SHARPEN(new IMatrix() {
+        @Override
+        public float[] generate(int length) {
+            return new float[]{1.f, 1.f, 1.f, 1.f, -7.f, 1.f, 1.f, 1.f, 1.f};
+
+        }
+    }),
+    EMBOSS(new IMatrix() {
+        @Override
+        public float[] generate(int length) {
+            return new float[]{-1.f, -1.f, 0.f, -1.f, 0.f, 1.f, 0.f, 1.f, 1.f};
+
         }
     });
 

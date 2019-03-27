@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         photoView = findViewById(R.id.imageID);
-        this.image = getImage(R.drawable.image);
+        this.image = getImage(R.drawable.img);
 
         photoView.setImageBitmap(this.image.getBitmap());
 
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         LayoutInflater inflater = getLayoutInflater();
-        if(id == -1)
+        if (id == -1)
             return;
         this.layerView = inflater.inflate(id, (ViewGroup) findViewById(parent));
     }

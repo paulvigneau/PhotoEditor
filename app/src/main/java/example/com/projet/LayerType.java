@@ -206,6 +206,12 @@ public enum LayerType {
                 case 2:
                     convolution.setMatrix(Matrix.LAPLACIAN);
                     break;
+                case 3:
+                    convolution.setMatrix((Matrix.SHARPEN));
+                    break;
+                case 4:
+                    convolution.setMatrix(Matrix.EMBOSS);
+                    break;
                 default:
                     break;
             }
@@ -281,6 +287,28 @@ public enum LayerType {
         public void applyLayer(MainActivity main) {
             Sepia sepia = (Sepia) main.layerFilter;
             sepia.apply();
+        }
+    }),
+    PIXELATE(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(R.layout.pixalate_layout, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Pixelate(main, main.image, 3);
+
+            updateText(main, R.id.blurring_size, R.id.blurring_text, true);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Pixelate pixel = (Pixelate) main.layerFilter;
+            pixel.setVal(getSeekBarProgress(main, R.id.blurring_size, true));
+
+            pixel.apply();
+
         }
     });
 
