@@ -26,6 +26,7 @@ public class Sketch extends Filter {
                 int grey = ColorTools.getGreyColor(pixels[ind]);
                 img1[ind] = Color.argb(255, grey, grey, grey);
                 img2[ind] = ColorTools.invert(img1[ind]);
+
             }
         }
         imageOut.setPixels(img2);
@@ -53,7 +54,8 @@ public class Sketch extends Filter {
                 if(blue>255) blue =255;
                 if(alpha>255) alpha =255;
 
-                out[ind] = Color.argb(alpha, red, green, blue);
+                //desaturation
+                out[ind] = ColorTools.desaturate(Color.argb(alpha, red, green, blue));
             }
         }
         imageOut.setPixels(out);

@@ -3,6 +3,7 @@ package example.com.projet;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.icu.text.Replaceable;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -142,6 +143,45 @@ public enum LayerType {
             oneColor.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
 
             oneColor.apply();
+        }
+    }),
+    REPLACE(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(R.layout.one_color_layout, R.id.optionID);
+
+            main.setImage(R.drawable.white, R.id.color_view);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Replace(main, main.image);
+
+            updateText(main, R.id.max_distance_value, R.id.distance_text, false);
+
+            updateColorView(main, R.id.color_view, R.id.contrast_value, R.id.green_value, R.id.blue_value);
+
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Replace replace = (Replace) main.layerFilter;
+
+            if (getCheckBoxSelect(main, R.id.one_color_random)) {
+                int red = (int) (Math.random() * 255);
+                int green = (int) (Math.random() * 255);
+                int blue = (int) (Math.random() * 255);
+                replace.setColor(Color.argb(255, red, green, blue));
+            } else {
+                int red = getSeekBarProgress(main, R.id.contrast_value, false);
+                int green = getSeekBarProgress(main, R.id.green_value, false);
+                int blue = getSeekBarProgress(main, R.id.blue_value, false);
+                replace.setColor(Color.argb(255, red, green, blue));
+            }
+
+            replace.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
+
+            replace.apply();
         }
     }),
     BLURRING(new ILayerType() {
