@@ -29,9 +29,9 @@ public class Equalize extends Filter {
         int[] pixels2 = imageOut.getPixels();
         for(int y =0; y< imageSrc.getHeight(); y++){
             for(int x=0; x < imageSrc.getWidth(); x++){
-                new_colorR = (CumuledHistogram[Color.red(pixels[x+y*imageSrc.getWidth()])] * 255) / size;
-                new_colorG = (CumuledHistogram[Color.green(pixels[x+y*imageSrc.getWidth()])] * 255) / size;
-                new_colorB = (CumuledHistogram[Color.blue(pixels[x+y*imageSrc.getWidth()])] * 255) / size;
+                new_colorR = (int)((long)(CumuledHistogram[Color.red(pixels[x+y*imageSrc.getWidth()])] * 255) / size);
+                new_colorG = (int)((long)(CumuledHistogram[Color.green(pixels[x+y*imageSrc.getWidth()])] * 255) / size);
+                new_colorB = (int)((long)(CumuledHistogram[Color.blue(pixels[x+y*imageSrc.getWidth()])] * 255) / size);
                 pixels2[x+y*imageSrc.getWidth()] = Color.argb(255, new_colorR, new_colorG, new_colorB);
             }
         }

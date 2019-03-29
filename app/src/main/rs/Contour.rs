@@ -8,10 +8,10 @@ int height;
 float *matrix;
 int matrixSize;
 
-float4 value[2];// = malloc(sizeof(float4) * 2);
+//float4 value[2];// = malloc(sizeof(float4) * 2);
 
-static void getValue(int indexX, int indexY){
-    //float4 value;
+static float4 *getValue(int indexX, int indexY){
+    float4 value[2];//(float4 *) malloc(sizeof(float4) * 2);
 
     indexX -= (int)(matrixSize / 2);
     indexY -= (int)(matrixSize / 2);
@@ -41,18 +41,17 @@ static void getValue(int indexX, int indexY){
             size += 1;
         }
     }
-    value[0].a = 255;
-    value[1].a = 255;
+    return value;
 }
 
 uchar4 RS_KERNEL Blur(uint32_t x, uint32_t y) {
-    getValue(x, y);
+    float4 *valeur = getValue(x, y);
 
     float4 color;
-    color.r = sqrt(value[0].r * value[0].r + value[1].r * value[1].r);
-    color.g = sqrt(value[0].g * value[0].g + value[1].g * value[1].g);
-    color.b = sqrt(value[0].b * value[0].b + value[1].b * value[1].b);
-    color.a = value[0].a;
+    color.r = sqrt(valeur[0].r * valeur[0].r + valeur[1].r * valeur[1].r);
+    color.g = sqrt(valeur[0].g * valeur[0].g + valeur[1].g * valeur[1].g);
+    color.b = sqrt(valeur[0].b * valeur[0].b + valeur[1].b * valeur[1].b);
+    color.a = 255;
 
-    return rsPackColorTo8888(color.r, color.g, color.b, color.a);
+    return rsPackColorTo8888(color.r, color.g, color.b, 1);
 }

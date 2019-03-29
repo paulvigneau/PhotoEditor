@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         photoView = findViewById(R.id.imageID);
-        this.image = getImage(R.drawable.img);
+        this.image = getImage(R.drawable.image);
 
         photoView.setImageBitmap(this.image.getBitmap());
 
@@ -96,6 +97,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 return;
+            }
+        });
+
+        photoView.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                System.out.println("X : " + dragEvent.getX());
+                System.out.println("Y : " + dragEvent.getY());
+                return true;
             }
         });
 

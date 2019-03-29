@@ -3,7 +3,9 @@ package example.com.projet;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.icu.text.Replaceable;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -119,8 +121,7 @@ public enum LayerType {
 
             updateText(main, R.id.max_distance_value, R.id.distance_text, false);
 
-            updateColorView(main, R.id.color_view, R.id.contrast_value, R.id.green_value, R.id.blue_value);
-
+            updateColorView(main, R.id.color_view, R.id.contrast_value, R.id.from_green_value, R.id.from_blue_value);
 
         }
 
@@ -135,8 +136,8 @@ public enum LayerType {
                 oneColor.setColor(Color.argb(255, red, green, blue));
             } else {
                 int red = getSeekBarProgress(main, R.id.contrast_value, false);
-                int green = getSeekBarProgress(main, R.id.green_value, false);
-                int blue = getSeekBarProgress(main, R.id.blue_value, false);
+                int green = getSeekBarProgress(main, R.id.from_green_value, false);
+                int blue = getSeekBarProgress(main, R.id.from_blue_value, false);
                 oneColor.setColor(Color.argb(255, red, green, blue));
             }
 
@@ -148,9 +149,10 @@ public enum LayerType {
     REPLACE(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.one_color_layout, R.id.optionID);
+            main.InflateLayer(R.layout.replace_color_layout, R.id.optionID);
 
-            main.setImage(R.drawable.white, R.id.color_view);
+            main.setImage(R.drawable.white, R.id.iconFrom);
+            main.setImage(R.drawable.white, R.id.iconTo);
         }
 
         @Override
@@ -159,25 +161,52 @@ public enum LayerType {
 
             updateText(main, R.id.max_distance_value, R.id.distance_text, false);
 
-            updateColorView(main, R.id.color_view, R.id.contrast_value, R.id.green_value, R.id.blue_value);
+            updateColorView(main, R.id.iconFrom, R.id.from_red_value, R.id.from_green_value, R.id.from_blue_value);
+            updateColorView(main, R.id.iconTo, R.id.to_red_value, R.id.to_green_value, R.id.to_blue_value);
 
+            final View fromView = main.findViewById(R.id.fromLayout);
+            final View toView = main.findViewById(R.id.toLayout);
+
+            TabLayout tab = (TabLayout) main.findViewById(R.id.replaceTab);
+            tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    if(tab.getPosition() == 0){
+                        fromView.setVisibility(View.VISIBLE);
+                        toView.setVisibility(View.INVISIBLE);
+                    }else{
+                        fromView.setVisibility(View.INVISIBLE);
+                        toView.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {}
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {}
+            });
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Replace replace = (Replace) main.layerFilter;
 
-            if (getCheckBoxSelect(main, R.id.one_color_random)) {
+            if (getCheckBoxSelect(main, R.id.replace_color_random)) {
                 int red = (int) (Math.random() * 255);
                 int green = (int) (Math.random() * 255);
                 int blue = (int) (Math.random() * 255);
-                replace.setColor(Color.argb(255, red, green, blue));
+                replace.setNewColor(Color.argb(255, red, green, blue));
             } else {
-                int red = getSeekBarProgress(main, R.id.contrast_value, false);
-                int green = getSeekBarProgress(main, R.id.green_value, false);
-                int blue = getSeekBarProgress(main, R.id.blue_value, false);
-                replace.setColor(Color.argb(255, red, green, blue));
+                int red = getSeekBarProgress(main, R.id.to_red_value, false);
+                int green = getSeekBarProgress(main, R.id.to_green_value, false);
+                int blue = getSeekBarProgress(main, R.id.to_blue_value, false);
+                replace.setNewColor(Color.argb(255, red, green, blue));
             }
+
+            int red = getSeekBarProgress(main, R.id.from_red_value, false);
+            int green = getSeekBarProgress(main, R.id.from_green_value, false);
+            int blue = getSeekBarProgress(main, R.id.from_blue_value, false);
+            replace.setColor(Color.argb(255, red, green, blue));
 
             replace.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
 
@@ -407,7 +436,8 @@ public enum LayerType {
         });
     }
 
-    private static void updateColorView(final MainActivity main, final int img, int red, int green, int blue) {
+
+    private static void updateColorView(final MainActivity main, final int imgFrom, int red, int green, int blue) {
         final SeekBar redBar = (SeekBar) main.findViewById(red);
         final SeekBar blueBar = (SeekBar) main.findViewById(blue);
         final SeekBar greenBar = (SeekBar) main.findViewById(green);
@@ -415,7 +445,7 @@ public enum LayerType {
         SeekBar.OnSeekBarChangeListener event = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                ImageView imgView = (ImageView) main.findViewById(img);
+                ImageView imgView = (ImageView) main.findViewById(imgFrom);
 
                 Bitmap map = ((BitmapDrawable) imgView.getDrawable()).getBitmap();
                 int R = redBar.getProgress();

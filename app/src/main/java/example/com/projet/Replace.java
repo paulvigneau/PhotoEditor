@@ -56,15 +56,15 @@ public class Replace extends Filter {
     }
     public int getNewColor(){return  newColor;}
 
-    public void setColor(int color) {
-        this.color = color;
-        int red = (int) (Math.random() * 255);
-        int green = (int) (Math.random() * 255);
-        int blue = (int) (Math.random() * 255);
-        this.newColor = Color.argb(255, red, green, blue);
+    public void setNewColor(int color) {
+        this.newColor = color;
     }
 
-        public void setThreshold(int threshold) {
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void setThreshold(int threshold) {
         this.threshold = threshold;
     }
 }
