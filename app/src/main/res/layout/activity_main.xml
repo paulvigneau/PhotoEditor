@@ -49,18 +49,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.github.chrisbanes.photoview.PhotoView
-                android:id="@+id/imageID"
-                android:layout_width="match_parent"
-                android:layout_height="600dp"
-                tools:srcCompat="@tools:sample/avatars" />
-
             <RelativeLayout
                 android:id="@+id/optionID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             </RelativeLayout>
+
+            <com.github.chrisbanes.photoview.PhotoView
+                android:id="@+id/imageID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:srcCompat="@tools:sample/avatars" />
 
         </LinearLayout>
     </ScrollView>

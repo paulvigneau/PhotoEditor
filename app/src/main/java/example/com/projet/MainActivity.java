@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -99,6 +100,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        photoView.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                System.out.println("X : " + dragEvent.getX());
+                System.out.println("Y : " + dragEvent.getY());
+                return true;
+            }
+        });
+
     }
 
     private Image getImage(int id) {
@@ -124,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         LayoutInflater inflater = getLayoutInflater();
-        if(id == -1)
+        if (id == -1)
             return;
         this.layerView = inflater.inflate(id, (ViewGroup) findViewById(parent));
     }

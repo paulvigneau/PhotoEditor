@@ -27,6 +27,7 @@ public class Convolution extends Filter {
 
     @Override
     public void apply() {
+        //RenderScriptApply();
         RenderScriptApply();
     }
 
@@ -51,7 +52,7 @@ public class Convolution extends Filter {
         } else {
             for (int y = 0; y < this.height; y++) {
                 for (int x = 0; x < this.width; x++) {
-                    int value[] = getValue(x, y,false);
+                    int value[] = getValue(x, y, false);
                     pixels[x + y * this.width] = Color.argb(255, (value[0]), (value[1]), (value[2]));
                 }
             }
@@ -61,7 +62,7 @@ public class Convolution extends Filter {
 
     public int[] getValue(int indexX, int indexY, boolean ps) {
         float value[];
-        if(ps) value = new float[6];
+        if (ps) value = new float[6];
         else value = new float[3];
         indexX -= this.length / 2;
         indexY -= this.length / 2;
@@ -79,8 +80,8 @@ public class Convolution extends Filter {
                 value[0] += Color.red(color) * mult;
                 value[1] += Color.green(color) * mult;
                 value[2] += Color.blue(color) * mult;
-                if(ps){
-                    size = y+x*this.length;
+                if (ps) {
+                    size = y + x * this.length;
                     mult = M[size];
                     value[3] += Color.red(color) * mult;
                     value[4] += Color.green(color) * mult;
@@ -89,7 +90,8 @@ public class Convolution extends Filter {
             }
         }
         int[] val;
-        if(ps) val = new int[]{(int) value[0], (int) value[1], (int) value[2],(int)value[3],(int)value[4],(int)value[5]};
+        if (ps)
+            val = new int[]{(int) value[0], (int) value[1], (int) value[2], (int) value[3], (int) value[4], (int) value[5]};
         else val = new int[]{(int) value[0], (int) value[1], (int) value[2]};
         return val;
     }
@@ -122,7 +124,7 @@ public class Convolution extends Filter {
 
             contourScript.destroy();
             rs.destroy();
-        }else{
+        } else {
             ScriptC_Blur blurScript = new ScriptC_Blur(rs);
 
             blurScript.set_in(input);
