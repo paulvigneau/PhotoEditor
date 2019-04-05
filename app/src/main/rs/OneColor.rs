@@ -12,8 +12,8 @@ uchar4  RS_KERNEL  OneColor(uchar4 in, uint32_t x, uint32_t y) {
     float newR = pixelf.r - red;
     float newG = pixelf.g - green;
     float newB = pixelf.b -blue;
-    float val = sqrt(newR*newR + newB*newB + newG*newG);
-    if( val > dist){
+    float length = sqrt(newR*newR + newB*newB + newG*newG);
+    if( length > dist){
         float grey = 0.3 * pixelf.r + 0.59 * pixelf.g + 0.11 * pixelf.b;
         pixelf.r = grey;
         pixelf.g = grey;

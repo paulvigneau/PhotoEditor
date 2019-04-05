@@ -3,7 +3,6 @@ package example.com.projet;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.view.View;
 import android.widget.CheckBox;
@@ -18,7 +17,7 @@ public enum LayerType {
         public void setInflacter(final MainActivity main) {
             main.InflateLayer(R.layout.brightness_layout, R.id.optionID);
 
-            updateText(main, R.id.brightness_value, R.id.brightness_value_text, false);
+            updateText(main, R.id.brightness_value, R.id.brightness_value_text, false, -50);
         }
 
         @Override
@@ -39,9 +38,7 @@ public enum LayerType {
     CONTRAST(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.contrast_layout, R.id.optionID);
-
-            updateText(main, R.id.contrast_value, R.id.contrast_text, false);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
@@ -119,7 +116,7 @@ public enum LayerType {
         public void generateLayer(MainActivity main) {
             main.layerFilter = new OneColor(main, main.image);
 
-            updateText(main, R.id.max_distance_value, R.id.distance_text, false);
+            updateText(main, R.id.max_distance_value, R.id.distance_text, false, 0);
 
             updateColorView(main, R.id.color_view, R.id.contrast_value, R.id.from_green_value, R.id.from_blue_value);
 
@@ -159,7 +156,7 @@ public enum LayerType {
         public void generateLayer(MainActivity main) {
             main.layerFilter = new Replace(main, main.image);
 
-            updateText(main, R.id.max_distance_value, R.id.distance_text, false);
+            updateText(main, R.id.max_distance_value, R.id.distance_text, false, 0);
 
             updateColorView(main, R.id.iconFrom, R.id.from_red_value, R.id.from_green_value, R.id.from_blue_value);
             updateColorView(main, R.id.iconTo, R.id.to_red_value, R.id.to_green_value, R.id.to_blue_value);
@@ -223,7 +220,7 @@ public enum LayerType {
         public void generateLayer(MainActivity main) {
             main.layerFilter = new Convolution(main, main.image);
 
-            updateText(main, R.id.blurring_size, R.id.blurring_text, true);
+            updateText(main, R.id.blurring_size, R.id.blurring_text, true, 0);
         }
 
         @Override
@@ -256,8 +253,6 @@ public enum LayerType {
         @Override
         public void generateLayer(MainActivity main) {
             main.layerFilter = new Convolution(main, main.image);
-
-            updateText(main, R.id.contour_size, R.id.contour_text, true);
         }
 
         @Override
@@ -368,13 +363,13 @@ public enum LayerType {
         public void generateLayer(MainActivity main) {
             main.layerFilter = new Pixelate(main, main.image, 3);
 
-            updateText(main, R.id.blurring_size, R.id.blurring_text, true);
+            updateText(main, R.id.blurring_size, R.id.blurring_text, true, 0);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Pixelate pixel = (Pixelate) main.layerFilter;
-            pixel.setVal(getSeekBarProgress(main, R.id.blurring_size, true));
+            pixel.setLength(getSeekBarProgress(main, R.id.blurring_size, true));
 
             pixel.apply();
 
@@ -410,18 +405,12 @@ public enum LayerType {
         }
     }
 
-    private static void updateText(final MainActivity main, int seekBarID, final int textViewID, final boolean onlyImpair) {
+    private static void updateText(final MainActivity main, int seekBarID, final int textViewID, final boolean onlyImpair, final int add) {
         SeekBar bar = (SeekBar) main.findViewById(seekBarID);
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                TextView text = (TextView) main.findViewById(textViewID);
-
-                if (onlyImpair)
-                    text.setText("" + (i * 2 + 1));
-                else
-                    text.setText("" + i);
-
+                changeValue(main,i, textViewID, onlyImpair, add);
             }
 
             @Override
@@ -434,6 +423,18 @@ public enum LayerType {
                 return;
             }
         });
+
+        //Initialize
+        changeValue(main, bar.getProgress(), textViewID, onlyImpair, add);
+    }
+
+    private static void changeValue(MainActivity main, int value, int textViewID, boolean onlyImpair, int add){
+        TextView text = (TextView) main.findViewById(textViewID);
+
+        if (onlyImpair)
+            text.setText("" + ((value * 2 + 1) + add));
+        else
+            text.setText("" + (value + add));
     }
 
 
@@ -445,20 +446,7 @@ public enum LayerType {
         SeekBar.OnSeekBarChangeListener event = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                ImageView imgView = (ImageView) main.findViewById(imgFrom);
-
-                Bitmap map = ((BitmapDrawable) imgView.getDrawable()).getBitmap();
-                int R = redBar.getProgress();
-                int G = greenBar.getProgress();
-                int B = blueBar.getProgress();
-
-                int[] pixels = new int[map.getHeight() * map.getWidth()];
-
-                for (int index = 0; index < pixels.length; index++) {
-                    pixels[index] = Color.argb(255, R, G, B);
-                }
-                map.setPixels(pixels, 0, map.getWidth(), 0, 0, map.getWidth(), map.getHeight());
-                imgView.setImageBitmap(map);
+                changeValue(main, imgFrom, redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress());
             }
 
             @Override
@@ -473,5 +461,20 @@ public enum LayerType {
         redBar.setOnSeekBarChangeListener(event);
         greenBar.setOnSeekBarChangeListener(event);
         blueBar.setOnSeekBarChangeListener(event);
+
+        changeValue(main, imgFrom, redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress());
+    }
+
+    private static void changeValue(MainActivity main, int imgFrom, int red, int green, int blue){
+        ImageView imgView = (ImageView) main.findViewById(imgFrom);
+
+        Bitmap map = ((BitmapDrawable) imgView.getDrawable()).getBitmap();
+        int[] pixels = new int[map.getHeight() * map.getWidth()];
+
+        for (int index = 0; index < pixels.length; index++) {
+            pixels[index] = Color.argb(255, red, green, blue);
+        }
+        map.setPixels(pixels, 0, map.getWidth(), 0, 0, map.getWidth(), map.getHeight());
+        imgView.setImageBitmap(map);
     }
 }
