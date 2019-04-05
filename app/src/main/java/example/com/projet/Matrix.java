@@ -43,7 +43,7 @@ public enum Matrix {
     LAPLACIAN(new IMatrix() {
         @Override
         public float[] generate(int length) {
-            return new float[]{0.f, 1.f, 0.f, 1.f, -4.f, 1.f, 0.f, 1.f, 0.f};
+            return new float[]{0.f, -1.f, 0.f, -1.f, 4.f, -1.f, 0.f, -1.f, 0.f};
         }
     }),
 
@@ -63,7 +63,7 @@ public enum Matrix {
     SHARPEN(new IMatrix() {
         @Override
         public float[] generate(int length) {
-            return new float[]{1.f, 1.f, 1.f, 1.f, -7.f, 1.f, 1.f, 1.f, 1.f};
+            return new float[]{0.f, -1.f, 0.f, -1.f, 5.f, -1.f, 0.f, -1.f, 0.f};
 
         }
     }),

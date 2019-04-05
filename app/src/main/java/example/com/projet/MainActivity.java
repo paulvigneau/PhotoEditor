@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public View layerView;
 
     public Image image;
+    public Image applyImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,25 +64,25 @@ public class MainActivity extends AppCompatActivity {
 
         photoView = findViewById(R.id.imageID);
         this.image = getImage(R.drawable.image);
+        this.applyImage = new Image(this.image);
 
         photoView.setImageBitmap(this.image.getBitmap());
 
-        Button applyButton = (Button) findViewById(R.id.applyID);
+        final Button applyButton = (Button) findViewById(R.id.applyID);
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 layerType.getType().applyLayer(MainActivity.this);
-
                 photoView.setImageBitmap(layerFilter.getImageOut().getBitmap());
             }
         });
 
-        Button resetButton = (Button) findViewById(R.id.resetID);
-        resetButton.setOnClickListener(new View.OnClickListener() {
+        Button undoButton = (Button) findViewById(R.id.undoID);
+        undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                photoView.setImageBitmap(image.getBitmap());
+                photoView.setImageBitmap(layerFilter.getImageSrc().getBitmap());
+                applyImage = new Image(layerFilter.getImageSrc());
             }
         });
 
@@ -128,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
         image.setImageBitmap(map);
     }
 
+    public void setApplyImage(){
+        this.applyImage = this.layerFilter.getImageOut();
+    }
+
     public void InflateLayer(int id, int parent) {
         if (this.layerView != null && this.layerView.getParent() != null) {
             ((ViewGroup) this.layerView).removeAllViews();
@@ -156,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.save_image:
                 savePictureToGallery();
                 return true;
+            case R.id.reset_image:
+                photoView.setImageBitmap(this.image.getBitmap());
+                this.applyImage = new Image(this.image);
         }
         return false;
     }

@@ -7,12 +7,10 @@ import example.com.projet.utils.ColorType;
 
 public class Contrast extends Filter {
     private int[] interval;
-    private int intensity;      //Valeur comprise entre 0 et 255
 
     public Contrast(MainActivity main, Image image) {
         super(main, image);
         this.interval = new int[]{0, 255};
-        this.intensity = 255;
     }
 
     /*@Override
@@ -85,15 +83,11 @@ public class Contrast extends Filter {
         imageOut.setPixels(newPixels);
     }
 
-   public void setIntensity(int intensity){
-       this.intensity = intensity;
-   }
-
     private int[] getLUT(int min, int max){
         int[] lut = new int[256];
 
         for(int index=0; index<256; index++){
-            lut[index] = (this.intensity * (index - min))/(max - min);
+            lut[index] = (255 * (index - min))/(max - min);
         }
         return lut;
     }

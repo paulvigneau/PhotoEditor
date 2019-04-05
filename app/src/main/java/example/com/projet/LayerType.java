@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.TabLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -22,7 +23,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Brightness(main, main.image);
+            main.layerFilter = new Brightness(main, main.applyImage);
         }
 
         @Override
@@ -33,6 +34,7 @@ public enum LayerType {
             brightness.setIntensity(getSeekBarProgress(main, R.id.brightness_value, false));
 
             brightness.apply();
+            main.setApplyImage();
         }
     }),
     CONTRAST(new ILayerType() {
@@ -43,7 +45,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Contrast(main, main.image);
+            main.layerFilter = new Contrast(main, main.applyImage);
         }
 
         @Override
@@ -51,10 +53,8 @@ public enum LayerType {
             Contrast contrast = (Contrast) main.layerFilter;
 
             //option
-            int level = getSeekBarProgress(main, R.id.contrast_value, false);
-            contrast.setIntensity(level);
-
             contrast.apply();
+            main.setApplyImage();
         }
     }),
     EQUALIZE(new ILayerType() {
@@ -65,7 +65,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Equalize(main, main.image);
+            main.layerFilter = new Equalize(main, main.applyImage);
         }
 
         @Override
@@ -74,6 +74,7 @@ public enum LayerType {
 
 
             equalize.apply();
+            main.setApplyImage();
         }
     }),
 
@@ -87,7 +88,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Colorize(main, main.image);
+            main.layerFilter = new Colorize(main, main.applyImage);
         }
 
         @Override
@@ -102,6 +103,7 @@ public enum LayerType {
             }
 
             colorize.apply();
+            main.setApplyImage();
         }
     }),
     ONE_COLOR(new ILayerType() {
@@ -114,7 +116,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new OneColor(main, main.image);
+            main.layerFilter = new OneColor(main, main.applyImage);
 
             updateText(main, R.id.max_distance_value, R.id.distance_text, false, 0);
 
@@ -141,6 +143,7 @@ public enum LayerType {
             oneColor.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
 
             oneColor.apply();
+            main.setApplyImage();
         }
     }),
     REPLACE(new ILayerType() {
@@ -154,7 +157,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Replace(main, main.image);
+            main.layerFilter = new Replace(main, main.applyImage);
 
             updateText(main, R.id.max_distance_value, R.id.distance_text, false, 0);
 
@@ -208,6 +211,7 @@ public enum LayerType {
             replace.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
 
             replace.apply();
+            main.setApplyImage();
         }
     }),
     BLURRING(new ILayerType() {
@@ -217,10 +221,28 @@ public enum LayerType {
         }
 
         @Override
-        public void generateLayer(MainActivity main) {
-            main.layerFilter = new Convolution(main, main.image);
+        public void generateLayer(final MainActivity main) {
+            main.layerFilter = new Convolution(main, main.applyImage);
 
             updateText(main, R.id.blurring_size, R.id.blurring_text, true, 0);
+
+            Spinner spinner = (Spinner)main.findViewById(R.id.blurring_menu);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    View sizeView = main.findViewById(R.id.sizeLayout);
+                    if(i == 2){
+                        sizeView.setVisibility(View.INVISIBLE);
+                    }else{
+                        sizeView.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
         }
 
         @Override
@@ -235,6 +257,9 @@ public enum LayerType {
                 case 1:
                     convolution.setMatrix(Matrix.GAUSSIAN);
                     break;
+                case 2:
+                    convolution.setMatrix((Matrix.SHARPEN));
+                    break;
                 default:
                     break;
             }
@@ -242,6 +267,7 @@ public enum LayerType {
 
 
             convolution.apply();
+            main.setApplyImage();
         }
     }),
     CONTOUR(new ILayerType() {
@@ -252,7 +278,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Convolution(main, main.image);
+            main.layerFilter = new Convolution(main, main.applyImage);
         }
 
         @Override
@@ -271,9 +297,6 @@ public enum LayerType {
                     convolution.setMatrix(Matrix.LAPLACIAN);
                     break;
                 case 3:
-                    convolution.setMatrix((Matrix.SHARPEN));
-                    break;
-                case 4:
                     convolution.setMatrix(Matrix.EMBOSS);
                     break;
                 default:
@@ -282,6 +305,7 @@ public enum LayerType {
             convolution.setLength(3);
 
             convolution.apply();
+            main.setApplyImage();
         }
     }),
 
@@ -293,13 +317,14 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Sketch(main, main.image);
+            main.layerFilter = new Sketch(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Sketch sketch = (Sketch) main.layerFilter;
             sketch.apply();
+            main.setApplyImage();
         }
     }),
     GREY(new ILayerType() {
@@ -310,13 +335,14 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Grey(main, main.image);
+            main.layerFilter = new Grey(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Grey grey = (Grey) main.layerFilter;
             grey.apply();
+            main.setApplyImage();
         }
     }),
     INVERT(new ILayerType() {
@@ -327,13 +353,14 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Invert(main, main.image);
+            main.layerFilter = new Invert(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Invert invert = (Invert) main.layerFilter;
             invert.apply();
+            main.setApplyImage();
         }
     }),
     SEPIA(new ILayerType() {
@@ -344,13 +371,14 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Sepia(main, main.image);
+            main.layerFilter = new Sepia(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Sepia sepia = (Sepia) main.layerFilter;
             sepia.apply();
+            main.setApplyImage();
         }
     }),
     PIXELATE(new ILayerType() {
@@ -361,7 +389,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Pixelate(main, main.image, 3);
+            main.layerFilter = new Pixelate(main, main.applyImage, 3);
 
             updateText(main, R.id.blurring_size, R.id.blurring_text, true, 0);
         }
@@ -372,6 +400,7 @@ public enum LayerType {
             pixel.setLength(getSeekBarProgress(main, R.id.blurring_size, true));
 
             pixel.apply();
+            main.setApplyImage();
 
         }
     }),
@@ -384,13 +413,14 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Mirror(main, main.image);
+            main.layerFilter = new Mirror(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Mirror miror= (Mirror) main.layerFilter;
             miror.apply();
+            main.setApplyImage();
         }
     }),
     CARTOON(new ILayerType() {
@@ -401,13 +431,14 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Cartoon(main, main.image);
+            main.layerFilter = new Cartoon(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Cartoon cartoon= (Cartoon) main.layerFilter;
             cartoon.apply();
+            main.setApplyImage();
         }
     });
 
