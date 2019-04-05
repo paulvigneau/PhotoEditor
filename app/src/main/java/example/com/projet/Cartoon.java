@@ -10,6 +10,22 @@ public class Cartoon extends Filter {
         super(main, image);
     }
 
+
+    public int[] createReducLUT(int nbColor) {
+        int[] LUT = new int[256];
+        int decalage = 256 / nbColor;
+        int threesold = decalage;
+        int newValue = decalage / 2;
+        for (int ind = 0; ind < 256; ind++) {
+            LUT[ind] = newValue;
+            if (ind == threesold) {
+                threesold += decalage;
+                newValue += decalage;
+            }
+        }
+        return LUT;
+    }
+
     public void apply() {
 
         int[] pixels = imageSrc.getPixels();
@@ -17,13 +33,13 @@ public class Cartoon extends Filter {
         int[] out = new int[imageSrc.getHeight() * imageSrc.getWidth()];
         // out : reduce nb of colors
         // greytab = grey scale
+        int[] LUT = createReducLUT(5);
         for (int i = 0; i < imageSrc.getHeight() * imageSrc.getWidth(); i++) {
-            int red = Color.red(pixels[i]);
-            int green = Color.green(pixels[i]);
-            int blue = Color.blue((pixels[i]));
-            if (red % 2 == 1) red--;
-            if (blue % 2 == 1) blue--;
-            if (green % 2 == 1) green--;
+
+            int red = LUT[Color.red(pixels[i])];
+            int green = LUT[Color.green(pixels[i])];
+            int blue = LUT[Color.blue((pixels[i]))];
+
             out[i] = Color.argb(Color.alpha(pixels[i]), red, green, blue);
             int grey = ColorTools.getGreyColor(pixels[i]);
             tabgrey[i] = Color.argb(Color.alpha(pixels[i]), grey, grey, grey);
@@ -35,29 +51,50 @@ public class Cartoon extends Filter {
         convo.setLength(3);
         convo.apply();
         tabgrey = convo.imageOut.getPixels();
+        int[] newTab = new int[imageSrc.getWidth()* imageSrc.getHeight()];
 
+        //epaississement des contours
+        for(int y =2; y< imageSrc.getHeight()-2; y++){
+            for(int x=2; x<imageSrc.getWidth()-2; x++){
+                int i = x+y*imageSrc.getWidth();
+                int red = Color.red(tabgrey[i]);
+                int green = Color.green(tabgrey[i]);
+                int blue = Color.blue((tabgrey[i]));
+                if(red > 127 && green > 127 && blue > 127){
+
+                    newTab[i] = tabgrey[i];
+                    newTab[i-1]=tabgrey[i];
+                    newTab[i+1]=tabgrey[i];
+
+                    newTab[i-1-imageSrc.getWidth()]=tabgrey[i];
+                    newTab[i+1-imageSrc.getWidth()]=tabgrey[i];
+                    newTab[i-imageSrc.getWidth()]=tabgrey[i];
+
+                    newTab[i-1+imageSrc.getWidth()]=tabgrey[i];
+                    newTab[i+1+imageSrc.getWidth()]=tabgrey[i];
+                    newTab[i+imageSrc.getWidth()]=tabgrey[i];
+
+                }else{
+                    newTab[i]= tabgrey[i];
+                }
+            }
+        }
+        tabgrey =newTab;
         // threasold image to binary in greytab
         for (int i = 0; i < imageSrc.getHeight() * imageSrc.getWidth(); i++) {
             int red = Color.red(tabgrey[i]);
             int green = Color.green(tabgrey[i]);
             int blue = Color.blue((tabgrey[i]));
-            if (red >0)  red = 255;
-            if (green >0)  green = 255;
-            if (blue >0)  blue = 255;
-
-            tabgrey[i] = Color.argb(Color.alpha(tabgrey[i]), red, green, blue);
-        }
-
-        // combine greytab and out
-        for (int i = 0; i < imageSrc.getHeight() * imageSrc.getWidth(); i++) {
-            int newRed = Math.max(Color.red(tabgrey[i]),Color.red(out[i]) ) ;
-            int newGreen = Math.max(Color.green(tabgrey[i]),Color.green(out[i]))  ;
-            int newBlue = Math.max(Color.blue(tabgrey[i]),Color.blue(out[i]) ) ;
-          /*  if(newRed>255) newRed=255;
-            if(newGreen>255) newGreen=255;
-            if(newBlue>255) newBlue=255;*/
-            out[i]=Color.argb(255,newRed,newGreen,newBlue);
-
+            if (red < 127 && green < 127 && blue < 127) {
+                red = Color.red(out[i]);
+                green = Color.green(out[i]);
+                blue = Color.blue(out[i]);
+            } else {
+                red = 0;
+                green = 0;
+                blue = 0;
+            }
+            out[i] = Color.argb(Color.alpha(out[i]), red, green, blue);
         }
         imageOut.setPixels(out);
     }
