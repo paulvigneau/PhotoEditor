@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public enum LayerType {
     BRIGHTNESS(new ILayerType() {
@@ -60,7 +61,7 @@ public enum LayerType {
     EQUALIZE(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.equalize_layout, R.id.optionID);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
@@ -312,7 +313,7 @@ public enum LayerType {
     SKETCH(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.sketch_layout, R.id.optionID);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
@@ -330,7 +331,7 @@ public enum LayerType {
     GREY(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.grey_layout, R.id.optionID);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
@@ -348,7 +349,7 @@ public enum LayerType {
     INVERT(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.grey_layout, R.id.optionID);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
@@ -408,7 +409,7 @@ public enum LayerType {
     MIRROR(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(-1, R.id.optionID);
+            main.InflateLayer(R.layout.miror_layout, R.id.optionID);
         }
 
         @Override
@@ -419,6 +420,10 @@ public enum LayerType {
         @Override
         public void applyLayer(MainActivity main) {
             Mirror miror= (Mirror) main.layerFilter;
+
+            ToggleButton toggle = (ToggleButton)main.findViewById(R.id.mirorToggle);
+            miror.setOrientation(toggle.isChecked());
+
             miror.apply();
             main.setApplyImage();
         }

@@ -17,7 +17,7 @@ public class Invert extends Filter {
 
     @Override
     public void apply(){
-        JavaApply();
+        applyRS();
     }
 
     public void applyRS() {
