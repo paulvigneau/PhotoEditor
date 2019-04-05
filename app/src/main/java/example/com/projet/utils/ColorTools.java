@@ -130,24 +130,4 @@ public class ColorTools {
         return Color.argb(Color.alpha(color), (int) newRed, (int)newGreen,(int)newBlue);
     }
 
-    public static int desaturate (int color){
-        double average = (Math.min(Color.red(color), Math.min(Color.green(color), Color.blue(color))) + Math.max(Color.red(color), Math.max(Color.green(color), Color.blue(color)))) * 0.5f;
-
-       // double average = 0.21*Color.red(color) + 0.72 * Color.green(color) + 0.07 *Color.blue(color);
-        return Color.argb(Color.alpha(color), (int)average,(int)average,(int)average);
-    }
-
-    public static int power(int color, double pow){
-        double red = Math.pow(Color.red(color),pow);
-        double green = Math.pow(Color.green(color),pow);
-        double blue = Math.pow(Color.blue(color),pow);
-        double alpha = Math.pow(Color.alpha(color),pow);
-
-        if(red>255) red = 255;
-        if(green>255) green = 255;
-        if(blue>255) blue = 255;
-        if(alpha>255) alpha = 255;
-
-        return Color.argb((int)alpha, (int)red, (int)green,(int)blue);
-    }
 }
