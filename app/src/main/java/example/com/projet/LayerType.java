@@ -374,6 +374,41 @@ public enum LayerType {
             pixel.apply();
 
         }
+    }),
+
+    MIRROR(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(-1, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Mirror(main, main.image);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Mirror miror= (Mirror) main.layerFilter;
+            miror.apply();
+        }
+    }),
+    CARTOON(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(-1, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Cartoon(main, main.image);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Cartoon cartoon= (Cartoon) main.layerFilter;
+            cartoon.apply();
+        }
     });
 
     private ILayerType type;

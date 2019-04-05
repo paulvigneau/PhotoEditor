@@ -16,6 +16,7 @@ public enum Matrix {
                 for (int x = 0; x < length; x++) {
                     matrix[x + y * length] = (float) (Math.exp(-(((x - n) * (x - n) + (y - n) * (y - n)) / (2 * sigma * sigma))) / (Math.sqrt(2 * Math.PI * sigma * sigma)));
                     sum += matrix[x + y * length];
+                    System.out.println(matrix[x+y*length]);
                 }
             }
             for (int ind = 0; ind < length * length; ind++) {
