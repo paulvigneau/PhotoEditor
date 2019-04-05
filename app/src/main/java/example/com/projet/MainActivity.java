@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(currentPhotoPath));
                     this.photoView.setImageBitmap(bitmap);
                     this.image = new Image(bitmap);
+                    this.applyImage = new Image(this.image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -295,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
                 // Set the image in ImageView
                 this.photoView.setImageURI(selectedImageUri);
                 this.image = new Image(((BitmapDrawable) this.photoView.getDrawable()).getBitmap());
+                this.applyImage = new Image(this.image);
             }
             this.layerType.getType().generateLayer(this);
         }
