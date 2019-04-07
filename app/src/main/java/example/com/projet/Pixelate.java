@@ -12,7 +12,12 @@ public class Pixelate extends Filter {
     }
 
     @Override
-    public void apply() {
+    protected void applyRenderScript(){
+        showAlert();
+    }
+
+    @Override
+    protected void applyJava() {
         int n = (length - 1) / 2;
         int[] pixels = this.imageSrc.getPixels();
         int[] out = this.imageOut.getPixels();

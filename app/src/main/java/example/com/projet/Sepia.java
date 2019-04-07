@@ -15,11 +15,7 @@ public class Sepia extends Filter {
     }
 
     @Override
-    public void apply() {
-        applyRS();
-    }
-
-    public void JavaApply() {
+    protected void applyJava() {
 
         int[] pixels = super.imageSrc.getPixels();
         int[] out = super.imageOut.getPixels();
@@ -32,7 +28,8 @@ public class Sepia extends Filter {
         super.imageOut.setPixels(out);
     }
 
-    public void applyRS() {
+    @Override
+    protected void applyRenderScript() {
         RenderScript rs = RenderScript.create(super.main);
 
         Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());

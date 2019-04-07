@@ -21,10 +21,7 @@ public class OneColor extends Filter {
     }
 
     @Override
-    public void apply() {
-        applyRS();
-    }
-    public void applyJava(){
+    protected void applyJava(){
         int[] oldpixels = imageSrc.getPixels();
         int[] pixels = imageOut.getPixels();
 
@@ -51,7 +48,8 @@ public class OneColor extends Filter {
         imageOut.setPixels(pixels);
     }
 
-    public void applyRS(){
+    @Override
+    protected void applyRenderScript(){
         RenderScript rs = RenderScript.create(super.main);
 
         Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());

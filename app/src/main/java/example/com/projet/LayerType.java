@@ -28,13 +28,13 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Brightness brightness = (Brightness) main.layerFilter;
 
             //option
             brightness.setIntensity(getSeekBarProgress(main, R.id.brightness_value, false));
 
-            brightness.apply();
+            brightness.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -50,11 +50,11 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Contrast contrast = (Contrast) main.layerFilter;
 
             //option
-            contrast.apply();
+            contrast.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -70,11 +70,11 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Equalize equalize = (Equalize) main.layerFilter;
 
 
-            equalize.apply();
+            equalize.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -93,7 +93,7 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Colorize colorize = (Colorize) main.layerFilter;
 
             //option
@@ -103,7 +103,7 @@ public enum LayerType {
                 colorize.setHue(getSeekBarProgress(main, R.id.hue_value, false));
             }
 
-            colorize.apply();
+            colorize.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -126,7 +126,7 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             OneColor oneColor = (OneColor) main.layerFilter;
 
             if (getCheckBoxSelect(main, R.id.one_color_random)) {
@@ -143,7 +143,7 @@ public enum LayerType {
 
             oneColor.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
 
-            oneColor.apply();
+            oneColor.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -189,7 +189,7 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Replace replace = (Replace) main.layerFilter;
 
             if (getCheckBoxSelect(main, R.id.replace_color_random)) {
@@ -211,7 +211,7 @@ public enum LayerType {
 
             replace.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
 
-            replace.apply();
+            replace.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -247,7 +247,7 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Convolution convolution = (Convolution) main.layerFilter;
 
             //option
@@ -267,7 +267,7 @@ public enum LayerType {
             convolution.setLength(getSeekBarProgress(main, R.id.blurring_size, true));
 
 
-            convolution.apply();
+            convolution.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -283,7 +283,7 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Convolution convolution = (Convolution) main.layerFilter;
 
             //option
@@ -305,7 +305,7 @@ public enum LayerType {
             }
             convolution.setLength(3);
 
-            convolution.apply();
+            convolution.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -322,9 +322,9 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Sketch sketch = (Sketch) main.layerFilter;
-            sketch.apply();
+            sketch.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -340,9 +340,9 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Grey grey = (Grey) main.layerFilter;
-            grey.apply();
+            grey.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -358,9 +358,9 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Invert invert = (Invert) main.layerFilter;
-            invert.apply();
+            invert.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -376,9 +376,9 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Sepia sepia = (Sepia) main.layerFilter;
-            sepia.apply();
+            sepia.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -396,11 +396,11 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Pixelate pixel = (Pixelate) main.layerFilter;
             pixel.setLength(getSeekBarProgress(main, R.id.blurring_size, true));
 
-            pixel.apply();
+            pixel.apply(inRenderScript);
             main.setApplyImage();
 
         }
@@ -418,13 +418,13 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Mirror miror= (Mirror) main.layerFilter;
 
             ToggleButton toggle = (ToggleButton)main.findViewById(R.id.mirorToggle);
             miror.setOrientation(toggle.isChecked());
 
-            miror.apply();
+            miror.apply(inRenderScript);
             main.setApplyImage();
         }
     }),
@@ -440,9 +440,9 @@ public enum LayerType {
         }
 
         @Override
-        public void applyLayer(MainActivity main) {
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
             Cartoon cartoon= (Cartoon) main.layerFilter;
-            cartoon.apply();
+            cartoon.apply(inRenderScript);
             main.setApplyImage();
         }
     });

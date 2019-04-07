@@ -25,13 +25,7 @@ public class Convolution extends Filter {
         this.length = 3;
     }
 
-    @Override
-    public void apply() {
-        //RenderScriptApply();
-        RenderScriptApply();
-    }
-
-    private void JavaApply() {
+    protected void applyJava() {
         this.oldpixels = super.imageSrc.getPixels();
         this.width = super.imageSrc.getWidth();
         this.height = super.imageSrc.getHeight();
@@ -96,7 +90,8 @@ public class Convolution extends Filter {
         return val;
     }
 
-    private void RenderScriptApply() {
+    @Override
+    protected void applyRenderScript() {
         RenderScript rs = RenderScript.create(super.main);
 
         Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());

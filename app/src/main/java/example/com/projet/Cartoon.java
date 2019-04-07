@@ -26,8 +26,8 @@ public class Cartoon extends Filter {
         return LUT;
     }
 
-    public void apply() {
-
+    @Override
+    protected void applyJava(){
         int[] pixels = imageSrc.getPixels();
         int[] tabgrey = new int[imageSrc.getHeight() * imageSrc.getWidth()];
         int[] out = new int[imageSrc.getHeight() * imageSrc.getWidth()];
@@ -49,7 +49,7 @@ public class Cartoon extends Filter {
         Convolution convo = new Convolution(super.main, this.imageOut);
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);
-        convo.apply();
+        convo.apply(true);
         tabgrey = convo.imageOut.getPixels();
         int[] newTab = new int[imageSrc.getWidth()* imageSrc.getHeight()];
 
@@ -97,5 +97,11 @@ public class Cartoon extends Filter {
             out[i] = Color.argb(Color.alpha(out[i]), red, green, blue);
         }
         imageOut.setPixels(out);
+    }
+
+    @Override
+    protected void applyRenderScript() {
+        showAlert();
+
     }
 }

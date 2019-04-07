@@ -2,6 +2,7 @@ package example.com.projet;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -28,6 +29,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PhotoView photoView;
 
+    public boolean inRenderScript;
     public LayerType layerType;
     public Filter layerFilter;
     public View layerView;
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         photoView = findViewById(R.id.imageID);
         this.image = getImage(R.drawable.image);
         this.applyImage = new Image(this.image);
+        this.inRenderScript = false;
 
         photoView.setImageBitmap(this.image.getBitmap());
         histogram = new HistogramView((ImageView)findViewById(R.id.histogram));
@@ -77,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                layerType.getType().applyLayer(MainActivity.this);
+                layerType.getType().applyLayer(MainActivity.this, inRenderScript);
                 photoView.setImageBitmap(layerFilter.getImageOut().getBitmap());
             }
         });
@@ -179,17 +183,22 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.load_galery:
                 takePictureFromGallery();
-                return true;
+                break;
             case R.id.load_camera:
                 takePictureFromCamera();
-                return true;
+                break;
             case R.id.save_image:
                 savePictureToGallery();
-                return true;
+                break;
             case R.id.reset_image:
                 photoView.setImageBitmap(this.image.getBitmap());
                 this.applyImage = new Image(this.image);
                 this.layerFilter.setImageSrc(this.applyImage);
+                break;
+            case R.id.rs_checkbox:
+                this.inRenderScript = !item.isChecked();
+                item.setChecked(this.inRenderScript);
+                break;
         }
         return false;
     }

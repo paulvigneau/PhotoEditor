@@ -5,5 +5,5 @@ public interface ILayerType {
 
     void generateLayer(final MainActivity main);
 
-    void applyLayer(final MainActivity main);
+    void applyLayer(final MainActivity main, boolean inRenderScript);
 }

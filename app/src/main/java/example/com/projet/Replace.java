@@ -21,7 +21,12 @@ public class Replace extends Filter {
     }
 
     @Override
-    public void apply(){
+    protected void applyJava(){
+        showAlert();
+    }
+
+    @Override
+    public void applyRenderScript(){
        RenderScript rs = RenderScript.create(super.main);
 
         Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());

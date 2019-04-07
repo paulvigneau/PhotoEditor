@@ -16,11 +16,7 @@ public class Invert extends Filter {
     }
 
     @Override
-    public void apply(){
-        applyRS();
-    }
-
-    public void applyRS() {
+    public void applyRenderScript() {
         RenderScript rs = RenderScript.create(super.main);
 
         Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());
@@ -41,7 +37,8 @@ public class Invert extends Filter {
         rs.destroy();
     }
 
-    public void JavaApply(){
+    @Override
+    public void applyJava(){
         int[] pixels = super.imageSrc.getPixels();
         int[] out = super.imageOut.getPixels();
         for (int y = 0; y < super.imageSrc.getHeight(); y++) {

@@ -18,18 +18,11 @@ public class Brightness extends Filter {
     }
 
     @Override
-    public void apply() {
+    protected void applyJava() {
         int width = super.imageSrc.getWidth();
         int height = super.imageSrc.getHeight();
 
         int[] newPixels = new int[width * height];
-
-        applyRenderScript();
-        //applyJava(newPixels);
-
-    }
-
-    private void applyJava(int[] newPixels) {
         int[] oldPixels = super.imageSrc.getPixels();
         float hsv[] = new float[3];
 
@@ -51,8 +44,8 @@ public class Brightness extends Filter {
         return value;
     }
 
-
-    private void applyRenderScript() {
+    @Override
+    protected void applyRenderScript() {
         RenderScript rs = RenderScript.create(super.main);
 
         Allocation input = Allocation.createFromBitmap(rs, super.imageSrc.getBitmap());

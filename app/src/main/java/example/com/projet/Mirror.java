@@ -36,9 +36,14 @@ public class Mirror extends  Filter {
         super.imageOut.setPixels(out);
     }*/
 
+    @Override
+    protected void applyRenderScript(){
+        showAlert();
+    }
+
     //Inverse de gauche à droite.
     @Override
-    public void apply() {
+    protected void applyJava() {
         if(this.orientation){
             applyHorizontal();
         }else{

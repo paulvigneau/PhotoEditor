@@ -18,12 +18,7 @@ public class Sketch extends Filter {
     }
 
     @Override
-    public void apply() {
-        applyRS();
-    }
-
-
-    public void JavaApply() {
+    protected void applyJava() {
         int[] img1 = new int[this.imageSrc.getWidth() * imageSrc.getHeight()];
         int ind;
         int[] pixels = imageSrc.getPixels();
@@ -40,7 +35,7 @@ public class Sketch extends Filter {
         Convolution convo = new Convolution(super.main, this.imageOut);
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);
-        convo.apply();
+        convo.apply(true);
         int[] img2 = convo.imageOut.getPixels();
 
         int[] out = super.imageOut.getPixels();
@@ -54,7 +49,8 @@ public class Sketch extends Filter {
         imageOut.setPixels(out);
     }
 
-    public void applyRS() {
+    @Override
+    protected void applyRenderScript() {
         int[] img1 = new int[this.imageSrc.getWidth() * imageSrc.getHeight()];
         int ind;
         int[] pixels = imageSrc.getPixels();

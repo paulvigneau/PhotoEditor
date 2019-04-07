@@ -11,7 +11,12 @@ public class Equalize extends Filter {
     }
 
     @Override
-    public void apply() {
+    protected void applyRenderScript(){
+        showAlert();
+    }
+
+    @Override
+    protected void applyJava() {
         int[] histogram = Histogram.createHistogram(super.imageSrc, ColorType.GREY);
         int[] CumuledHistogram = new int[256];
         for(int ind =0; ind< 256; ind++){

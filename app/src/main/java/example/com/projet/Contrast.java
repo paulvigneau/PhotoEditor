@@ -13,42 +13,13 @@ public class Contrast extends Filter {
         this.interval = new int[]{0, 255};
     }
 
-    /*@Override
-    public void apply() {
-        int width = super.imageSrc.getWidth();
-        int height = super.imageSrc.getHeight();
-
-        int[] newPixels = new int[width * height];
-
-        applyJava(newPixels);
-
+    @Override
+    protected void applyRenderScript(){
+        showAlert();
     }
-
-    private void applyJava(int[] newPixels){
-        int[] oldPixels = super.imageSrc.getPixels();
-        float hsv[] = new float[3];
-        for(int index = 0; index < oldPixels.length; index++){
-            //Color.colorToHSV(oldPixels[index], hsv);      //Pour test performance
-            ColorTools.RGBToHSV(oldPixels[index], hsv); // #Ne fonctionne pas pour hsv[2], revoir le calcul.
-            hsv[2] = modifiedHSV(hsv[2]);
-            newPixels[index] = ColorTools.HSVToRGB(hsv);// #Ne fonctionne pas pour hsv[2], revoir le calcul.
-            //newPixels[index] = Color.HSVToColor(hsv);     //Pour test performance
-        }
-        super.imageOut.setPixels(newPixels);
-    }
-
-    private float modifiedHSV(float hsv){
-        hsv -= -(this.intensity/100f - 0.5);
-        if(hsv < 0.01f)
-            hsv = 0.01f;
-        if(hsv > 0.99f)
-            hsv = 0.99f;
-
-        return hsv;
-    }*/
 
     @Override
-    public void apply() {
+    protected void applyJava() {
         int[] oldPixels = imageSrc.getPixels();
         int[] newPixels = imageOut.getPixels();
 
