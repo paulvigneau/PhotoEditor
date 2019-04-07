@@ -8,7 +8,7 @@ import android.renderscript.RenderScript;
 import com.android.rssample.ScriptC_Saturation;
 
 public class Saturation extends Filter {
-    private int intensity;      //Valeur comprise entre 0 et 100
+    private int intensity;
 
     public Saturation(MainActivity main, Image image) {
         super(main, image);
