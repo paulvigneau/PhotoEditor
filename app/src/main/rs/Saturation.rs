@@ -2,6 +2,7 @@
 #pragma  rs  java_package_name(com.android.rssample)
 
 //static  const  float4  weight = {0.299f, 0.587f, 0.114f, 0.0f};
+
 float saturation;
 
 static float3 RGBToHSV(float4 color) {
