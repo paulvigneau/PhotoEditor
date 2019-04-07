@@ -3,14 +3,15 @@ package example.com.projet;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public enum LayerType {
     BRIGHTNESS(new ILayerType() {
@@ -18,12 +19,12 @@ public enum LayerType {
         public void setInflacter(final MainActivity main) {
             main.InflateLayer(R.layout.brightness_layout, R.id.optionID);
 
-            updateText(main, R.id.brightness_value, R.id.brightness_value_text, false);
+            updateText(main, R.id.brightness_value, R.id.brightness_value_text, false, -50);
         }
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Brightness(main, main.image);
+            main.layerFilter = new Brightness(main, main.applyImage);
         }
 
         @Override
@@ -34,19 +35,18 @@ public enum LayerType {
             brightness.setIntensity(getSeekBarProgress(main, R.id.brightness_value, false));
 
             brightness.apply();
+            main.setApplyImage();
         }
     }),
     CONTRAST(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.contrast_layout, R.id.optionID);
-
-            updateText(main, R.id.contrast_value, R.id.contrast_text, false);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Contrast(main, main.image);
+            main.layerFilter = new Contrast(main, main.applyImage);
         }
 
         @Override
@@ -54,21 +54,19 @@ public enum LayerType {
             Contrast contrast = (Contrast) main.layerFilter;
 
             //option
-            int level = getSeekBarProgress(main, R.id.contrast_value, false);
-            contrast.setIntensity(level);
-
             contrast.apply();
+            main.setApplyImage();
         }
     }),
     EQUALIZE(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.equalize_layout, R.id.optionID);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Equalize(main, main.image);
+            main.layerFilter = new Equalize(main, main.applyImage);
         }
 
         @Override
@@ -77,6 +75,7 @@ public enum LayerType {
 
 
             equalize.apply();
+            main.setApplyImage();
         }
     }),
 
@@ -90,7 +89,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Colorize(main, main.image);
+            main.layerFilter = new Colorize(main, main.applyImage);
         }
 
         @Override
@@ -105,6 +104,7 @@ public enum LayerType {
             }
 
             colorize.apply();
+            main.setApplyImage();
         }
     }),
     ONE_COLOR(new ILayerType() {
@@ -117,9 +117,9 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new OneColor(main, main.image);
+            main.layerFilter = new OneColor(main, main.applyImage);
 
-            updateText(main, R.id.max_distance_value, R.id.distance_text, false);
+            updateText(main, R.id.max_distance_value, R.id.distance_text, false, 0);
 
             updateColorView(main, R.id.color_view, R.id.contrast_value, R.id.from_green_value, R.id.from_blue_value);
 
@@ -144,6 +144,7 @@ public enum LayerType {
             oneColor.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
 
             oneColor.apply();
+            main.setApplyImage();
         }
     }),
     REPLACE(new ILayerType() {
@@ -157,9 +158,9 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Replace(main, main.image);
+            main.layerFilter = new Replace(main, main.applyImage);
 
-            updateText(main, R.id.max_distance_value, R.id.distance_text, false);
+            updateText(main, R.id.max_distance_value, R.id.distance_text, false, 0);
 
             updateColorView(main, R.id.iconFrom, R.id.from_red_value, R.id.from_green_value, R.id.from_blue_value);
             updateColorView(main, R.id.iconTo, R.id.to_red_value, R.id.to_green_value, R.id.to_blue_value);
@@ -211,6 +212,7 @@ public enum LayerType {
             replace.setThreshold(getSeekBarProgress(main, R.id.max_distance_value, false));
 
             replace.apply();
+            main.setApplyImage();
         }
     }),
     BLURRING(new ILayerType() {
@@ -220,10 +222,28 @@ public enum LayerType {
         }
 
         @Override
-        public void generateLayer(MainActivity main) {
-            main.layerFilter = new Convolution(main, main.image);
+        public void generateLayer(final MainActivity main) {
+            main.layerFilter = new Convolution(main, main.applyImage);
 
-            updateText(main, R.id.blurring_size, R.id.blurring_text, true);
+            updateText(main, R.id.blurring_size, R.id.blurring_text, true, 0);
+
+            Spinner spinner = (Spinner)main.findViewById(R.id.blurring_menu);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    View sizeView = main.findViewById(R.id.sizeLayout);
+                    if(i == 2){
+                        sizeView.setVisibility(View.INVISIBLE);
+                    }else{
+                        sizeView.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
         }
 
         @Override
@@ -238,6 +258,9 @@ public enum LayerType {
                 case 1:
                     convolution.setMatrix(Matrix.GAUSSIAN);
                     break;
+                case 2:
+                    convolution.setMatrix((Matrix.SHARPEN));
+                    break;
                 default:
                     break;
             }
@@ -245,6 +268,7 @@ public enum LayerType {
 
 
             convolution.apply();
+            main.setApplyImage();
         }
     }),
     CONTOUR(new ILayerType() {
@@ -255,9 +279,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Convolution(main, main.image);
-
-            updateText(main, R.id.contour_size, R.id.contour_text, true);
+            main.layerFilter = new Convolution(main, main.applyImage);
         }
 
         @Override
@@ -276,9 +298,6 @@ public enum LayerType {
                     convolution.setMatrix(Matrix.LAPLACIAN);
                     break;
                 case 3:
-                    convolution.setMatrix((Matrix.SHARPEN));
-                    break;
-                case 4:
                     convolution.setMatrix(Matrix.EMBOSS);
                     break;
                 default:
@@ -287,58 +306,62 @@ public enum LayerType {
             convolution.setLength(3);
 
             convolution.apply();
+            main.setApplyImage();
         }
     }),
 
     SKETCH(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.sketch_layout, R.id.optionID);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Sketch(main, main.image);
+            main.layerFilter = new Sketch(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Sketch sketch = (Sketch) main.layerFilter;
             sketch.apply();
+            main.setApplyImage();
         }
     }),
     GREY(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.grey_layout, R.id.optionID);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Grey(main, main.image);
+            main.layerFilter = new Grey(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Grey grey = (Grey) main.layerFilter;
             grey.apply();
+            main.setApplyImage();
         }
     }),
     INVERT(new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
-            main.InflateLayer(R.layout.grey_layout, R.id.optionID);
+            main.InflateLayer(-1, R.id.optionID);
         }
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Invert(main, main.image);
+            main.layerFilter = new Invert(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Invert invert = (Invert) main.layerFilter;
             invert.apply();
+            main.setApplyImage();
         }
     }),
     SEPIA(new ILayerType() {
@@ -349,13 +372,14 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Sepia(main, main.image);
+            main.layerFilter = new Sepia(main, main.applyImage);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Sepia sepia = (Sepia) main.layerFilter;
             sepia.apply();
+            main.setApplyImage();
         }
     }),
     PIXELATE(new ILayerType() {
@@ -366,18 +390,60 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Pixelate(main, main.image, 3);
+            main.layerFilter = new Pixelate(main, main.applyImage, 3);
 
-            updateText(main, R.id.blurring_size, R.id.blurring_text, true);
+            updateText(main, R.id.blurring_size, R.id.blurring_text, true, 0);
         }
 
         @Override
         public void applyLayer(MainActivity main) {
             Pixelate pixel = (Pixelate) main.layerFilter;
-            pixel.setVal(getSeekBarProgress(main, R.id.blurring_size, true));
+            pixel.setLength(getSeekBarProgress(main, R.id.blurring_size, true));
 
             pixel.apply();
+            main.setApplyImage();
 
+        }
+    }),
+
+    MIRROR(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(R.layout.miror_layout, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Mirror(main, main.applyImage);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Mirror miror= (Mirror) main.layerFilter;
+
+            ToggleButton toggle = (ToggleButton)main.findViewById(R.id.mirorToggle);
+            miror.setOrientation(toggle.isChecked());
+
+            miror.apply();
+            main.setApplyImage();
+        }
+    }),
+    CARTOON(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(-1, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Cartoon(main, main.applyImage);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main) {
+            Cartoon cartoon= (Cartoon) main.layerFilter;
+            cartoon.apply();
+            main.setApplyImage();
         }
     });
 
@@ -410,18 +476,12 @@ public enum LayerType {
         }
     }
 
-    private static void updateText(final MainActivity main, int seekBarID, final int textViewID, final boolean onlyImpair) {
+    private static void updateText(final MainActivity main, int seekBarID, final int textViewID, final boolean onlyImpair, final int add) {
         SeekBar bar = (SeekBar) main.findViewById(seekBarID);
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                TextView text = (TextView) main.findViewById(textViewID);
-
-                if (onlyImpair)
-                    text.setText("" + (i * 2 + 1));
-                else
-                    text.setText("" + i);
-
+                changeValue(main,i, textViewID, onlyImpair, add);
             }
 
             @Override
@@ -434,6 +494,18 @@ public enum LayerType {
                 return;
             }
         });
+
+        //Initialize
+        changeValue(main, bar.getProgress(), textViewID, onlyImpair, add);
+    }
+
+    private static void changeValue(MainActivity main, int value, int textViewID, boolean onlyImpair, int add){
+        TextView text = (TextView) main.findViewById(textViewID);
+
+        if (onlyImpair)
+            text.setText("" + ((value * 2 + 1) + add));
+        else
+            text.setText("" + (value + add));
     }
 
 
@@ -445,20 +517,7 @@ public enum LayerType {
         SeekBar.OnSeekBarChangeListener event = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                ImageView imgView = (ImageView) main.findViewById(imgFrom);
-
-                Bitmap map = ((BitmapDrawable) imgView.getDrawable()).getBitmap();
-                int R = redBar.getProgress();
-                int G = greenBar.getProgress();
-                int B = blueBar.getProgress();
-
-                int[] pixels = new int[map.getHeight() * map.getWidth()];
-
-                for (int index = 0; index < pixels.length; index++) {
-                    pixels[index] = Color.argb(255, R, G, B);
-                }
-                map.setPixels(pixels, 0, map.getWidth(), 0, 0, map.getWidth(), map.getHeight());
-                imgView.setImageBitmap(map);
+                changeValue(main, imgFrom, redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress());
             }
 
             @Override
@@ -473,5 +532,20 @@ public enum LayerType {
         redBar.setOnSeekBarChangeListener(event);
         greenBar.setOnSeekBarChangeListener(event);
         blueBar.setOnSeekBarChangeListener(event);
+
+        changeValue(main, imgFrom, redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress());
+    }
+
+    private static void changeValue(MainActivity main, int imgFrom, int red, int green, int blue){
+        ImageView imgView = (ImageView) main.findViewById(imgFrom);
+
+        Bitmap map = ((BitmapDrawable) imgView.getDrawable()).getBitmap();
+        int[] pixels = new int[map.getHeight() * map.getWidth()];
+
+        for (int index = 0; index < pixels.length; index++) {
+            pixels[index] = Color.argb(255, red, green, blue);
+        }
+        map.setPixels(pixels, 0, map.getWidth(), 0, 0, map.getWidth(), map.getHeight());
+        imgView.setImageBitmap(map);
     }
 }

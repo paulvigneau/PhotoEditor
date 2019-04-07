@@ -17,7 +17,7 @@ public class Invert extends Filter {
 
     @Override
     public void apply(){
-        JavaApply();
+        applyRS();
     }
 
     public void applyRS() {
@@ -47,8 +47,7 @@ public class Invert extends Filter {
         for (int y = 0; y < super.imageSrc.getHeight(); y++) {
             for (int x = 0; x < super.imageSrc.getWidth(); x++) {
                 int ind = x + y * super.imageSrc.getWidth();
-                int grey = ColorTools.invert(pixels[ind]);
-                out[ind] = Color.argb(Color.alpha(pixels[ind]), grey, grey, grey);
+                out[ind] = ColorTools.invert(pixels[ind]);
             }
         }
         super.imageOut.setPixels(out);

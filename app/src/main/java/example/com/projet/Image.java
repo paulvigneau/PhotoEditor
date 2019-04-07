@@ -10,6 +10,8 @@ public class Image {
     private Config configBitmap;
 
     public Image(Bitmap map){
+        Runtime.getRuntime().gc();
+
         this.height = map.getHeight();
         this.width = map.getWidth();
         this.configBitmap = map.getConfig();

@@ -16,6 +16,7 @@ public enum Matrix {
                 for (int x = 0; x < length; x++) {
                     matrix[x + y * length] = (float) (Math.exp(-(((x - n) * (x - n) + (y - n) * (y - n)) / (2 * sigma * sigma))) / (Math.sqrt(2 * Math.PI * sigma * sigma)));
                     sum += matrix[x + y * length];
+                    System.out.println(matrix[x+y*length]);
                 }
             }
             for (int ind = 0; ind < length * length; ind++) {
@@ -42,7 +43,7 @@ public enum Matrix {
     LAPLACIAN(new IMatrix() {
         @Override
         public float[] generate(int length) {
-            return new float[]{0.f, 1.f, 0.f, 1.f, -4.f, 1.f, 0.f, 1.f, 0.f};
+            return new float[]{0.f, -1.f, 0.f, -1.f, 4.f, -1.f, 0.f, -1.f, 0.f};
         }
     }),
 
@@ -62,7 +63,7 @@ public enum Matrix {
     SHARPEN(new IMatrix() {
         @Override
         public float[] generate(int length) {
-            return new float[]{1.f, 1.f, 1.f, 1.f, -7.f, 1.f, 1.f, 1.f, 1.f};
+            return new float[]{0.f, -1.f, 0.f, -1.f, 5.f, -1.f, 0.f, -1.f, 0.f};
 
         }
     }),

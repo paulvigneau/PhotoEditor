@@ -15,8 +15,8 @@ uchar4  RS_KERNEL  Replace(uchar4 in, uint32_t x, uint32_t y) {
     float newR = pixelf.r - red;
     float newG = pixelf.g - green;
     float newB = pixelf.b -blue;
-    float val = sqrt(newR*newR + newB*newB + newG*newG);
-    if( val <dist){
+    float length = sqrt(newR*newR + newB*newB + newG*newG);
+    if( length <dist){
         pixelf.r =  replaceR;
         pixelf.g = replaceG;
         pixelf.b = replaceB;
