@@ -6,21 +6,17 @@ import example.com.projet.utils.ColorType;
 
 public class Equalize extends Filter {
 
-
-    private Histogram histogramSRC;
-
     public Equalize(MainActivity main, Image image) {
         super(main, image);
-        histogramSRC = new Histogram(image,ColorType.GREY);
     }
 
     @Override
     public void apply() {
-
+        int[] histogram = Histogram.createHistogram(super.imageSrc, ColorType.GREY);
         int[] CumuledHistogram = new int[256];
         for(int ind =0; ind< 256; ind++){
             for (int ind2 =0; ind2<=ind; ind2++){
-                CumuledHistogram[ind]+=histogramSRC.getHistogram()[ind2];
+                CumuledHistogram[ind] += histogram[ind2];
             }
         }
         int new_colorR, new_colorG,new_colorB;

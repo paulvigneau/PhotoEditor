@@ -21,4 +21,8 @@ public abstract class Filter {
     public Image getImageOut(){
         return this.imageOut;
     }
+
+    public void setImageSrc(Image source){
+        this.imageSrc = source;
+    }
 }

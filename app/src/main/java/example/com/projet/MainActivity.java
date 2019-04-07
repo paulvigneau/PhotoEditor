@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.DragEvent;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     public Image image;
     public Image applyImage;
 
+    public HistogramView histogram;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         this.applyImage = new Image(this.image);
 
         photoView.setImageBitmap(this.image.getBitmap());
+        histogram = new HistogramView((ImageView)findViewById(R.id.histogram));
 
         final Button applyButton = (Button) findViewById(R.id.applyID);
         applyButton.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +88,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 photoView.setImageBitmap(layerFilter.getImageSrc().getBitmap());
                 applyImage = new Image(layerFilter.getImageSrc());
+            }
+        });
+
+        ImageButton histogramButton = (ImageButton) findViewById(R.id.histogram_button);
+        histogramButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                histogram.applyFilter(applyImage);
+
+                ConstraintLayout histogramView = (ConstraintLayout)findViewById(R.id.histogram_view);
+                histogramView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ImageButton closeHistogram = (ImageButton)findViewById(R.id.close_histogram);
+        closeHistogram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConstraintLayout histogramView = (ConstraintLayout)findViewById(R.id.histogram_view);
+                histogramView.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -164,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.reset_image:
                 photoView.setImageBitmap(this.image.getBitmap());
                 this.applyImage = new Image(this.image);
+                this.layerFilter.setImageSrc(this.applyImage);
         }
         return false;
     }
