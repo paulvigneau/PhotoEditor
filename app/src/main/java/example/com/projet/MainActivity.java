@@ -26,8 +26,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CursorTreeAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     public LayerType layerType;
     public Filter layerFilter;
     public View layerView;
+    public Runnable renderThread;
+    public ProgressBar progress;
 
     public Image image;
     public Image applyImage;
@@ -76,13 +80,23 @@ public class MainActivity extends AppCompatActivity {
 
         photoView.setImageBitmap(this.image.getBitmap());
         histogram = new HistogramView((ImageView)findViewById(R.id.histogram));
+        progress = findViewById(R.id.progressBar);
+
+        this.renderThread = new Runnable() {
+            @Override
+            public void run() {
+                layerType.getType().applyLayer(MainActivity.this, inRenderScript);
+                photoView.setImageBitmap(layerFilter.getImageOut().getBitmap());
+                progress.setVisibility(View.INVISIBLE);
+            }
+        };
 
         final Button applyButton = (Button) findViewById(R.id.applyID);
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                layerType.getType().applyLayer(MainActivity.this, inRenderScript);
-                photoView.setImageBitmap(layerFilter.getImageOut().getBitmap());
+                progress.setVisibility(View.VISIBLE);
+                new Thread(renderThread).start();
             }
         });
 
