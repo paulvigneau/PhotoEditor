@@ -1,6 +1,12 @@
 package example.com.projet;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+
+import com.android.rssample.ScriptC_Cartoon;
 
 import example.com.projet.utils.ColorTools;
 
@@ -13,21 +19,21 @@ public class Cartoon extends Filter {
 
     public int[] createReducLUT(int nbColor) {
         int[] LUT = new int[256];
-        int decalage = 256 / nbColor;
-        int threesold = decalage;
-        int newValue = decalage / 2;
+        int interval = 256 / nbColor;
+        int threshold = interval;
+        int newValue = interval / 2;
         for (int ind = 0; ind < 256; ind++) {
             LUT[ind] = newValue;
-            if (ind == threesold) {
-                threesold += decalage;
-                newValue += decalage;
+            if (ind == threshold) {
+                threshold += interval;
+                newValue += interval;
             }
         }
         return LUT;
     }
 
     @Override
-    protected void applyJava(){
+    protected void applyJava() {
         int[] pixels = imageSrc.getPixels();
         int[] tabgrey = new int[imageSrc.getHeight() * imageSrc.getWidth()];
         int[] out = new int[imageSrc.getHeight() * imageSrc.getWidth()];
@@ -51,35 +57,35 @@ public class Cartoon extends Filter {
         convo.setLength(3);
         convo.apply(true);
         tabgrey = convo.imageOut.getPixels();
-        int[] newTab = new int[imageSrc.getWidth()* imageSrc.getHeight()];
+        int[] newTab = new int[imageSrc.getWidth() * imageSrc.getHeight()];
 
         //epaississement des contours
-        for(int y =2; y< imageSrc.getHeight()-2; y++){
-            for(int x=2; x<imageSrc.getWidth()-2; x++){
-                int i = x+y*imageSrc.getWidth();
+        for (int y = 2; y < imageSrc.getHeight() - 2; y++) {
+            for (int x = 2; x < imageSrc.getWidth() - 2; x++) {
+                int i = x + y * imageSrc.getWidth();
                 int red = Color.red(tabgrey[i]);
                 int green = Color.green(tabgrey[i]);
                 int blue = Color.blue((tabgrey[i]));
-                if(red > 127 && green > 127 && blue > 127){
+                if (red > 127 && green > 127 && blue > 127) {
 
                     newTab[i] = tabgrey[i];
-                    newTab[i-1]=tabgrey[i];
-                    newTab[i+1]=tabgrey[i];
+                    newTab[i - 1] = tabgrey[i];
+                    newTab[i + 1] = tabgrey[i];
 
-                    newTab[i-1-imageSrc.getWidth()]=tabgrey[i];
-                    newTab[i+1-imageSrc.getWidth()]=tabgrey[i];
-                    newTab[i-imageSrc.getWidth()]=tabgrey[i];
+                    newTab[i - 1 - imageSrc.getWidth()] = tabgrey[i];
+                    newTab[i + 1 - imageSrc.getWidth()] = tabgrey[i];
+                    newTab[i - imageSrc.getWidth()] = tabgrey[i];
 
-                    newTab[i-1+imageSrc.getWidth()]=tabgrey[i];
-                    newTab[i+1+imageSrc.getWidth()]=tabgrey[i];
-                    newTab[i+imageSrc.getWidth()]=tabgrey[i];
+                    newTab[i - 1 + imageSrc.getWidth()] = tabgrey[i];
+                    newTab[i + 1 + imageSrc.getWidth()] = tabgrey[i];
+                    newTab[i + imageSrc.getWidth()] = tabgrey[i];
 
-                }else{
-                    newTab[i]= tabgrey[i];
+                } else {
+                    newTab[i] = tabgrey[i];
                 }
             }
         }
-        tabgrey =newTab;
+        tabgrey = newTab;
         // threasold image to binary in greytab
         for (int i = 0; i < imageSrc.getHeight() * imageSrc.getWidth(); i++) {
             int red = Color.red(tabgrey[i]);
@@ -101,7 +107,34 @@ public class Cartoon extends Filter {
 
     @Override
     protected void applyRenderScript() {
-        showAlert();
+        Convolution convo = new Convolution(super.main, this.imageSrc);
+        convo.setMatrix(Matrix.SOBEL);
+        convo.setLength(3);
+        RenderScript rs = RenderScript.create(super.main);
 
+        Allocation input = Allocation.createFromBitmap(rs, convo.imageSrc.getBitmap());
+        Allocation output = Allocation.createTyped(rs, input.getType());
+
+        ScriptC_Cartoon CartoonScript = new ScriptC_Cartoon(rs);
+
+        CartoonScript.set_in(input);
+        CartoonScript.set_height(super.getImageSrc().getHeight());
+        CartoonScript.set_width(super.getImageSrc().getWidth());
+        Allocation matrixAlloc = Allocation.createSized(rs, Element.F32(rs), convo.getLength() * convo.getLength());
+        matrixAlloc.copyFrom(convo.getMatrix().getType().generate(convo.getLength()));
+        CartoonScript.bind_matrix(matrixAlloc);
+        CartoonScript.set_matrixSize(convo.getLength());
+
+        CartoonScript.forEach_Cartoon(output);
+
+        Bitmap out = super.imageOut.getBitmap();
+        output.copyTo(out);
+        super.imageOut.setBitmap(out);
+
+        input.destroy();
+        output.destroy();
+
+        CartoonScript.destroy();
+        rs.destroy();
     }
 }
