@@ -16,6 +16,7 @@
         <item>Pixelated</item>
         <item>Mirror</item>
         <item>Cartoon</item>
+        <item>Face Detection</item>
     </string-array>
     <string-array name="blurring">
         <item>Averaging</item>

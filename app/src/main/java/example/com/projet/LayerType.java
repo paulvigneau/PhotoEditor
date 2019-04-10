@@ -445,6 +445,24 @@ public enum LayerType {
             cartoon.apply(inRenderScript);
             main.setApplyImage();
         }
+    }),
+    FACE_DETECTION(new ILayerType() {
+        @Override
+        public void setInflacter(MainActivity main) {
+            main.InflateLayer(-1, R.id.optionID);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new FaceDetection(main, main.applyImage);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
+            FaceDetection faceDetection = (FaceDetection) main.layerFilter;
+            faceDetection.apply(inRenderScript);
+            main.setApplyImage();
+        }
     });
 
     private ILayerType type;
