@@ -17,7 +17,7 @@ public class Convolution extends Filter {
     private int[] oldpixels;
     private int width;
     private int height;
-    private float[] M;
+    private float[] matrixTab;
 
     public Convolution(MainActivity main, Image image) {
         super(main, image);
@@ -29,7 +29,7 @@ public class Convolution extends Filter {
         this.oldpixels = super.imageSrc.getPixels();
         this.width = super.imageSrc.getWidth();
         this.height = super.imageSrc.getHeight();
-        this.M = this.matrix.getType().generate(this.length);
+        this.matrixTab = this.matrix.getType().generate(this.length);
 
         int[] pixels = super.imageOut.getPixels();
         if (matrix == Matrix.PREWITT || matrix == Matrix.SOBEL) {
@@ -69,14 +69,14 @@ public class Convolution extends Filter {
                 int Y = Math.abs(localY - (localY / (height - 1)) * (localY % (height - 1)) * 2);
                 int index = X + Y * width;
                 int size = x + y * this.length;
-                float mult = M[size];
+                float mult = matrixTab[size];
                 int color = oldpixels[index];
                 value[0] += Color.red(color) * mult;
                 value[1] += Color.green(color) * mult;
                 value[2] += Color.blue(color) * mult;
                 if (ps) {
                     size = y + x * this.length;
-                    mult = M[size];
+                    mult = matrixTab[size];
                     value[3] += Color.red(color) * mult;
                     value[4] += Color.green(color) * mult;
                     value[5] += Color.blue(color) * mult;

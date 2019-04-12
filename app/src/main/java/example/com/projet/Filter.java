@@ -41,8 +41,8 @@ public abstract class Filter {
 
     protected void showAlert(){
         new AlertDialog.Builder(this.main)
-                .setTitle("Erreur de rendu")
-                .setMessage("Le mode de rendu sélectionné n'est pas disponible pour se filtre")
+                .setTitle("Error")
+                .setMessage("The selected mode for this effect is not implemented")
                 .setCancelable(false)
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override

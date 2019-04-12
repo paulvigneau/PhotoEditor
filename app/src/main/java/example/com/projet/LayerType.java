@@ -447,6 +447,31 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
+    SATURATION("Saturation", R.id.ButtonBrightness, new ILayerType() {
+        @Override
+        public void setInflacter(final MainActivity main) {
+            main.InflateLayer(R.layout.brightness_layout, R.id.optionID);
+
+            updateText(main, R.id.brightness_value, R.id.brightness_value_text, false, -50);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Saturation(main, main.applyImage);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
+
+            Saturation saturation = (Saturation) main.layerFilter;
+
+            //option
+            saturation.setIntensity(getSeekBarProgress(main, R.id.brightness_value, false));
+
+            saturation.apply(inRenderScript);
+            main.setApplyImage();
+        }
+    }),
     FACE_DETECTION("Face Detector", R.id.ButtonFace, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {

@@ -6,11 +6,9 @@ import example.com.projet.utils.ColorTools;
 import example.com.projet.utils.ColorType;
 
 public class Contrast extends Filter {
-    private int[] interval;
 
     public Contrast(MainActivity main, Image image) {
         super(main, image);
-        this.interval = new int[]{0, 255};
     }
 
     @Override

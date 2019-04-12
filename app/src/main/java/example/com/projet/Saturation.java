@@ -43,6 +43,8 @@ public class Saturation extends Filter {
         return value;
     }
 
+    public void setIntensity(int sat){ this.intensity =sat;}
+
     @Override
     protected void applyRenderScript() {
         RenderScript rs = RenderScript.create(super.main);
