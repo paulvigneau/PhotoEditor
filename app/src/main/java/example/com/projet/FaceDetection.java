@@ -1,5 +1,6 @@
 package example.com.projet;
 
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -70,6 +71,7 @@ public class FaceDetection extends Filter {
         }
         super.imageOut.setBitmap(tempBitmap);
 //        photoView.setImageDrawable(new BitmapDrawable(super.main.getResources(), tempBitmap));
+
     }
 
     @Override

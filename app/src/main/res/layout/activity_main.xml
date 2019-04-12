@@ -6,14 +6,237 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Spinner
-        android:id="@+id/layersID"
+    <HorizontalScrollView
+        android:id="@+id/filterSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/ButtonBrightness"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_brightness" />
+
+            <ImageButton
+                android:id="@+id/ButtonContrast"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_contrast" />
+
+            <ImageButton
+                android:id="@+id/ButtonEqualize"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_equalize" />
+
+            <ImageButton
+                android:id="@+id/ButtonBlur"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_blur" />
+
+            <ImageButton
+                android:id="@+id/ButtonContour"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_contour" />
+
+            <ImageButton
+                android:id="@+id/ButtonColorize"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_colorize" />
+
+            <ImageButton
+                android:id="@+id/ButtonOneColor"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_onecolor" />
+
+            <ImageButton
+                android:id="@+id/ButtonReplace"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_replace" />
+
+            <ImageButton
+                android:id="@+id/ButtonGrey"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_grey" />
+
+            <ImageButton
+                android:id="@+id/ButtonSepia"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_sepia" />
+
+            <ImageButton
+                android:id="@+id/ButtonInvert"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_invert" />
+
+            <ImageButton
+                android:id="@+id/ButtonSketch"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_sketch" />
+
+            <ImageButton
+                android:id="@+id/ButtonCartoon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_paint" />
+
+            <ImageButton
+                android:id="@+id/ButtonPixel"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_pixel" />
+
+            <ImageButton
+                android:id="@+id/ButtonMirror"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_mirror" />
+
+            <ImageButton
+                android:id="@+id/ButtonFace"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_face" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/filterName"
         android:layout_width="0dp"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:entries="@array/layers"
+        android:text="Brightness"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/undoID"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,24 +244,24 @@
     <Button
         android:id="@+id/applyID"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
+        android:background="@color/colorPrimaryDark"
         android:text="Apply"
-        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/filterName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/filterName" />
 
     <Button
         android:id="@+id/undoID"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
+        android:background="@color/colorPrimaryDark"
         android:text="Undo"
-        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/filterName"
         app:layout_constraintEnd_toStartOf="@+id/applyID"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/filterName" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/histogram_view"
@@ -58,20 +281,25 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/close_histogram"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:background="@color/colorPrimaryDark"
             android:cropToPadding="false"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/delete" />
+            app:srcCompat="@drawable/icon_delete" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -80,8 +308,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layersID">
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/filterSelector"
+        app:layout_constraintTop_toBottomOf="@+id/filterName"
+        tools:layout_editor_absoluteX="52dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -122,15 +352,19 @@
 
                 <ImageButton
                     android:id="@+id/histogram_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/colorPrimaryDark"
                     android:cropToPadding="false"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
                     android:scaleType="centerInside"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/histogram" />
+                    app:srcCompat="@drawable/icon_histogram" />
             </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>

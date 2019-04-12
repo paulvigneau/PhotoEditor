@@ -34,6 +34,7 @@ public class Cartoon extends Filter {
 
     @Override
     protected void applyJava() {
+        Runtime.getRuntime().gc();
         int[] pixels = imageSrc.getPixels();
         int[] tabgrey = new int[imageSrc.getHeight() * imageSrc.getWidth()];
         int[] out = new int[imageSrc.getHeight() * imageSrc.getWidth()];

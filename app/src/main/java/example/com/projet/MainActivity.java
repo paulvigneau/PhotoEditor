@@ -126,20 +126,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Spinner layersSpinner = (Spinner) findViewById(R.id.layersID);
-        layersSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                layerType = LayerType.values()[i];
-                layerType.getType().setInflacter(MainActivity.this);
-                layerType.getType().generateLayer(MainActivity.this);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                return;
-            }
-        });
+        for(LayerType type : LayerType.values()){
+            type.generateSelectButton(this);
+        }
+        layerType = LayerType.values()[0];
+        layerType.getType().setInflacter(MainActivity.this);
+        layerType.getType().generateLayer(MainActivity.this);
 
         photoView.setOnDragListener(new View.OnDragListener() {
             @Override
@@ -167,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView image = (ImageView) findViewById(imageView);
         image.setImageBitmap(map);
+    }
+
+    public void setLayerType(LayerType type){
+        this.layerType = type;
     }
 
     public void setApplyImage(){

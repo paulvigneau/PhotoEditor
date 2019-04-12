@@ -19,6 +19,7 @@ public class Sketch extends Filter {
 
     @Override
     protected void applyJava() {
+        Runtime.getRuntime().gc();
         int[] img1 = new int[this.imageSrc.getWidth() * imageSrc.getHeight()];
         int ind;
         int[] pixels = imageSrc.getPixels();

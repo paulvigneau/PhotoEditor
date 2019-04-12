@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public enum LayerType {
-    BRIGHTNESS(new ILayerType() {
+    BRIGHTNESS("Brightness", R.id.ButtonBrightness, new ILayerType() {
         @Override
         public void setInflacter(final MainActivity main) {
             main.InflateLayer(R.layout.brightness_layout, R.id.optionID);
@@ -38,7 +39,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    CONTRAST(new ILayerType() {
+    CONTRAST("Contrast", R.id.ButtonContrast, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
@@ -58,7 +59,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    EQUALIZE(new ILayerType() {
+    EQUALIZE("Equalize", R.id.ButtonEqualize, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
@@ -79,7 +80,7 @@ public enum LayerType {
         }
     }),
 
-    COLORIZE(new ILayerType() {
+    COLORIZE("Colorize", R.id.ButtonColorize, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(R.layout.colorise_layout, R.id.optionID);
@@ -107,7 +108,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    ONE_COLOR(new ILayerType() {
+    ONE_COLOR("One Color", R.id.ButtonOneColor, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(R.layout.one_color_layout, R.id.optionID);
@@ -147,7 +148,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    REPLACE(new ILayerType() {
+    REPLACE("Replace", R.id.ButtonReplace, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(R.layout.replace_color_layout, R.id.optionID);
@@ -215,7 +216,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    BLURRING(new ILayerType() {
+    BLURRING("Blurring", R.id.ButtonBlur, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(R.layout.blurring_layout, R.id.optionID);
@@ -271,7 +272,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    CONTOUR(new ILayerType() {
+    CONTOUR("Contour", R.id.ButtonContour, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(R.layout.contour_layout, R.id.optionID);
@@ -310,7 +311,7 @@ public enum LayerType {
         }
     }),
 
-    SKETCH(new ILayerType() {
+    SKETCH("Sketch", R.id.ButtonSketch, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
@@ -328,7 +329,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    GREY(new ILayerType() {
+    GREY("Grey", R.id.ButtonGrey, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
@@ -346,7 +347,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    INVERT(new ILayerType() {
+    INVERT("Invert", R.id.ButtonInvert, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
@@ -364,7 +365,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    SEPIA(new ILayerType() {
+    SEPIA("Sepia", R.id.ButtonSepia, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
@@ -382,7 +383,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    PIXELATE(new ILayerType() {
+    PIXELATE("Pixelated", R.id.ButtonPixel, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(R.layout.pixalate_layout, R.id.optionID);
@@ -406,7 +407,7 @@ public enum LayerType {
         }
     }),
 
-    MIRROR(new ILayerType() {
+    MIRROR("Mirror", R.id.ButtonMirror, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(R.layout.miror_layout, R.id.optionID);
@@ -428,7 +429,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    CARTOON(new ILayerType() {
+    CARTOON("Cartoon", R.id.ButtonCartoon, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
@@ -446,7 +447,7 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
-    FACE_DETECTION(new ILayerType() {
+    FACE_DETECTION("Face Detector", R.id.ButtonFace, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
@@ -465,14 +466,42 @@ public enum LayerType {
         }
     });
 
+    private String name;
     private ILayerType type;
+    private int buttonId;
 
-    LayerType(ILayerType type) {
+    LayerType(String name, int buttonId, ILayerType type) {
+        this.name = name;
         this.type = type;
+        this.buttonId = buttonId;
     }
 
     public ILayerType getType() {
         return this.type;
+    }
+
+    public void generateSelectButton(final MainActivity main){
+        ImageButton select = (ImageButton)main.findViewById(this.buttonId);
+        select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                main.setLayerType(LayerType.this);
+                type.setInflacter(main);
+                type.generateLayer(main);
+
+                for(LayerType t : LayerType.values()){
+                    ImageButton button = (ImageButton)main.findViewById(t.buttonId);
+                    if(button != view)
+                        button.setBackgroundResource(R.color.transparent);
+                    else
+                        button.setBackgroundResource(R.color.colorPrimaryDark);
+
+                }
+
+                TextView filter = (TextView)main.findViewById(R.id.filterName);
+                filter.setText(name);
+            }
+        });
     }
 
     private static int getSpinnerIndex(MainActivity main, int id) {
