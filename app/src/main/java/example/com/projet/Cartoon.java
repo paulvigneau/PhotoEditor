@@ -108,7 +108,8 @@ public class Cartoon extends Filter {
 
     @Override
     protected void applyRenderScript() {
-        Convolution convo = new Convolution(super.main, this.imageSrc);
+        main.showMessage("Not avaible in RenderScript");
+        /*Convolution convo = new Convolution(super.main, this.imageSrc);
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);
         RenderScript rs = RenderScript.create(super.main);
@@ -136,6 +137,6 @@ public class Cartoon extends Filter {
         output.destroy();
 
         CartoonScript.destroy();
-        rs.destroy();
+        rs.destroy();*/
     }
 }

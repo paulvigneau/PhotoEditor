@@ -39,6 +39,31 @@ public enum LayerType {
             main.setApplyImage();
         }
     }),
+    SATURATION("Saturation", R.id.ButtonSaturation, new ILayerType() {
+        @Override
+        public void setInflacter(final MainActivity main) {
+            main.InflateLayer(R.layout.saturation_layout, R.id.optionID);
+
+            updateText(main, R.id.saturation_value, R.id.saturation_value_text, false, -50);
+        }
+
+        @Override
+        public void generateLayer(MainActivity main) {
+            main.layerFilter = new Saturation(main, main.applyImage);
+        }
+
+        @Override
+        public void applyLayer(MainActivity main, boolean inRenderScript) {
+
+            Saturation saturation = (Saturation) main.layerFilter;
+
+            //option
+            saturation.setIntensity(getSeekBarProgress(main, R.id.saturation_value, false));
+
+            saturation.apply(inRenderScript);
+            main.setApplyImage();
+        }
+    }),
     CONTRAST("Contrast", R.id.ButtonContrast, new ILayerType() {
         @Override
         public void setInflacter(MainActivity main) {
@@ -444,31 +469,6 @@ public enum LayerType {
         public void applyLayer(MainActivity main, boolean inRenderScript) {
             Cartoon cartoon= (Cartoon) main.layerFilter;
             cartoon.apply(inRenderScript);
-            main.setApplyImage();
-        }
-    }),
-    SATURATION("Saturation", R.id.ButtonBrightness, new ILayerType() {
-        @Override
-        public void setInflacter(final MainActivity main) {
-            main.InflateLayer(R.layout.brightness_layout, R.id.optionID);
-
-            updateText(main, R.id.brightness_value, R.id.brightness_value_text, false, -50);
-        }
-
-        @Override
-        public void generateLayer(MainActivity main) {
-            main.layerFilter = new Saturation(main, main.applyImage);
-        }
-
-        @Override
-        public void applyLayer(MainActivity main, boolean inRenderScript) {
-
-            Saturation saturation = (Saturation) main.layerFilter;
-
-            //option
-            saturation.setIntensity(getSeekBarProgress(main, R.id.brightness_value, false));
-
-            saturation.apply(inRenderScript);
             main.setApplyImage();
         }
     }),

@@ -22,7 +22,8 @@ public class Replace extends Filter {
 
     @Override
     protected void applyJava(){
-        showAlert();
+        main.showMessage("Not avaible in Java");
+        //showAlert();
     }
 
     @Override

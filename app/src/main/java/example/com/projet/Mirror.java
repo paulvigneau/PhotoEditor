@@ -1,5 +1,12 @@
 package example.com.projet;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+
+import com.android.rssample.ScriptC_OneColor;
+
 import example.com.projet.utils.ColorTools;
 
 public class Mirror extends  Filter {
@@ -38,7 +45,7 @@ public class Mirror extends  Filter {
 
     @Override
     protected void applyRenderScript(){
-        showAlert();
+        main.showMessage("Not avaible in RenderScript");
     }
 
     //Inverse de gauche à droite.

@@ -3,6 +3,7 @@ package example.com.projet;
 import android.graphics.Bitmap;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
+import android.widget.Toast;
 
 import com.android.rssample.*;
 
@@ -17,7 +18,9 @@ public class Colorize extends Filter {
 
     @Override
     public void applyJava(){
-        showAlert();
+
+        main.showMessage("Not avaible in Java");
+        //Toast.makeText(main.getApplicationContext(),"Impossible en Java",Toast.LENGTH_SHORT).show();
     }
 
     @Override

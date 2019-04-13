@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = "file:" + image.getAbsolutePath();
+        currentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
@@ -318,14 +318,21 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
 
             if (requestCode == CAMERA_REQUEST) {
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(currentPhotoPath));
-                    this.photoView.setImageBitmap(bitmap);
-                    this.image = new Image(bitmap);
-                    this.applyImage = new Image(this.image);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                bmOptions.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+
+                int scaleFactor = Math.min(Math.round(bmOptions.outWidth / 1500.0f), Math.round(bmOptions.outHeight / 750.0f));
+
+                bmOptions.inJustDecodeBounds = false;
+                bmOptions.inSampleSize = scaleFactor;
+                bmOptions.inPurgeable = true;
+
+                Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+
+                this.photoView.setImageBitmap(bitmap);
+                this.image = new Image(bitmap);
+                this.applyImage = new Image(this.image);
             } else if (requestCode == GALLERY_REQUEST) {
                 Uri selectedImageUri = data.getData();
                 // Get the path from the Uri
@@ -354,5 +361,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void showMessage(final String message){
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

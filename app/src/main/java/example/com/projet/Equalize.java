@@ -1,6 +1,7 @@
 package example.com.projet;
 
 import android.graphics.Color;
+import android.widget.Toast;
 
 import example.com.projet.utils.ColorType;
 
@@ -12,7 +13,8 @@ public class Equalize extends Filter {
 
     @Override
     protected void applyRenderScript(){
-        showAlert();
+        main.showMessage("Not avaible in RenderScript");
+        //Toast.makeText(main.getApplicationContext(),"Impossible en RenderScript",Toast.LENGTH_SHORT).show();
     }
 
     @Override

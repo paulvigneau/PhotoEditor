@@ -36,7 +36,8 @@ public class FaceDetection extends Filter {
 
         FaceDetector faceDetector = new FaceDetector.Builder(super.main.getApplicationContext()).setTrackingEnabled(false).setLandmarkType(FaceDetector.ALL_LANDMARKS).build();
         if(!faceDetector.isOperational()){
-            Toast.makeText(super.main, "Impossible d'utiliser la reconnaissance de visage", Toast.LENGTH_SHORT).show();
+            main.showMessage("Impossible d'utiliser la reconnaissance de visage");
+            //Toast.makeText(super.main, "Impossible d'utiliser la reconnaissance de visage", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -76,7 +77,8 @@ public class FaceDetection extends Filter {
 
     @Override
     protected void applyRenderScript() {
-        Toast.makeText(super.main, "Version RenderScript non disponible. Exécution de la version Java", Toast.LENGTH_LONG).show();
+        main.showMessage("Not avaible in RenderScript");
+        //Toast.makeText(main.getApplicationContext(),"Impossible en RenderScript",Toast.LENGTH_SHORT).show();
 
         // Execution de la version Java
         this.applyJava();

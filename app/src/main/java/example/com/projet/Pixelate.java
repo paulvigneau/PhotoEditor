@@ -13,7 +13,8 @@ public class Pixelate extends Filter {
 
     @Override
     protected void applyRenderScript(){
-        showAlert();
+        main.showMessage("Not avaible in RenderScript");
+        //showAlert();
     }
 
     @Override

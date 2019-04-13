@@ -32,6 +32,19 @@
                 app:srcCompat="@drawable/icon_brightness" />
 
             <ImageButton
+                android:id="@+id/ButtonSaturation"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_saturation" />
+
+            <ImageButton
                 android:id="@+id/ButtonContrast"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
