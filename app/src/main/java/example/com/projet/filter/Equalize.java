@@ -2,7 +2,8 @@ package example.com.projet.filter;
 
 import android.graphics.Color;
 
-import example.com.projet.utils.Histogram;
+import example.com.projet.Filter;
+import example.com.projet.Histogram;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 import example.com.projet.utils.ColorType;
@@ -26,7 +27,7 @@ public class Equalize extends Filter {
 
     @Override
     protected void applyRenderScript(){
-        main.showMessage("Not avaible in RenderScript");
+        main.showMessage("Not available in RenderScript");
         //Toast.makeText(main.getApplicationContext(),"Impossible en RenderScript",Toast.LENGTH_SHORT).show();
     }
 

@@ -6,6 +6,7 @@ import android.renderscript.RenderScript;
 
 import com.android.rssample.*;
 
+import example.com.projet.Filter;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 

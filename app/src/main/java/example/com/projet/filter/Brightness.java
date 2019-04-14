@@ -7,6 +7,7 @@ import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_Brightness;
 
+import example.com.projet.Filter;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 
@@ -15,7 +16,7 @@ import example.com.projet.MainActivity;
  */
 public class Brightness extends Filter {
 
-    private int intensity;      //Valeur comprise entre 0 et 100
+    private int intensity;      //between 0 and 100
 
     /**
      * The brightness constructor
@@ -27,7 +28,7 @@ public class Brightness extends Filter {
      */
     public Brightness(MainActivity main, Image image) {
         super(main, image);
-        this.intensity = 50; // /!\ Commencer curseur à la moyenne HSV[2] de l'image /!\
+        this.intensity = 50;
     }
 
     @Override

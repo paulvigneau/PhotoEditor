@@ -1,12 +1,16 @@
-package example.com.projet;
+package example.com.projet.filter;
 
 import android.graphics.Color;
 
-public class Pixelate extends Filter {
+import example.com.projet.Filter;
+import example.com.projet.Image;
+import example.com.projet.MainActivity;
+
+public class Pixelated extends Filter {
 
     private int length;
 
-    public Pixelate(MainActivity main, Image image, int val) {
+    public Pixelated(MainActivity main, Image image, int val) {
         super(main, image);
         this.length = val;
     }

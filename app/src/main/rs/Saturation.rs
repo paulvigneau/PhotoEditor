@@ -1,7 +1,6 @@
 #pragma  version (1)
 #pragma  rs  java_package_name(com.android.rssample)
 
-//static  const  float4  weight = {0.299f, 0.587f, 0.114f, 0.0f};
 
 float saturation;
 
@@ -48,10 +47,6 @@ static float4 HSVToRGB(float3 hsv) {
 
     int t = fmod((hsv.x / 60), 60);
 
-    /* float f = (hsv.x / 60.0f) - t;
-    float l = hsv.z * (1 - hsv.y);
-    float m = hsv.z * (1 - f * hsv.y);
-    float n = hsv.z * (1 - (1 - f) * hsv.y);*/
 
     switch(t){
         case 0:

@@ -29,7 +29,7 @@ import example.com.projet.filter.Pixelated;
 import example.com.projet.filter.Replace;
 import example.com.projet.filter.Saturation;
 import example.com.projet.filter.Sepia;
-import example.com.projet.filter.Sketch;
+import example.com.filter.projet.Sketch;
 
 /**
  * Represent the enumerate filter
@@ -242,12 +242,12 @@ public enum LayerType {
                 int red = (int) (Math.random() * 255);
                 int green = (int) (Math.random() * 255);
                 int blue = (int) (Math.random() * 255);
-                replace.setReplaceColor(Color.argb(255, red, green, blue));
+                replace.setNewColor(Color.argb(255, red, green, blue));
             } else {
                 int red = getSeekBarProgress(main, R.id.to_red_value, false);
                 int green = getSeekBarProgress(main, R.id.to_green_value, false);
                 int blue = getSeekBarProgress(main, R.id.to_blue_value, false);
-                replace.setReplaceColor(Color.argb(255, red, green, blue));
+                replace.setNewColor(Color.argb(255, red, green, blue));
             }
 
             int red = getSeekBarProgress(main, R.id.from_red_value, false);
@@ -436,7 +436,7 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Pixelated(main, main.applyImage);
+            main.layerFilter = new Pixelated(main, main.applyImage,3);
 
             updateText(main, R.id.blurring_size, R.id.blurring_text, true, 0);
         }

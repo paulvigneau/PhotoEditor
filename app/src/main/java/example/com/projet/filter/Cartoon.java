@@ -2,6 +2,7 @@ package example.com.projet.filter;
 
 import android.graphics.Color;
 
+import example.com.projet.Filter;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 import example.com.projet.Matrix;
@@ -25,12 +26,13 @@ public class Cartoon extends Filter {
     }
 
     /**
-     *
+     * Create a LUT that contain the value that is associate to each 256 existing values of a color in a reduce palette of colors.
      *
      * @param nbColor
-     * @return
+     *      The number of value accept
+     * @return the new LUT
      */
-    public int[] createReducLUT(int nbColor) {
+    private int[] createReduceLUT(int nbColor) {
         int[] LUT = new int[256];
         int interval = 256 / nbColor;
         int threshold = interval;
@@ -50,17 +52,19 @@ public class Cartoon extends Filter {
         Runtime.getRuntime().gc();
         int[] pixels = imageSrc.getPixels();
         int[] tabgrey = new int[imageSrc.getHeight() * imageSrc.getWidth()];
-        int[] out = new int[imageSrc.getHeight() * imageSrc.getWidth()];
-        // out : reduce nb of colors
-        // greytab = grey scale
-        int[] LUT = createReducLUT(5);
+        int[] reduce = new int[imageSrc.getHeight() * imageSrc.getWidth()];
+
+        // out : reduce color picture
+        // greytab = grey scale picture
+
+        int[] LUT = createReduceLUT(5);
         for (int i = 0; i < imageSrc.getHeight() * imageSrc.getWidth(); i++) {
 
             int red = LUT[Color.red(pixels[i])];
             int green = LUT[Color.green(pixels[i])];
             int blue = LUT[Color.blue((pixels[i]))];
 
-            out[i] = Color.argb(Color.alpha(pixels[i]), red, green, blue);
+            reduce[i] = Color.argb(Color.alpha(pixels[i]), red, green, blue);
             int grey = ColorTools.getGreyColor(pixels[i]);
             tabgrey[i] = Color.argb(Color.alpha(pixels[i]), grey, grey, grey);
         }
@@ -106,22 +110,22 @@ public class Cartoon extends Filter {
             int green = Color.green(tabgrey[i]);
             int blue = Color.blue((tabgrey[i]));
             if (red < 127 && green < 127 && blue < 127) {
-                red = Color.red(out[i]);
-                green = Color.green(out[i]);
-                blue = Color.blue(out[i]);
+                red = Color.red(reduce[i]);
+                green = Color.green(reduce[i]);
+                blue = Color.blue(reduce[i]);
             } else {
                 red = 0;
                 green = 0;
                 blue = 0;
             }
-            out[i] = Color.argb(Color.alpha(out[i]), red, green, blue);
+            reduce[i] = Color.argb(Color.alpha(reduce[i]), red, green, blue);
         }
-        imageOut.setPixels(out);
+        imageOut.setPixels(reduce);
     }
 
     @Override
     protected void applyRenderScript() {
-        main.showMessage("Not avaible in RenderScript");
+        main.showMessage("Not available in RenderScript");
         /*Convolution convo = new Convolution(super.main, this.imageSrc);
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);

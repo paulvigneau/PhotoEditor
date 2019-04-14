@@ -1,4 +1,4 @@
-package example.com.projet;
+package example.com.projet.filter;
 
 
 import android.graphics.Bitmap;
@@ -15,6 +15,10 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.Landmark;
+
+import example.com.projet.Filter;
+import example.com.projet.Image;
+import example.com.projet.MainActivity;
 
 /**
  * Represent the FaceDetector filter
