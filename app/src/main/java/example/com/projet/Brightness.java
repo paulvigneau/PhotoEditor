@@ -7,11 +7,21 @@ import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_Brightness;
 
-
+/**
+ * Represent the brightness filter.
+ */
 public class Brightness extends Filter {
 
     private int intensity;      //Valeur comprise entre 0 et 100
 
+    /**
+     * The brightness constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Brightness(MainActivity main, Image image) {
         super(main, image);
         this.intensity = 50; // /!\ Commencer curseur à la moyenne HSV[2] de l'image /!\
@@ -34,6 +44,14 @@ public class Brightness extends Filter {
         super.imageOut.setPixels(newPixels);
     }
 
+    /**
+     * Modify the saturator HSV color
+     *
+     * @param value
+     *      The HSV color
+     * @return
+     *      The new saturation HSV color
+     */
     private float modifyHSV(float value) {
         value += (this.intensity / 100f - 0.5);
         if (value < 0.01f)
@@ -68,7 +86,12 @@ public class Brightness extends Filter {
         rs.destroy();
     }
 
-
+    /**
+     * Set the brightness intensity.
+     *
+     * @param intensity
+     *      The new brightness value
+     */
     public void setIntensity(int intensity) {
         this.intensity = intensity;
     }

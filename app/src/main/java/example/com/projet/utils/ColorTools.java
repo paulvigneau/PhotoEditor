@@ -2,11 +2,32 @@ package example.com.projet.utils;
 
 import android.graphics.Color;
 
+/**
+ * Represent the color tools
+ */
 public class ColorTools {
+    /**
+     * Return the grey color value
+     *
+     * @param color
+     *      The input color value
+     * @return
+     *      The grey color value
+     */
     public static int getGreyColor(int color){
         return (int)(0.3 * Color.red(color) + 0.59 * Color.green(color) + 0.11 * Color.blue(color));
     }
 
+    /**
+     * Return the minimum and maximum input values
+     *
+     * @param pixels
+     *      the image pixel list
+     * @param color
+     *      the color type (R:G:B:Grey)
+     * @return
+     *      The minimum and maximum input values
+     */
     public static int[] getMinMax(int[] pixels, ColorType color ){
         int[] minMax = {255,0};
         int colorPixel =0;
@@ -33,7 +54,14 @@ public class ColorTools {
         return minMax;
     }
 
-
+    /**
+     * Return the invert color value.
+     *
+     * @param color
+     *      The input color value.
+     * @return
+     *      The invert color value.
+     */
     public static int invert(int color){
         int red = 255 - Color.red(color);
         int green = 255 - Color.green(color);
@@ -41,6 +69,14 @@ public class ColorTools {
         return Color.argb(Color.alpha(color), red, green, blue);
     }
 
+    /**
+     * Return the sepia color value.
+     *
+     * @param color
+     *      The input color value.
+     * @return
+     *      The sepia color value.
+     */
     public static int sepia(int color){
         double newRed = 0.393*Color.red(color) + 0.769*Color.green(color) + 0.189*Color.blue(color);
         double newGreen = 0.349*Color.red(color) + 0.686*Color.green(color) + 0.168*Color.blue(color);

@@ -9,6 +9,9 @@ import android.renderscript.RenderScript;
 import com.android.rssample.ScriptC_Blur;
 import com.android.rssample.ScriptC_Contour;
 
+/**
+ * Represent the Convolution filter
+ */
 public class Convolution extends Filter {
 
     private Matrix matrix;
@@ -19,12 +22,21 @@ public class Convolution extends Filter {
     private int height;
     private float[] matrixTab;
 
+    /**
+     * The convolution constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Convolution(MainActivity main, Image image) {
         super(main, image);
         this.matrix = Matrix.PREWITT;
         this.length = 3;
     }
 
+    @Override
     protected void applyJava() {
         this.oldpixels = super.imageSrc.getPixels();
         this.width = super.imageSrc.getWidth();
@@ -54,6 +66,18 @@ public class Convolution extends Filter {
         super.imageOut.setPixels(pixels);
     }
 
+    /**
+     * Return the new color value at X/Y
+     *
+     * @param indexX
+     *      The x image position
+     * @param indexY
+     *      The y image position
+     * @param ps
+     *      TRUE if the filter is PREWITT or SOBEL
+     * @return
+     *      The new color value at X/Y
+     */
     public int[] getValue(int indexX, int indexY, boolean ps) {
         float value[];
         if (ps) value = new float[6];
@@ -144,18 +168,42 @@ public class Convolution extends Filter {
         }
     }
 
+    /**
+     * Return the matrix type
+     *
+     * @return
+     *      The matrix type
+     */
     public Matrix getMatrix() {
         return matrix;
     }
 
+    /**
+     * Set the matrix type
+     *
+     * @param matrix
+     *      The new matrix type.
+     */
     public void setMatrix(Matrix matrix) {
         this.matrix = matrix;
     }
 
+    /**
+     * Return the matrix length
+     *
+     * @return
+     *      The matrix length
+     */
     public int getLength() {
         return this.length;
     }
 
+    /**
+     * Set the matrix size
+     *
+     * @param length
+     *      The new matrix size
+     */
     public void setLength(int length) {
         this.length = length;
     }

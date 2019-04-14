@@ -7,10 +7,21 @@ import android.widget.Toast;
 
 import com.android.rssample.*;
 
+/**
+ * Represent the colorise filter
+ */
 public class Colorize extends Filter {
 
     private int hue;
 
+    /**
+     * The colorise constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Colorize(MainActivity main, Image image) {
         super(main, image);
         this.hue = (int) (Math.random() * 360);
@@ -18,9 +29,7 @@ public class Colorize extends Filter {
 
     @Override
     public void applyJava(){
-
         main.showMessage("Not avaible in Java");
-        //Toast.makeText(main.getApplicationContext(),"Impossible en Java",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -47,12 +56,14 @@ public class Colorize extends Filter {
         rs.destroy();
     }
 
+    /**
+     * Set the hue value
+     *
+     * @param hue
+     *      The new hue value.
+     */
     public void setHue(int hue) {
         this.hue = hue;
-    }
-
-    public int getHue() {
-        return this.hue;
     }
 
 }

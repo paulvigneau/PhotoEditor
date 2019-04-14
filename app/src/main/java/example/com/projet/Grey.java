@@ -9,8 +9,19 @@ import com.android.rssample.ScriptC_Grey;
 
 import example.com.projet.utils.ColorTools;
 
+/**
+ * Represent the grey filter
+ */
 public class Grey extends Filter {
 
+    /**
+     * The grey constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Grey(MainActivity main, Image image) {
         super(main, image);
     }

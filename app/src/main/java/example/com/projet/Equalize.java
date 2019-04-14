@@ -5,8 +5,19 @@ import android.widget.Toast;
 
 import example.com.projet.utils.ColorType;
 
+/**
+ * Represent the equalize filter
+ */
 public class Equalize extends Filter {
 
+    /**
+     * The equalize constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Equalize(MainActivity main, Image image) {
         super(main, image);
     }

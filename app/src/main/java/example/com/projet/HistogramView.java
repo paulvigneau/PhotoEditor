@@ -6,6 +6,9 @@ import android.widget.ImageView;
 
 import example.com.projet.utils.ColorType;
 
+/**
+ * Represent the histogram view
+ */
 public class HistogramView {
     private static final int NB_COLOR = 256;
     private static final int SIZE_X = 256;
@@ -16,6 +19,12 @@ public class HistogramView {
     private boolean showBlue;
     private ImageView image;
 
+    /**
+     * The histogram constructor
+     *
+     * @param image
+     *      The source image
+     */
     public HistogramView(ImageView image){
         this.image = image;
 
@@ -24,6 +33,12 @@ public class HistogramView {
         this.showBlue = true;
     }
 
+    /**
+     * Generate the histogram image in the source image
+     *
+     * @param source
+     *      The source image.
+     */
     public void applyFilter(Image source) {
         int[] pixels = new int[SIZE_X * SIZE_Y];
 

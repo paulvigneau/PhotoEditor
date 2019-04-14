@@ -10,13 +10,29 @@ import com.android.rssample.ScriptC_Cartoon;
 
 import example.com.projet.utils.ColorTools;
 
+/**
+ * Represent the cartoon filter
+ */
 public class Cartoon extends Filter {
 
+    /**
+     * The cartoon constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Cartoon(MainActivity main, Image image) {
         super(main, image);
     }
 
-
+    /**
+     *
+     *
+     * @param nbColor
+     * @return
+     */
     public int[] createReducLUT(int nbColor) {
         int[] LUT = new int[256];
         int interval = 256 / nbColor;

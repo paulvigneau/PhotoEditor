@@ -16,8 +16,19 @@ import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.Landmark;
 
+/**
+ * Represent the FaceDetector filter
+ */
 public class FaceDetection extends Filter {
 
+    /**
+     * The face detector constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The image source
+     */
     public FaceDetection(MainActivity main, Image image) {
         super(main, image);
     }

@@ -6,8 +6,19 @@ import android.widget.Toast;
 import example.com.projet.utils.ColorTools;
 import example.com.projet.utils.ColorType;
 
+/**
+ * Represent the contrast filter
+ */
 public class Contrast extends Filter {
 
+    /**
+     * The contrast constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Contrast(MainActivity main, Image image) {
         super(main, image);
     }
@@ -54,6 +65,16 @@ public class Contrast extends Filter {
         imageOut.setPixels(newPixels);
     }
 
+    /**
+     * Return the image source LUT
+     *
+     * @param min
+     *      The minimum value
+     * @param max
+     *      The maximum value
+     * @return
+     *      The image source LUT
+     */
     private int[] getLUT(int min, int max){
         int[] lut = new int[256];
 
