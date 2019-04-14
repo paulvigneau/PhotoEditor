@@ -4,7 +4,6 @@ import android.graphics.Color;
 
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
-import example.com.projet.Matrix;
 import example.com.projet.utils.ColorTools;
 
 /**
@@ -114,7 +113,7 @@ public class Cartoon extends Filter {
                 red = Color.red(reduce[i]);
                 green = Color.green(reduce[i]);
                 blue = Color.blue(reduce[i]);
-             // it's an edge and put a black pixel
+                // it's an edge and put a black pixel
             } else {
                 red = 0;
                 green = 0;
@@ -128,7 +127,6 @@ public class Cartoon extends Filter {
     @Override
     protected void applyRenderScript() {
         main.showMessage("Not available in RenderScript");
-
         /*Convolution convo = new Convolution(super.main, this.imageSrc);
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);

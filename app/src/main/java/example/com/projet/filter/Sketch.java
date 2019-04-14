@@ -10,7 +10,6 @@ import com.android.rssample.ScriptC_Sketch;
 
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
-import example.com.projet.Matrix;
 import example.com.projet.utils.ColorTools;
 
 /**

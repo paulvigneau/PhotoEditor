@@ -1,4 +1,4 @@
-package example.com.projet;
+package example.com.projet.filter;
 
 /**
  * Represent the enumeration matrix

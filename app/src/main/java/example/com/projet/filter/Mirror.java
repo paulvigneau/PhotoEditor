@@ -23,7 +23,7 @@ public class Mirror extends Filter {
 
     @Override
     protected void applyRenderScript(){
-        main.showMessage("Not avaible in RenderScript");
+        main.showMessage("Not available in RenderScript");
     }
 
     @Override

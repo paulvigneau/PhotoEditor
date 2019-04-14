@@ -11,7 +11,6 @@ import com.android.rssample.ScriptC_Contour;
 
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
-import example.com.projet.Matrix;
 
 /**
  * Represent the Convolution filter
@@ -82,7 +81,7 @@ public class Convolution extends Filter {
      * @return
      *      The new color value at X/Y
      */
-    private int[] getValue(int indexX, int indexY, boolean ps) {
+    public int[] getValue(int indexX, int indexY, boolean ps) {
         float value[];
         if (ps) value = new float[6];
         else value = new float[3];

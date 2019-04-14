@@ -37,7 +37,7 @@ static float4 getValue(int indexX, int indexY){
     return value;
 }
 
-uchar4 RS_KERNEL Pixelate(uint32_t x, uint32_t y) {
+uchar4 RS_KERNEL Pixelated(uint32_t x, uint32_t y) {
     float4 color = getValue(x, y);
 
     return rsPackColorTo8888(color.r, color.g, color.b, color.a);

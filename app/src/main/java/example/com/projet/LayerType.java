@@ -23,6 +23,7 @@ import example.com.projet.filter.Equalize;
 import example.com.projet.filter.FaceDetection;
 import example.com.projet.filter.Grey;
 import example.com.projet.filter.Invert;
+import example.com.projet.filter.Matrix;
 import example.com.projet.filter.Mirror;
 import example.com.projet.filter.OneColor;
 import example.com.projet.filter.Pixelated;

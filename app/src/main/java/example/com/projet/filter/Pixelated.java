@@ -59,7 +59,6 @@ public class Pixelated extends Filter {
         int width = super.imageSrc.getWidth();
         int height = super.imageSrc.getHeight();
 
-        int n = (length - 1) / 2;
         indexX -= this.length / 2;
         indexY -= this.length / 2;
 
@@ -99,7 +98,6 @@ public class Pixelated extends Filter {
         int width = super.imageSrc.getWidth();
         int height = super.imageSrc.getHeight();
 
-        int n = (length - 1) / 2;
         indexX -= this.length / 2;
         indexY -= this.length / 2;
 

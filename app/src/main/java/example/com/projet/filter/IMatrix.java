@@ -1,4 +1,4 @@
-package example.com.projet;
+package example.com.projet.filter;
 
 public interface IMatrix {
 
