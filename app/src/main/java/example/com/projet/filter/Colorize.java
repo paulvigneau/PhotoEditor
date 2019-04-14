@@ -1,11 +1,13 @@
-package example.com.projet;
+package example.com.projet.filter;
 
 import android.graphics.Bitmap;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
-import android.widget.Toast;
 
 import com.android.rssample.*;
+
+import example.com.projet.Image;
+import example.com.projet.MainActivity;
 
 /**
  * Represent the colorise filter

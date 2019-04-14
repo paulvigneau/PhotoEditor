@@ -1,8 +1,9 @@
-package example.com.projet;
+package example.com.projet.filter;
 
 import android.graphics.Color;
-import android.widget.Toast;
 
+import example.com.projet.Image;
+import example.com.projet.MainActivity;
 import example.com.projet.utils.ColorTools;
 import example.com.projet.utils.ColorType;
 

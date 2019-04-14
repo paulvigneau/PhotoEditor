@@ -14,6 +14,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import example.com.projet.filter.Brightness;
+import example.com.projet.filter.Cartoon;
+import example.com.projet.filter.Colorize;
+import example.com.projet.filter.Contrast;
+import example.com.projet.filter.Convolution;
+import example.com.projet.filter.Equalize;
+import example.com.projet.filter.FaceDetection;
+import example.com.projet.filter.Grey;
+import example.com.projet.filter.Invert;
+import example.com.projet.filter.Mirror;
+import example.com.projet.filter.OneColor;
+import example.com.projet.filter.Pixelated;
+import example.com.projet.filter.Replace;
+import example.com.projet.filter.Saturation;
+import example.com.projet.filter.Sepia;
+import example.com.projet.filter.Sketch;
+
+/**
+ * Represent the enumerate filter
+ */
 public enum LayerType {
     BRIGHTNESS("Brightness", R.id.ButtonBrightness, new ILayerType() {
         @Override
@@ -222,12 +242,12 @@ public enum LayerType {
                 int red = (int) (Math.random() * 255);
                 int green = (int) (Math.random() * 255);
                 int blue = (int) (Math.random() * 255);
-                replace.setNewColor(Color.argb(255, red, green, blue));
+                replace.setReplaceColor(Color.argb(255, red, green, blue));
             } else {
                 int red = getSeekBarProgress(main, R.id.to_red_value, false);
                 int green = getSeekBarProgress(main, R.id.to_green_value, false);
                 int blue = getSeekBarProgress(main, R.id.to_blue_value, false);
-                replace.setNewColor(Color.argb(255, red, green, blue));
+                replace.setReplaceColor(Color.argb(255, red, green, blue));
             }
 
             int red = getSeekBarProgress(main, R.id.from_red_value, false);
@@ -416,14 +436,15 @@ public enum LayerType {
 
         @Override
         public void generateLayer(MainActivity main) {
-            main.layerFilter = new Pixelate(main, main.applyImage, 3);
+            main.layerFilter = new Pixelated(main, main.applyImage);
 
             updateText(main, R.id.blurring_size, R.id.blurring_text, true, 0);
         }
 
         @Override
         public void applyLayer(MainActivity main, boolean inRenderScript) {
-            Pixelate pixel = (Pixelate) main.layerFilter;
+            Pixelated pixel = (Pixelated) main.layerFilter;
+
             pixel.setLength(getSeekBarProgress(main, R.id.blurring_size, true));
 
             pixel.apply(inRenderScript);
@@ -495,16 +516,38 @@ public enum LayerType {
     private ILayerType type;
     private int buttonId;
 
+    /**
+     * The Filter constructor
+     *
+     * @param name
+     *      The filter name
+     * @param buttonId
+     *      The filter button id
+     * @param type
+     *      The filter type interface
+     */
     LayerType(String name, int buttonId, ILayerType type) {
         this.name = name;
         this.type = type;
         this.buttonId = buttonId;
     }
 
+    /**
+     * Return the filter type interface
+     *
+     * @return
+     *      The filter type interface
+     */
     public ILayerType getType() {
         return this.type;
     }
 
+    /**
+     * Generate the selected button
+     *
+     * @param main
+     *      The main activity
+     */
     public void generateSelectButton(final MainActivity main){
         ImageButton select = (ImageButton)main.findViewById(this.buttonId);
         select.setOnClickListener(new View.OnClickListener() {
@@ -529,16 +572,48 @@ public enum LayerType {
         });
     }
 
+    /**
+     * Return the spinner index selected
+     *
+     * @param main
+     *      The main activity
+     * @param id
+     *      The spinner id
+     * @return
+     *      The spinner index selected
+     */
     private static int getSpinnerIndex(MainActivity main, int id) {
         Spinner menu = (Spinner) main.findViewById(id);
         return menu.getSelectedItemPosition();
     }
 
+    /**
+     * Return checkbox value
+     *
+     * @param main
+     *      The main activity
+     * @param id
+     *      The checkbox id
+     * @return
+     *      The checkbox value
+     */
     private static boolean getCheckBoxSelect(MainActivity main, int id) {
         CheckBox button = (CheckBox) main.findViewById(id);
         return button.isChecked();
     }
 
+    /**
+     * Return the seekBar value
+     *
+     * @param main
+     *      The main activity
+     * @param id
+     *      The seekBar id
+     * @param onlyImpair
+     *      TRUE if the value must be impair
+     * @return
+     *      The seekBar value
+     */
     private static int getSeekBarProgress(MainActivity main, int id, boolean onlyImpair) {
         SeekBar bar = (SeekBar) main.findViewById(id);
         if (onlyImpair) {
@@ -548,6 +623,20 @@ public enum LayerType {
         }
     }
 
+    /**
+     * Update the link text of the seekBar
+     *
+     * @param main
+     *      The main activity
+     * @param seekBarID
+     *      The seekBar id
+     * @param textViewID
+     *      The textView id
+     * @param onlyImpair
+     *      TRUE if the seekbBar value is only impair
+     * @param add
+     *      value to add
+     */
     private static void updateText(final MainActivity main, int seekBarID, final int textViewID, final boolean onlyImpair, final int add) {
         SeekBar bar = (SeekBar) main.findViewById(seekBarID);
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -571,6 +660,20 @@ public enum LayerType {
         changeValue(main, bar.getProgress(), textViewID, onlyImpair, add);
     }
 
+    /**
+     * Change the textView value
+     *
+     * @param main
+     *      The main activity
+     * @param value
+     *      The new text value
+     * @param textViewID
+     *      The textVew id
+     * @param onlyImpair
+     *      TRUE if the value is only impair
+     * @param add
+     *      value to add
+     */
     private static void changeValue(MainActivity main, int value, int textViewID, boolean onlyImpair, int add){
         TextView text = (TextView) main.findViewById(textViewID);
 
@@ -581,6 +684,20 @@ public enum LayerType {
     }
 
 
+    /**
+     * Update the color view value
+     *
+     * @param main
+     *      The main activity
+     * @param imgFrom
+     *      The image view id
+     * @param red
+     *      The red seekBar id
+     * @param green
+     *      The green seekBar id
+     * @param blue
+     *      The blue seekBar id
+     */
     private static void updateColorView(final MainActivity main, final int imgFrom, int red, int green, int blue) {
         final SeekBar redBar = (SeekBar) main.findViewById(red);
         final SeekBar blueBar = (SeekBar) main.findViewById(blue);
@@ -608,6 +725,20 @@ public enum LayerType {
         changeValue(main, imgFrom, redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress());
     }
 
+    /**
+     * Change the color value
+     *
+     * @param main
+     *      The main activity
+     * @param imgFrom
+     *      The image view id
+     * @param red
+     *      The red value
+     * @param green
+     *      The green value
+     * @param blue
+     *      The blue value
+     */
     private static void changeValue(MainActivity main, int imgFrom, int red, int green, int blue){
         ImageView imgView = (ImageView) main.findViewById(imgFrom);
 

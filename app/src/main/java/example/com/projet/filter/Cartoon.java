@@ -1,13 +1,10 @@
-package example.com.projet;
+package example.com.projet.filter;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
 
-import com.android.rssample.ScriptC_Cartoon;
-
+import example.com.projet.Image;
+import example.com.projet.MainActivity;
+import example.com.projet.Matrix;
 import example.com.projet.utils.ColorTools;
 
 /**
@@ -73,7 +70,7 @@ public class Cartoon extends Filter {
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);
         convo.apply(true);
-        tabgrey = convo.imageOut.getPixels();
+        tabgrey = convo.getImageOut().getPixels();
         int[] newTab = new int[imageSrc.getWidth() * imageSrc.getHeight()];
 
         //epaississement des contours
