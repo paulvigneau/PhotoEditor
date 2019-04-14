@@ -2,7 +2,6 @@ package example.com.projet.filter;
 
 import android.graphics.Color;
 
-import example.com.projet.Filter;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 import example.com.projet.utils.ColorTools;

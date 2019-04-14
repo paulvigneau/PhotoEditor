@@ -2,11 +2,10 @@ package example.com.projet.filter;
 
 import android.graphics.Color;
 
-import example.com.projet.Filter;
-import example.com.projet.Histogram;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 import example.com.projet.utils.ColorType;
+import example.com.projet.utils.Histogram;
 
 /**
  * Represent the equalize filter
