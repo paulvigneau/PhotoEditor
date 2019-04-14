@@ -26,8 +26,7 @@ public class Pixelated extends Filter {
 
     @Override
     protected void applyRenderScript(){
-        main.showMessage("Not avaible in RenderScript");
-        //showAlert();
+        main.showMessage("Not available in RenderScript");
     }
 
     @Override

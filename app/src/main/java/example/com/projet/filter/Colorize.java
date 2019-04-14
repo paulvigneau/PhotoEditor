@@ -10,14 +10,14 @@ import example.com.projet.Image;
 import example.com.projet.MainActivity;
 
 /**
- * Represent the colorise filter
+ * Represent the colorize filter
  */
 public class Colorize extends Filter {
 
     private int hue;
 
     /**
-     * The colorise constructor
+     * The colorize constructor
      *
      * @param main
      *      The main activity
@@ -31,7 +31,7 @@ public class Colorize extends Filter {
 
     @Override
     public void applyJava(){
-        main.showMessage("Not avaible in Java");
+        main.showMessage("Not available in Java");
     }
 
     @Override

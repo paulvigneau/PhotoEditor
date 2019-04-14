@@ -61,13 +61,6 @@ public class FaceDetection extends Filter {
 
         for(int i = 0; i < faces.size(); i++) {
             Face thisFace = faces.valueAt(i);
-            float x1 = thisFace.getPosition().x;
-            float y1 = thisFace.getPosition().y;
-            float x2 = x1 + thisFace.getWidth();
-            float y2 = y1 + thisFace.getHeight();
-
-//                    tempCanvas.drawRoundRect(new RectF(x1, y1, x2, y2), 2, 2, myRectPaint);
-
             // Placement du monocle centré sur l'oeil droit
             PointF pointF = thisFace.getLandmarks().get(Landmark.BOTTOM_MOUTH).getPosition(); // BUG: Corresponds to right eye
             float ratioX = thisFace.getWidth() / 5;
@@ -86,15 +79,12 @@ public class FaceDetection extends Filter {
                     pointF.x + ratioX / 2, pointF.y + ratioX / 2),null);
         }
         super.imageOut.setBitmap(tempBitmap);
-//        photoView.setImageDrawable(new BitmapDrawable(super.main.getResources(), tempBitmap));
 
     }
 
     @Override
     protected void applyRenderScript() {
-        main.showMessage("Not avaible in RenderScript");
-        //Toast.makeText(main.getApplicationContext(),"Impossible en RenderScript",Toast.LENGTH_SHORT).show();
-
+        main.showMessage("Not available in RenderScript");
         // Execution de la version Java
         this.applyJava();
     }

@@ -33,31 +33,31 @@ public class Sketch extends Filter {
     @Override
     protected void applyJava() {
         Runtime.getRuntime().gc();
-        int[] img1 = new int[this.imageSrc.getWidth() * imageSrc.getHeight()];
+        int[] greyTab = new int[this.imageSrc.getWidth() * imageSrc.getHeight()];
         int ind;
         int[] pixels = imageSrc.getPixels();
+        //
         for (int y = 0; y < imageSrc.getHeight(); y++) {
             for (int x = 0; x < imageSrc.getWidth(); x++) {
                 ind = x + y * imageSrc.getWidth();
                 int grey = ColorTools.getGreyColor(pixels[ind]);
-                img1[ind] = Color.argb(255, grey, grey, grey);
+                greyTab[ind] = Color.argb(255, grey, grey, grey);
             }
         }
-        imageOut.setPixels(img1);
+        imageOut.setPixels(greyTab);
 
-        // gaussien (image a combiner dans convo.imageOut)
+        //apply a sobel filter to the grey scale picture
         Convolution convo = new Convolution(super.main, this.imageOut);
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);
         convo.apply(true);
-        int[] img2 = convo.getImageOut().getPixels();
+        int[] EdgeTab = convo.getImageOut().getPixels();
 
         int[] out = super.imageOut.getPixels();
-
         for (int y = 0; y < imageOut.getHeight(); y++) {
             for (int x = 0; x < imageOut.getWidth(); x++) {
                 ind = x + y * imageOut.getWidth();
-                out[ind] = ColorTools.invert(img2[ind]);
+                out[ind] = ColorTools.invert(EdgeTab[ind]);
             }
         }
         imageOut.setPixels(out);
@@ -65,17 +65,17 @@ public class Sketch extends Filter {
 
     @Override
     protected void applyRenderScript() {
-        int[] img1 = new int[this.imageSrc.getWidth() * imageSrc.getHeight()];
+        int[] greyTab = new int[this.imageSrc.getWidth() * imageSrc.getHeight()];
         int ind;
         int[] pixels = imageSrc.getPixels();
         for (int y = 0; y < imageSrc.getHeight(); y++) {
             for (int x = 0; x < imageSrc.getWidth(); x++) {
                 ind = x + y * imageSrc.getWidth();
                 int grey = ColorTools.getGreyColor(pixels[ind]);
-                img1[ind] = Color.argb(255, grey, grey, grey);
+                greyTab[ind] = Color.argb(255, grey, grey, grey);
             }
         }
-        imageOut.setPixels(img1);
+        imageOut.setPixels(greyTab);
         Convolution convo = new Convolution(super.main, this.imageOut);
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);

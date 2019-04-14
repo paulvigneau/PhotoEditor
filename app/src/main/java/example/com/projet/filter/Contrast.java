@@ -26,7 +26,7 @@ public class Contrast extends Filter {
 
     @Override
     protected void applyRenderScript(){
-        main.showMessage("Not avaible in RenderScript");
+        main.showMessage("Not available in RenderScript");
         //Toast.makeText(main.getApplicationContext(),"Impossible en RenderScript",Toast.LENGTH_SHORT).show();
     }
 

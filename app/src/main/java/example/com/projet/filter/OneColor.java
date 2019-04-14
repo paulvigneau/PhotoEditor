@@ -35,14 +35,14 @@ public class OneColor extends Filter {
 
     @Override
     protected void applyJava(){
-        int[] oldpixels = imageSrc.getPixels();
+        int[] oldPixels = imageSrc.getPixels();
         int[] pixels = imageOut.getPixels();
 
         int col, red, green, blue;
         double distance;
 
         for (int index = 0; index < imageSrc.getWidth() * imageSrc.getHeight(); index++) {
-            col = oldpixels[index];
+            col = oldPixels[index];
 
             red = Color.red(col) - Color.red(this.color);
             green = Color.green(col) - Color.green(this.color);

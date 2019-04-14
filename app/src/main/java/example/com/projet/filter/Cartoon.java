@@ -50,11 +50,11 @@ public class Cartoon extends Filter {
     protected void applyJava() {
         Runtime.getRuntime().gc();
         int[] pixels = imageSrc.getPixels();
-        int[] tabgrey = new int[imageSrc.getHeight() * imageSrc.getWidth()];
+        int[] greyTab = new int[imageSrc.getHeight() * imageSrc.getWidth()];
         int[] reduce = new int[imageSrc.getHeight() * imageSrc.getWidth()];
 
-        // out : reduce color picture
-        // greytab = grey scale picture
+        // reduce : reduce color picture
+        // greyTab = grey scale picture
 
         int[] LUT = createReduceLUT(5);
         for (int i = 0; i < imageSrc.getHeight() * imageSrc.getWidth(); i++) {
@@ -65,53 +65,56 @@ public class Cartoon extends Filter {
 
             reduce[i] = Color.argb(Color.alpha(pixels[i]), red, green, blue);
             int grey = ColorTools.getGreyColor(pixels[i]);
-            tabgrey[i] = Color.argb(Color.alpha(pixels[i]), grey, grey, grey);
+            greyTab[i] = Color.argb(Color.alpha(pixels[i]), grey, grey, grey);
         }
-        // edge of the gray scale in greyTab
-        imageOut.setPixels(tabgrey);
+
+        //apply a Sobel filter on the grey scale picture
+        imageOut.setPixels(greyTab);
         Convolution convo = new Convolution(super.main, this.imageOut);
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);
         convo.apply(true);
-        tabgrey = convo.getImageOut().getPixels();
+        greyTab = convo.getImageOut().getPixels();
         int[] newTab = new int[imageSrc.getWidth() * imageSrc.getHeight()];
 
-        //epaississement des contours
+        //thickens the contours
         for (int y = 2; y < imageSrc.getHeight() - 2; y++) {
             for (int x = 2; x < imageSrc.getWidth() - 2; x++) {
                 int i = x + y * imageSrc.getWidth();
-                int red = Color.red(tabgrey[i]);
-                int green = Color.green(tabgrey[i]);
-                int blue = Color.blue((tabgrey[i]));
+                int red = Color.red(greyTab[i]);
+                int green = Color.green(greyTab[i]);
+                int blue = Color.blue((greyTab[i]));
                 if (red > 127 && green > 127 && blue > 127) {
 
-                    newTab[i] = tabgrey[i];
-                    newTab[i - 1] = tabgrey[i];
-                    newTab[i + 1] = tabgrey[i];
+                    newTab[i] = greyTab[i];
+                    newTab[i - 1] = greyTab[i];
+                    newTab[i + 1] = greyTab[i];
 
-                    newTab[i - 1 - imageSrc.getWidth()] = tabgrey[i];
-                    newTab[i + 1 - imageSrc.getWidth()] = tabgrey[i];
-                    newTab[i - imageSrc.getWidth()] = tabgrey[i];
+                    newTab[i - 1 - imageSrc.getWidth()] = greyTab[i];
+                    newTab[i + 1 - imageSrc.getWidth()] = greyTab[i];
+                    newTab[i - imageSrc.getWidth()] = greyTab[i];
 
-                    newTab[i - 1 + imageSrc.getWidth()] = tabgrey[i];
-                    newTab[i + 1 + imageSrc.getWidth()] = tabgrey[i];
-                    newTab[i + imageSrc.getWidth()] = tabgrey[i];
+                    newTab[i - 1 + imageSrc.getWidth()] = greyTab[i];
+                    newTab[i + 1 + imageSrc.getWidth()] = greyTab[i];
+                    newTab[i + imageSrc.getWidth()] = greyTab[i];
 
                 } else {
-                    newTab[i] = tabgrey[i];
+                    newTab[i] = greyTab[i];
                 }
             }
         }
-        tabgrey = newTab;
-        // threasold image to binary in greytab
+        greyTab = newTab;
+        // determined if it's an edge or not
         for (int i = 0; i < imageSrc.getHeight() * imageSrc.getWidth(); i++) {
-            int red = Color.red(tabgrey[i]);
-            int green = Color.green(tabgrey[i]);
-            int blue = Color.blue((tabgrey[i]));
+            int red = Color.red(greyTab[i]);
+            int green = Color.green(greyTab[i]);
+            int blue = Color.blue((greyTab[i]));
+            //not an edge then put the color reduced picture
             if (red < 127 && green < 127 && blue < 127) {
                 red = Color.red(reduce[i]);
                 green = Color.green(reduce[i]);
                 blue = Color.blue(reduce[i]);
+             // it's an edge and put a black pixel
             } else {
                 red = 0;
                 green = 0;
@@ -125,6 +128,7 @@ public class Cartoon extends Filter {
     @Override
     protected void applyRenderScript() {
         main.showMessage("Not available in RenderScript");
+
         /*Convolution convo = new Convolution(super.main, this.imageSrc);
         convo.setMatrix(Matrix.SOBEL);
         convo.setLength(3);

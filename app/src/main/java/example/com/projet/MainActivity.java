@@ -1,23 +1,14 @@
 package example.com.projet;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,14 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import example.com.projet.filter.Filter;
 
@@ -124,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             type.generateSelectButton(this);
         }
         layerType = LayerType.values()[0];
-        layerType.getType().setInflacter(MainActivity.this);
+        layerType.getType().setInflactor(MainActivity.this);
         layerType.getType().generateLayer(MainActivity.this);
 
     }

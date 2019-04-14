@@ -7,8 +7,7 @@ public interface ILayerType {
      * @param main
      *      The main activity
      */
-    void setInflacter(final MainActivity main);
-
+    void setInflactor(final MainActivity main);
     /**
      * Create the layer filter
      *

@@ -9,6 +9,7 @@ import com.android.rssample.ScriptC_Replace;
 
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
+import example.com.projet.utils.ColorTools;
 
 /**
  * Represent the Replace color filter
@@ -36,9 +37,31 @@ public class Replace extends Filter {
 
     @Override
     protected void applyJava(){
-        main.showMessage("Not avaible in Java");
-        //showAlert();
+        int[] oldPixels = imageSrc.getPixels();
+        int[] pixels = imageOut.getPixels();
+
+        int col, red, green, blue;
+        double distance;
+
+        for (int index = 0; index < imageSrc.getWidth() * imageSrc.getHeight(); index++) {
+            col = oldPixels[index];
+
+            red = Color.red(col) - Color.red(this.color);
+            green = Color.green(col) - Color.green(this.color);
+            blue = Color.blue(col) - Color.blue(this.color);
+
+            distance = Math.sqrt(red * red + green * green + blue * blue);
+
+            if (distance <= threshold) {
+                pixels[index] = replaceColor;
+            } else {
+                pixels[index] = col;
+            }
+        }
+
+        imageOut.setPixels(pixels);
     }
+
 
     @Override
     public void applyRenderScript(){

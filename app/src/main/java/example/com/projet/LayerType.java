@@ -37,7 +37,7 @@ import example.com.projet.filter.Sketch;
 public enum LayerType {
     BRIGHTNESS("Brightness", R.id.ButtonBrightness, new ILayerType() {
         @Override
-        public void setInflacter(final MainActivity main) {
+        public void setInflactor(final MainActivity main) {
             main.InflateLayer(R.layout.brightness_layout, R.id.optionID);
 
             updateText(main, R.id.brightness_value, R.id.brightness_value_text, false, -50);
@@ -61,7 +61,7 @@ public enum LayerType {
     }),
     SATURATION("Saturation", R.id.ButtonSaturation, new ILayerType() {
         @Override
-        public void setInflacter(final MainActivity main) {
+        public void setInflactor(final MainActivity main) {
             main.InflateLayer(R.layout.saturation_layout, R.id.optionID);
 
             updateText(main, R.id.saturation_value, R.id.saturation_value_text, false, -50);
@@ -86,7 +86,7 @@ public enum LayerType {
     }),
     CONTRAST("Contrast", R.id.ButtonContrast, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
         }
 
@@ -106,7 +106,7 @@ public enum LayerType {
     }),
     EQUALIZE("Equalize", R.id.ButtonEqualize, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
         }
 
@@ -127,7 +127,7 @@ public enum LayerType {
 
     COLORIZE("Colorize", R.id.ButtonColorize, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(R.layout.colorise_layout, R.id.optionID);
 
             main.setImage(R.drawable.hue, R.id.hue_imageID);
@@ -155,7 +155,7 @@ public enum LayerType {
     }),
     ONE_COLOR("One Color", R.id.ButtonOneColor, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(R.layout.one_color_layout, R.id.optionID);
 
             main.setImage(R.drawable.white, R.id.color_view);
@@ -195,7 +195,7 @@ public enum LayerType {
     }),
     REPLACE("Replace", R.id.ButtonReplace, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(R.layout.replace_color_layout, R.id.optionID);
 
             main.setImage(R.drawable.white, R.id.iconFrom);
@@ -263,7 +263,7 @@ public enum LayerType {
     }),
     BLURRING("Blurring", R.id.ButtonBlur, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(R.layout.blurring_layout, R.id.optionID);
         }
 
@@ -319,7 +319,7 @@ public enum LayerType {
     }),
     CONTOUR("Contour", R.id.ButtonContour, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(R.layout.contour_layout, R.id.optionID);
         }
 
@@ -358,7 +358,7 @@ public enum LayerType {
 
     SKETCH("Sketch", R.id.ButtonSketch, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
         }
 
@@ -376,7 +376,7 @@ public enum LayerType {
     }),
     GREY("Grey", R.id.ButtonGrey, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
         }
 
@@ -394,7 +394,7 @@ public enum LayerType {
     }),
     INVERT("Invert", R.id.ButtonInvert, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
         }
 
@@ -412,7 +412,7 @@ public enum LayerType {
     }),
     SEPIA("Sepia", R.id.ButtonSepia, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
         }
 
@@ -430,7 +430,7 @@ public enum LayerType {
     }),
     PIXELATE("Pixelated", R.id.ButtonPixel, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(R.layout.pixalate_layout, R.id.optionID);
         }
 
@@ -455,7 +455,7 @@ public enum LayerType {
 
     MIRROR("Mirror", R.id.ButtonMirror, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(R.layout.miror_layout, R.id.optionID);
         }
 
@@ -477,7 +477,7 @@ public enum LayerType {
     }),
     CARTOON("Cartoon", R.id.ButtonCartoon, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
         }
 
@@ -495,7 +495,7 @@ public enum LayerType {
     }),
     FACE_DETECTION("Face Detector", R.id.ButtonFace, new ILayerType() {
         @Override
-        public void setInflacter(MainActivity main) {
+        public void setInflactor(MainActivity main) {
             main.InflateLayer(-1, R.id.optionID);
         }
 
@@ -554,7 +554,7 @@ public enum LayerType {
             @Override
             public void onClick(View view) {
                 main.setLayerType(LayerType.this);
-                type.setInflacter(main);
+                type.setInflactor(main);
                 type.generateLayer(main);
 
                 for(LayerType t : LayerType.values()){

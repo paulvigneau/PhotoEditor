@@ -78,7 +78,7 @@ public class Image {
      * @return
      *      The image bitmap configuration
      */
-    public Config getConfigBitmap() {
+    private Config getConfigBitmap() {
         return this.configBitmap;
     }
 
