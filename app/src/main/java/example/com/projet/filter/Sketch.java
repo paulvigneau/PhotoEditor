@@ -1,4 +1,4 @@
-package example.com.filter.projet;
+package example.com.projet.filter;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,22 +8,31 @@ import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_Sketch;
 
-import example.com.projet.Filter;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 import example.com.projet.Matrix;
-import example.com.projet.filter.Convolution;
 import example.com.projet.utils.ColorTools;
 
+/**
+ * Represent the Sketch filter
+ */
 public class Sketch extends Filter {
 
-
+    /**
+     * The Sketch constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Sketch(MainActivity main, Image image) {
         super(main, image);
     }
 
     @Override
     protected void applyJava() {
+        Runtime.getRuntime().gc();
         int[] img1 = new int[this.imageSrc.getWidth() * imageSrc.getHeight()];
         int ind;
         int[] pixels = imageSrc.getPixels();
@@ -72,7 +81,7 @@ public class Sketch extends Filter {
         convo.setLength(3);
         RenderScript rs = RenderScript.create(super.main);
 
-        Allocation input = Allocation.createFromBitmap(rs, convo.getImageSrc().getBitmap());
+        Allocation input = Allocation.createFromBitmap(rs, convo.getImageOut().getBitmap());
         Allocation output = Allocation.createTyped(rs, input.getType());
 
         ScriptC_Sketch SketchScript = new ScriptC_Sketch(rs);

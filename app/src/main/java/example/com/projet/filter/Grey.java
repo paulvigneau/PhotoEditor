@@ -7,7 +7,6 @@ import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_Grey;
 
-import example.com.projet.Filter;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 import example.com.projet.utils.ColorTools;

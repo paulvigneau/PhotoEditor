@@ -1,19 +1,28 @@
 package example.com.projet.filter;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_Invert;
 
-import example.com.projet.Filter;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 import example.com.projet.utils.ColorTools;
 
+/**
+ * Represent the Invert filter
+ */
 public class Invert extends Filter {
 
+    /**
+     * The invert constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Invert(MainActivity main, Image image) {
         super(main, image);
     }

@@ -6,13 +6,23 @@ import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_Sepia;
 
-import example.com.projet.Filter;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 import example.com.projet.utils.ColorTools;
 
+/**
+ * Represent the Sepia filter
+ */
 public class Sepia extends Filter {
 
+    /**
+     * The Sepia constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Sepia(MainActivity main, Image image) {
         super(main, image);
     }

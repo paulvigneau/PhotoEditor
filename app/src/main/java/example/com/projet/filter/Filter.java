@@ -1,8 +1,7 @@
-package example.com.projet;
+package example.com.projet.filter;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import example.com.projet.Image;
+import example.com.projet.MainActivity;
 
 /**
  * Represent the filter

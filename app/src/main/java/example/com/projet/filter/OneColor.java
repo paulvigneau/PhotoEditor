@@ -7,16 +7,26 @@ import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_OneColor;
 
-import example.com.projet.Filter;
 import example.com.projet.Image;
 import example.com.projet.MainActivity;
 import example.com.projet.utils.ColorTools;
 
+/**
+ * Represent the OneColor filter
+ */
 public class OneColor extends Filter {
 
     private int color;
     private int threshold;
 
+    /**
+     * The OneColor constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public OneColor(MainActivity main, Image image) {
         super(main, image);
         this.color = 0;
@@ -78,14 +88,32 @@ public class OneColor extends Filter {
         rs.destroy();
     }
 
+    /**
+     * Return the selected color
+     *
+     * @return
+     *      The selected color
+     */
     public int getColor() {
         return color;
     }
 
+    /**
+     * Set the selected color
+     *
+     * @param color
+     *      The new selected color
+     */
     public void setColor(int color) {
         this.color = color;
     }
 
+    /**
+     * Set the threshold
+     *
+     * @param threshold
+     *      The new threshold
+     */
     public void setThreshold(int threshold) {
         this.threshold = threshold;
     }
