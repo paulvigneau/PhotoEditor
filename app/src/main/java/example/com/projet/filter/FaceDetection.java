@@ -4,8 +4,6 @@ package example.com.projet.filter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.SparseArray;
@@ -39,11 +37,6 @@ public class FaceDetection extends Filter {
 
     @Override
     protected void applyJava() {
-        Paint myRectPaint = new Paint();
-        myRectPaint.setStrokeWidth(5);
-        myRectPaint.setColor(Color.RED);
-        myRectPaint.setStyle(Paint.Style.STROKE);
-
         Bitmap btm = super.imageSrc.getBitmap();
         Bitmap tempBitmap = Bitmap.createBitmap(btm.getWidth(), btm.getHeight(), Bitmap.Config.RGB_565);
         Canvas tempCanvas = new Canvas(tempBitmap);
