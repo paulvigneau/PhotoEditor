@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.widget.ImageView;
 
 import example.com.projet.utils.ColorType;
+import example.com.projet.utils.Histogram;
 
 /**
  * Represent the histogram view

@@ -1,4 +1,4 @@
-package example.com.projet;
+package example.com.projet.filter;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -7,16 +7,30 @@ import android.renderscript.RenderScript;
 
 import com.android.rssample.ScriptC_Replace;
 
+import example.com.projet.Image;
+import example.com.projet.MainActivity;
+
+/**
+ * Represent the Replace color filter
+ */
 public class Replace extends Filter {
 
     private int color;
-    private int newColor;
+    private int replaceColor;
     private int threshold;
 
+    /**
+     * The Represent constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Replace(MainActivity main, Image image) {
         super(main, image);
         this.color = 0;
-        this.newColor =0;
+        this.replaceColor =0;
         this.threshold = 50;
     }
 
@@ -38,9 +52,9 @@ public class Replace extends Filter {
         replaceScript.set_red(Color.red(this.color)/255.0f);
         replaceScript.set_green(Color.green(this.color)/255.0f);
         replaceScript.set_blue(Color.blue(this.color)/255.0f);
-        replaceScript.set_replaceR(Color.red(this.newColor)/255.0f);
-        replaceScript.set_replaceG(Color.green(this.newColor)/255.0f);
-        replaceScript.set_replaceB(Color.blue(this.newColor)/255.0f);
+        replaceScript.set_replaceR(Color.red(this.replaceColor)/255.0f);
+        replaceScript.set_replaceG(Color.green(this.replaceColor)/255.0f);
+        replaceScript.set_replaceB(Color.blue(this.replaceColor)/255.0f);
 
         replaceScript.set_dist(this.threshold/255.0f);
 
@@ -57,19 +71,42 @@ public class Replace extends Filter {
         rs.destroy();
     }
 
+    /**
+     * Return the selected color
+     *
+     * @return
+     *      The selected color
+     */
     public int getColor() {
         return color;
     }
-    public int getNewColor(){return  newColor;}
 
-    public void setNewColor(int color) {
-        this.newColor = color;
+    /**
+     * Set the replace color
+     *
+     * @param color
+     *      The new replace color
+     */
+    public void setReplaceColor(int color) {
+        this.replaceColor = color;
     }
 
+    /**
+     * Set the selected color
+     *
+     * @param color
+     *      The new selected color
+     */
     public void setColor(int color) {
         this.color = color;
     }
 
+    /**
+     * Set the threshold
+     *
+     * @param threshold
+     *      The new threshold
+     */
     public void setThreshold(int threshold) {
         this.threshold = threshold;
     }

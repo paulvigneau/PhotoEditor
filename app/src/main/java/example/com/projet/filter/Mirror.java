@@ -1,54 +1,31 @@
-package example.com.projet;
+package example.com.projet.filter;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
+import example.com.projet.Image;
+import example.com.projet.MainActivity;
 
-import com.android.rssample.ScriptC_OneColor;
-
-import example.com.projet.utils.ColorTools;
-
-public class Mirror extends  Filter {
+/**
+ * Represent the mirror filter
+ */
+public class Mirror extends Filter {
     private boolean orientation;
 
+    /**
+     * The mirror constructor
+     *
+     * @param main
+     *      The main activity
+     * @param image
+     *      The source image
+     */
     public Mirror(MainActivity main, Image image) {
         super(main, image);
     }
-
-    //Inverse de haut en bas et de gauche à droite.
-    /*@Override
-    public void apply() {
-        int[] pixels = super.imageSrc.getPixels();
-        int[] out = super.imageOut.getPixels();
-        for (int x = 0; x < super.imageSrc.getHeight() * super.imageSrc.getWidth() - 1; x++) {
-            out[x] = pixels[(super.imageSrc.getHeight() * super.imageSrc.getWidth() - 1) - x];
-        }
-        super.imageOut.setPixels(out);
-    }*/
-
-    //Inverse de haut en bas.
-    /*@Override
-    public void apply() {
-        int[] pixels = super.imageSrc.getPixels();
-        int[] out = super.imageOut.getPixels();
-        int tmp = 0;
-        for (int y = super.imageSrc.getHeight()-1; y >= 0; y--) {
-            for (int x = 0; x < super.imageSrc.getWidth(); x++) {
-                int ind = x + y * super.imageSrc.getWidth();
-                out[tmp] = pixels[ind];
-                tmp ++;
-            }
-        }
-        super.imageOut.setPixels(out);
-    }*/
 
     @Override
     protected void applyRenderScript(){
         main.showMessage("Not avaible in RenderScript");
     }
 
-    //Inverse de gauche à droite.
     @Override
     protected void applyJava() {
         if(this.orientation){
@@ -59,6 +36,9 @@ public class Mirror extends  Filter {
         this.imageSrc = new Image(this.imageOut);
     }
 
+    /**
+     * Apply the vertical mirror in output image
+     */
     public void applyVertical(){
         int[] pixels = super.imageSrc.getPixels();
         int[] out = super.imageOut.getPixels();
@@ -73,6 +53,9 @@ public class Mirror extends  Filter {
         super.imageOut.setPixels(out);
     }
 
+    /**
+     * Apply the horizontal mirror in output image
+     */
     public void applyHorizontal(){
         int[] pixels = super.imageSrc.getPixels();
         int[] out = super.imageOut.getPixels();
@@ -87,6 +70,12 @@ public class Mirror extends  Filter {
         super.imageOut.setPixels(out);
     }
 
+    /**
+     * Set the mirror orientation
+     *
+     * @param isHorizontal
+     *      TRUE if is mirror horizontal
+     */
     public void setOrientation(boolean isHorizontal) {
         this.orientation = isHorizontal;
     }
