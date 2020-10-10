@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Projet</string>
+    <string name="app_name">PhotoEditor</string>
     <string-array name="blurring">
         <item>Averaging</item>
-        <item>Gaussien</item>
+        <item>Gaussian</item>
         <item>Sharpen</item>
     </string-array>
     <string-array name="contour">
