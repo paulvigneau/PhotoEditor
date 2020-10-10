@@ -19,9 +19,9 @@ Here is the list of all the filters the application has :
 - Contrast
 - Equalize
 - Blur (Averaging, Gaussian, Sharpen)
-- Contour
+- Contour - with convolution matrices (Sobel, Prewitt, Laplacien, Emboss)
 - Colorize
-- One color
+- One color and the rest in grayscale
 - Replace a color
 - Grayscale
 - Sepia
@@ -31,3 +31,5 @@ Here is the list of all the filters the application has :
 - Pixelated
 - Mirror (horizontal/vertical)
 - Face detector (with google library)
+
+Each filter can be adapted with parameters. For example, the size of a pixel for the pixel filter or the threshold for the color replacement.
